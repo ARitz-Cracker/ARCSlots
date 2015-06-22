@@ -1,0 +1,14 @@
+"UnlitGeneric"
+{
+	"$basetexture" "arc/slotmachine/winners/icon8"
+	"$translucent" 1
+	"Proxies"
+	{
+		"AnimatedTexture"
+		{
+			"animatedtexturevar" "$basetexture"
+			"animatedtextureframenumvar" "$frame"
+			"animatedtextureframerate" "14"
+		}
+	}
+}

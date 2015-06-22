@@ -1,0 +1,31 @@
+"UnlitGeneric"
+{
+	"$basetexture" "arc/slotmachine/spinfast"
+	
+	"$translucent" 1
+
+	"$scale" "[1 0.0625]"
+	"$center" "[0.0 0.0]"
+	"Proxies"
+	{
+            	"LinearRamp"
+            	{
+                	"rate" -1.2
+                	"initialValue" 0.0
+                	"resultVar" "$center[1]"
+            	}
+		"TextureScroll"
+		{
+			"texturescrollvar" "$basetexturetransform"
+			"texturescrollrate" -.07
+			"texturescrollangle" -90.00
+		}
+        	"TextureTransform"
+        	{
+			"centerVar" "$center"
+			"scaleVar" "$scale"
+        		"resultVar" "$basetexturetransform"
+        	}
+
+	}
+}
