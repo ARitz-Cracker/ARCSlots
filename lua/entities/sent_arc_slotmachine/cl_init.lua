@@ -5,8 +5,6 @@
 -- WARNING! SPEGETTI CODE THAT I CAN READ PERFECTLY!
 
 include('shared.lua')
-local ARCSlots_MaxBet_CL = 50
-local ARCSlots_MinBet_CL = 25
 surface.CreateFont( "ARCSlotMachine", {
 	font = "Transponder AOE",
 	size = 24,
@@ -57,8 +55,8 @@ function ENT:Initialize()
 	self.SScreenScrollDelay = CurTime() + 0.1
 	self.ScreenScroll = 1
 	self.ScreenScrollDelay = CurTime() + 0.1
-	self.TopScreenText = "FEELIN LUCKY TODAY? $$$ MAX PRIZE *** "..ARCLib.ShortScale(ARCSlots_MaxBet_CL*100000,0).." ***"
-	self.BottomScreenText = "FEELIN LUCKY TODAY? $$$ MAX PRIZE *** "..ARCLib.ShortScale(ARCSlots_MaxBet_CL*100000,0).." ***"
+	self.TopScreenText = "THIS IS A NEW SLOT MACHINE"
+	self.BottomScreenText = "THIS IS A NEW SLOT MACHINE"
 	
 		--Special thanks to swep construction kit
 	local selectsprite = { sprite = "effects/yellowflare", nocull = true, additive = true, vertexalpha = true, vertexcolor = true, ignorez = false}
@@ -97,8 +95,6 @@ net.Receive( "ARCSlots_Update", function(length)
 	local status = net.ReadInt(2)
 	local winning = net.ReadInt(4) + 5
 	local msg = net.ReadString()
-	ARCSlots_MinBet_CL = net.ReadInt(32) + 2^31
-	ARCSlots_MaxBet_CL = net.ReadInt(32) + 2^31
 	if !IsValid(machine) then return end
 	if !machine.Winnings then return end
 	
@@ -123,7 +119,7 @@ net.Receive( "ARCSlots_Update", function(length)
 	if idle then
 		machine.IdleTime = CurTime() + math.Rand(5,15)
 	end
-	machine.TopScreenText = "FEELIN LUCKY TODAY? $$$ MAX PRIZE *** "..ARCLib.ShortScale(ARCSlots_MaxBet_CL*100000,0).." ***"
+	machine.TopScreenText = "THIS IS A NEW SLOT MACHINE"
 	if machine.Winnings[1] == -3 then
 		machine.ScreenScroll = 26
 	end
@@ -228,13 +224,13 @@ end
 			surface.DrawRect(48, -32, 64, 64 ) -- b3
 		elseif self.Status == 1 then
 			surface.SetDrawColor( 0, (math.sin(CurTime()*9)/2+0.5)*255, 0, 255 )
-			if self.WinningThing == self.Winnings[1] || self.Winnings[1] == 8 || self.WinningThing == 10 then
+			if self.WinningThing == self.Winnings[1] || self.Winnings[1] == 8 || self.WinningThing == 9 then
 				surface.DrawRect(-112, -32, 64, 64 ) -- b1
 			end
-			if self.WinningThing == self.Winnings[2] || self.Winnings[2] == 8 || self.WinningThing == 10 then
+			if self.WinningThing == self.Winnings[2] || self.Winnings[2] == 8 || self.WinningThing == 9 then
 				surface.DrawRect(-32, -32, 64, 64 ) -- b2
 			end
-			if self.WinningThing == self.Winnings[3] || self.Winnings[3] == 8 || self.WinningThing == 10 then
+			if self.WinningThing == self.Winnings[3] || self.Winnings[3] == 8 || self.WinningThing == 9 then
 				surface.DrawRect(48, -32, 64, 64 ) -- b3
 			end
 		elseif self.Status == -1 then
@@ -284,12 +280,19 @@ end
 				if self.Winnings[3] < 0 then
 					surface.SetDrawColor( 255, 255, 255, (math.sin(-CurTime()*20+i)/2+0.5)*255 )
 				else
-					surface.SetDrawColor( 255, 255, 0, (math.sin(-CurTime()*2+i)/2+0.5)*255 )
+					local time = -CurTime()*2+i
+					if self.Idle && self.IdleTime < CurTime() then
+						time = time%(math.pi*6)
+						if !(time > 3*math.pi/2 && time < 7*math.pi/2 ) then
+							time = 3*math.pi/2
+						end
+					end
+					surface.SetDrawColor( 255, 255, 0, (math.sin(time)/2+0.5)*255 )
 				end
 			elseif self.Status == -1 then
 				surface.SetDrawColor( 255, 0, 0, (math.sin(-CurTime()*2+i)/2+0.5)*255 )
 			elseif self.Status == 1 then
-				if self.WinningThing < 6 || self.WinningThing == 10 then
+				if self.WinningThing < 6 || self.WinningThing == 9 then
 					surface.SetDrawColor( 0, 255, 0, (math.sin(-CurTime()*2+i)/2+0.5)*255 )
 				elseif self.WinningThing == 6 then
 					surface.SetDrawColor( 0, 255, 0, (math.sin(-CurTime()*4+i)/2+0.5)*255 )
@@ -328,9 +331,9 @@ local lastbet = 0
 
 function ENT:ReqSpin(UseARCBank)
 	if lastbet == 0 then
-		lastbet = math.Round((ARCSlots_MinBet_CL+ARCSlots_MaxBet_CL)/2)
+		lastbet = math.Round((ARCSlots.Settings.slots_min_bet+ARCSlots.Settings.slots_max_bet)/2)
 	end
-	Derma_StringRequest( "Enter Bet", ""..ARCSlots_MinBet_CL.."-"..ARCSlots_MaxBet_CL.."", tostring(lastbet), function(text) 
+	Derma_StringRequest( "Enter Bet", ""..ARCSlots.Settings.slots_min_bet.."-"..ARCSlots.Settings.slots_max_bet.."", tostring(lastbet), function(text) 
 		if IsValid(self) then
 			local num = tonumber(text)
 			if isnumber(num) then
@@ -339,7 +342,7 @@ function ENT:ReqSpin(UseARCBank)
 				net.WriteInt(num - (2^31),32)
 				net.WriteBit(UseARCBank)
 				net.SendToServer()
-				lastbet = math.Clamp(num,ARCSlots_MinBet_CL,ARCSlots_MaxBet_CL)
+				lastbet = math.Clamp(num,ARCSlots.Settings.slots_min_bet,ARCSlots.Settings.slots_max_bet)
 			end
 		end
 	end)

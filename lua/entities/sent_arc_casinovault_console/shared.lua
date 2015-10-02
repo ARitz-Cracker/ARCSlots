@@ -6,12 +6,14 @@ DEFINE_BASECLASS( "base_anim" )
 ENT.Base = "base_anim"
 ENT.Type = "anim"
 
-ENT.PrintName		= "ARC Slot Machine"
+ENT.PrintName		= "VAULT CONSOLE"
 ENT.Author			= "ARitz Cracker"
 ENT.Category 		= "ARC Casino"
 ENT.Contact    		= "aritz-rocks@hotmail.com"
 ENT.Purpose 		= "Feelin' lucky today?"
 ENT.Instructions 	= "Use it."
 
-ENT.Spawnable = true;
+ENT.Spawnable = false
 ENT.AdminOnly = false
+ENT.CasinoVault = true
+ENT.HackRecover = 1
