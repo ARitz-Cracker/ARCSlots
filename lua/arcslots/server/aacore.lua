@@ -154,23 +154,7 @@ function ARCSlots.Load()
 			ARCSlots.Msg("WARNING! THE SYSTEM DIDN'T SHUT DOWN PROPERLY!")
 		end
 		
-		if file.Exists(ARCSlots.Dir.."/_saved_settings.txt","DATA") then
-			local disksettings = util.JSONToTable(file.Read(ARCSlots.Dir.."/_saved_settings.txt","DATA"))
-			if disksettings then
-				for k,v in pairs(ARCSlots.Settings) do
-					if disksettings[k] || isbool(disksettings[k]) then
-						ARCSlots.Settings[k] = disksettings[k]
-					else
-						ARCSlots.Msg(""..k.." not found in disk settings. Possibly out of date. Using default.")
-					end
-				end
-				ARCSlots.Msg("Settings succesfully set.")
-			else
-				ARCSlots.Msg("Settings file is corrupt or something! Using defaults.")
-			end
-		else
-			ARCSlots.Msg("No settings file found! Using defaults.")
-		end
+		ARCLib.AddonLoadSettings("ARCSlots",backward)
 
 		
 		ARCSlots.LogFile = os.date(ARCSlots.Dir.."/systemlog - %d %b %Y - "..tostring(os.date("%H")*60+os.date("%M"))..".log.txt")

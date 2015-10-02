@@ -22,9 +22,6 @@ ARCSlots.Version = "0.1.0"
 
 NULLFUNC = function(...) end
 
-ARCPHONE_ERRORSTRINGS = {}
-
-ARCPHONE_ERRORSTRINGS[0] = "No error"
 ARCPHONE_NO_ERROR = 0
 ARCPHONE_ERROR_NONE = 0
 
