@@ -74,6 +74,51 @@ ARCSlots.Commands = { --Make sure they are less then 16 chars long.$
 		adminonly = true,
 		hidden = true
 	},
+	["slots_save"] = {
+		command = function(ply,args)
+			if !ARCSlots.Loaded then ARCSlots.MsgCL(ply,"System reset required!") return end
+			ARCSlots.MsgCL(ply,"Saving Slot Machines to map...")
+			if ARCSlots.SaveSlotMachines() then
+				ARCSlots.MsgCL(ply,"Slot Machines saved onto map!")
+			else
+				ARCSlots.MsgCL(ply,"An error occurred while saving the Slot Machines onto the map.")
+			end
+		end, 
+		usage = "",
+		description = "Makes all active Slot Machines a part of the map.",
+		adminonly = true,
+		hidden = false
+	},
+	["slots_unsave"] = {
+		command = function(ply,args)
+			if !ARCSlots.Loaded then ARCSlots.MsgCL(ply,"System reset required!") return end
+			ARCSlots.MsgCL(ply,"Detatching Slot Machines from map...")
+			if ARCSlots.UnSaveSlotMachines() then
+				ARCSlots.MsgCL(ply,"Slot Machines Detached from map!")
+			else
+				ARCSlots.MsgCL(ply,"An error occurred while detaching Slot Machines from map.")
+			end
+		end, 
+		usage = "",
+		description = "Makes all saved Slot Machines moveable again.",
+		adminonly = true,
+		hidden = false
+	},
+	["slots_respawn"] = {
+		command = function(ply,args) 
+			if !ARCSlots.Loaded then ARCSlots.MsgCL(ply,"System reset required!") return end
+			ARCSlots.MsgCL(ply,"Spawning Map-Based Slot Machines...")
+			if ARCSlots.SpawnSlotMachines() then
+				ARCSlots.MsgCL(ply,"Map-Based Slot Machines Spawned!")
+			else
+				ARCSlots.MsgCL(ply,"No Slot Machines associated with this map. (Non-existent/Currupt file)")
+			end
+		end, 
+		usage = "",
+		description = "Respawns all Map-Based Slot Machines.",
+		adminonly = true,
+		hidden = false
+	},
 	["reset_settings"] = {
 		command = function(ply,args) 
 			ARCSlots.SettingsReset()
