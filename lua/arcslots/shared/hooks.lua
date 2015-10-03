@@ -35,5 +35,6 @@ if SERVER then
 		if IsValid(ply) && ply:IsPlayer() then
 			ARCLib.SendAddonLanguage("ARCSlots",ply)
 			ARCLib.SendAddonSettings("ARCSlots",ply) 
+		end
 	end)
 end
