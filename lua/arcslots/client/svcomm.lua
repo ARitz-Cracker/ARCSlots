@@ -6,3 +6,4 @@ net.Receive("arcslots_worth",function(len)
 	ARCSlots.VaultFunds = net.ReadDouble()
 
 end)
+ARCSlots.Settings = {}
