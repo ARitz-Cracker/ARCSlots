@@ -37,4 +37,8 @@ if SERVER then
 			ARCLib.SendAddonSettings("ARCSlots",ply) 
 		end
 	end)
+else
+	function ARCSlots.OnSettingChanged(k,v) 
+		MsgN("k = ",k," v = ",v)
+	end
 end
