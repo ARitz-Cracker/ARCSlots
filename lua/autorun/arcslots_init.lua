@@ -16,7 +16,6 @@ ARCSlots.Msg("Running...\n ____ ____ _ ___ ___     ____ ____ ____ ____ _  _ ____
 ARCSlots.Msg(table.Random({"Finally, a god damn update for this...","\"The neglected one\"","LOOSE ALL YOUR MONEY","Oh boy, he's going to cash in on DLC, isn't he?","$$$$$"}))
 ARCSlots.Msg("© Copyright 2015 Aritz Beobide-Cardinal (ARitz Cracker) All rights reserved.")
 
-
 ARCSlots.Update = "Right Now"
 ARCSlots.Version = "Developer version"
 
@@ -117,5 +116,21 @@ else
 	end
 	
 	ARCSlots.Msg("####  Clientside Lua Loading Complete.  ####")
+	
+
 end
 
+local arcload_exists
+if SERVER then
+	arcload_exists = file.Exists("autorun/server/arcload_1_1.lua","LUA")
+else
+	arcload_exists = file.Exists("autorun/client/arcload_1_1.lua","LUA")
+end
+if !arcload_exists then
+	hook.Add("ARCLib_OnPlayerFullyLoaded","ARCSlots DevLoad",function(ply)
+		hook.Call( "ARCLoad_OnPlayerLoaded",GM,ply)
+	end)
+end
+hook.Add("InitPostEntity","ARCSlots DevLoad",function(ply)
+	hook.Call( "ARCLoad_OnLoaded",GM,"ARCSlots")
+end)

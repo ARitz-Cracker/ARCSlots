@@ -81,7 +81,7 @@ ARCSlots.Msgs.AdminMenu.Remove = "Remove"
 ARCSlots.Msgs.AdminMenu.Add = "Add"
 ARCSlots.Msgs.AdminMenu.Description = "Description:"
 ARCSlots.Msgs.AdminMenu.Enable = "Enable"
-
+ARCSlots.Msgs.AdminMenu.Settings = "Settings"
 
 ARCSlots.Msgs.Commands["atm_save"] = "Save and freeze all ATMs"
 ARCSlots.Msgs.Commands["atm_unsave"] = "Unsave and unfreeze all ATMs"
