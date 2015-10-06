@@ -10,11 +10,13 @@ ARCSlots.Loaded = false
 ARCSlots.Busy = true
 ARCSlots.Dir = "_arcslots"
 
+ARCSlots.SpecialSettings = {}
+
 ARCSlots.Disk = {}
 ARCSlots.Disk.ProperShutdown = false
 ARCSlots.Disk.CasinoFunds = 0
 ARCSlots.Disk.VaultFunds = 0
-
+	
 function ARCSlots.FuckIdiotPlayer(ply,reason)
 	ARCSlots.Msg("ARCSLOTS ANTI-CHEAT WARNING: Some stupid shit by the name of "..ply:Nick().." ("..ply:SteamID()..") tried to use an exploit: ["..tostring(reason).."]")
 	if ply.ARCSlots_AFuckingIdiot then
@@ -140,12 +142,22 @@ function ARCSlots.Load()
 			ARCSlots.Msg("LOADING FALIURE!")
 			return
 		end
-		
+		if !file.IsDir( ARCBank.Dir.."/saved_atms","DATA" ) then
+			ARCBank.Msg("Created Folder: "..ARCBank.Dir.."/saved_atms")
+			file.CreateDir(ARCBank.Dir.."/saved_atms")
+		end
+		if !file.IsDir( ARCBank.Dir.."/saved_vault","DATA" ) then
+			ARCBank.Msg("Created Folder: "..ARCBank.Dir.."/saved_atms")
+			file.CreateDir(ARCBank.Dir.."/saved_atms")
+		end
 		if file.Exists(ARCSlots.Dir.."/__data.txt","DATA") then
 			ARCSlots.Disk = util.JSONToTable(file.Read( ARCSlots.Dir.."/__data.txt","DATA" ))
 			if (!ARCSlots.Disk) then
 				ARCSlots.Msg("__data.txt is corrupt. Yeah, some accounts will be too.")
 				ARCSlots.Disk = {}
+				ARCSlots.Disk.ProperShutdown = false
+				ARCSlots.Disk.CasinoFunds = 0
+				ARCSlots.Disk.VaultFunds = 0
 			end
 		end
 		if ARCSlots.Disk.ProperShutdown then
@@ -154,8 +166,16 @@ function ARCSlots.Load()
 			ARCSlots.Msg("WARNING! THE SYSTEM DIDN'T SHUT DOWN PROPERLY!")
 		end
 		
-		ARCLib.AddonLoadSettings("ARCSlots",backward)
-
+		ARCLib.AddonLoadSettings("ARCSlots")
+		ARCLib.AddonLoadSpecialSettings("ARCSlots")
+		
+		
+		ARCSlots.SpecialSettings.Slot.Prizes[0] = 0
+		local profit = 0
+		for i=1,9 do
+			profit = profit + ARCSlots.SpecialSettings.Slot.Chances[i]*ARCSlots.SpecialSettings.Slot.Prizes[i]
+		end
+		ARCSlots.SpecialSettings.Slot.Chances[0] = profit * ARCSlots.SpecialSettings.Slot.Profit
 		
 		ARCSlots.LogFile = os.date(ARCSlots.Dir.."/systemlog - %d %b %Y - "..tostring(os.date("%H")*60+os.date("%M"))..".log.txt")
 		file.Write(ARCSlots.LogFile,"***ARCSlots System Log***\r\n"..table.Random({"Oh my god. You're reading this!","WINDOWS LOVES TYPEWRITER COMMANTS IN TXT FILES","What you're refeering to as 'Linux' is in fact GNU/Linux.","... did you mess something up this time?"}).."\r\nDates are in DD-MM-YYYY\r\n")
@@ -166,7 +186,10 @@ function ARCSlots.Load()
 			file.Write(ARCSlots.Dir.."/__data.txt", util.TableToJSON(ARCSlots.Disk) )
 		end )
 		timer.Start( "ARCSLOTS_SAVEDISK" ) 
-
+		ARCSlots.SpawnSlotMachines()
+		ARCSlots.SpawnVault()
+		
+		
 		ARCSlots.Msg("ARCSlots is ready!")
 		ARCSlots.Loaded = true
 		ARCSlots.Busy = false

@@ -3,23 +3,37 @@
 -- http://creativecommons.org/licenses/by/4.0/
 -- You can mess around with it, mod it to your liking, and even redistribute it.
 -- However, you must credit me.
-if ARCPhone then
-	util.AddNetworkString( "ARCPhone_Admin_GUI" )
-	ARCPhone.Commands["admin_gui"] = {
+if ARCSlots then
+	util.AddNetworkString( "ARCSlots_Admin_GUI" )
+	ARCSlots.Commands["admin_gui"] = {
 		command = function(ply,args) 
-			if !ARCPhone.Loaded then ARCPhone.MsgCL(ply,ARCPhone.Msgs.CommandOutput.SysReset) return end
+			if !ARCSlots.Loaded then ARCSlots.MsgCL(ply,ARCSlots.Msgs.CommandOutput.SysReset) return end
 			if !args[1] then
-				net.Start( "ARCPhone_Admin_GUI" )
+				local place = 0
+				local tab = {}
+				
+				for k,v in pairs(ARCSlots.SpecialSettings) do
+					place = place + 1
+					tab[place] = k
+				end
+				net.Start( "ARCSlots_Admin_GUI" )
 				net.WriteString("")
-				net.WriteTable({})
+				net.WriteTable(tab)
 				net.Send(ply)
 			elseif args[1] == "logs" then
-				net.Start( "ARCPhone_Admin_GUI" )
+				net.Start( "ARCSlots_Admin_GUI" )
 				net.WriteString("logs")
-				net.WriteTable(file.Find( ARCPhone.Dir.."/systemlog*", "DATA", "datedesc" ) )
+				net.WriteTable(file.Find( ARCSlots.Dir.."/systemlog*", "DATA", "datedesc" ) )
 				net.Send(ply)
+			elseif args[1] == "adv" then
+				if ARCSlots.SpecialSettings[args[2]] then
+					net.Start( "ARCSlots_Admin_GUI" )
+					net.WriteString("adv_"..args[2])
+					net.WriteTable(ARCSlots.SpecialSettings[args[2]])
+					net.Send(ply)
+				end
 			else
-				ARCPhone.MsgCL(ply,"Invalid AdminGUI request")
+				ARCSlots.MsgCL(ply,"Invalid AdminGUI request")
 			end
 		end, 
 		usage = "",
@@ -27,5 +41,21 @@ if ARCPhone then
 		adminonly = true,
 		hidden = false
 	}
+	net.Receive("ARCSlots_Admin_GUI",function(len,ply) 
+		if !ply:IsAdmin() && !ply:IsSuperAdmin() then
+			ARCSlots.MsgCL(ply,ARCSlots.Msgs.CommandOutput.admin)
+		return end
+		if ARCBank.Settings["superadmin_only"] && !ply:IsSuperAdmin() then
+			ARCSlots.MsgCL(ply,ARCSlots.Msgs.CommandOutput.superadmin)
+		return end
+		if ARCSlots.Settings["owner_only"] && string.lower(ply:GetUserGroup()) != "owner" then
+			ARCSlots.MsgCL(ply,ARCSlots.Msgs.CommandOutput.superadmin)
+		return end
+		local setting = net.ReadString()
+		local tab = net.ReadTable()
+		ARCLib.RecursiveTableMerge(ARCSlots.SpecialSettings[setting],tab)
+		ARCSlots.MsgCL(ply,"Advanced setting "..setting.." saved.")
+		ARCLib.AddonSaveSpecialSettings("ARCSlots")
+	end)
 end
 

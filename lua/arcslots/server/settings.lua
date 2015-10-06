@@ -43,6 +43,10 @@ arcslots settings (setting) (value)
 function ARCSlots.SettingsReset() --DO NOT EDIT THIS!!!!
 	ARCSlots.Settings["slots_max_bet"] = 50 --DO NOT EDIT THIS!!!!
 	ARCSlots.Settings["slots_min_bet"] = 25 --DO NOT EDIT THIS!!!!
+	ARCSlots.Settings["name"] = "ARCSlots" --DO NOT EDIT THIS!!!!
+	ARCSlots.Settings["name_long"] = "ARitz Cracker Gambling" --DO NOT EDIT THIS!!!!
+	ARCSlots.Settings["superadmin_only"] = false
+	ARCSlots.Settings["owner_only"] = false
 end
 --
 ARCSlots.SettingsReset()

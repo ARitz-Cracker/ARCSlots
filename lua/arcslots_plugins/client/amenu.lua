@@ -3,30 +3,108 @@
 -- http://creativecommons.org/licenses/by/4.0/
 -- You can mess around with it, mod it to your liking, and even redistribute it.
 -- However, you must credit me.
-if ARCPhone then
-	local ARCPhoneGUI = ARCPhoneGUI or {}
-	ARCPhoneGUI.SelectedAccountRank = 0
-	ARCPhoneGUI.SelectedAccount = ""
-	ARCPhoneGUI.Log = ""
-	ARCPhoneGUI.LogDownloaded = false
-	ARCPhoneGUI.AccountListTab = {}
-	net.Receive( "ARCPhone_Admin_SendAccounts", function(length)
+if ARCSlots then
+	local ARCSlotsGUI = ARCSlotsGUI or {}
+	ARCSlotsGUI.SelectedAccountRank = 0
+	ARCSlotsGUI.SelectedAccount = ""
+	ARCSlotsGUI.Log = ""
+	ARCSlotsGUI.LogDownloaded = false
+	ARCSlotsGUI.AccountListTab = {}
+	net.Receive( "ARCSlots_Admin_SendAccounts", function(length)
 
 	end)
-	net.Receive( "ARCPhone_Admin_Send", function(length)
+	net.Receive( "ARCSlots_Admin_Send", function(length)
 
 	end)
-	net.Receive( "ARCPhone_Admin_GUI", function(length)
+	net.Receive( "ARCSlots_Admin_GUI", function(length)
 		local thing = net.ReadString()
 		local tab = net.ReadTable()
+		MsgN(thing)
 		if thing == "settings" then
 			error("Tell aritz that this shouldn't happen, be sure to attach the FULL error reporst")
+		elseif thing == "adv_Slot" then
+			local MainPanel = vgui.Create( "DFrame" )
+			MainPanel:SetSize( 480,400 )
+			MainPanel:Center()
+			MainPanel:SetTitle( "Slot machine config" )
+			MainPanel:SetVisible( true )
+			MainPanel:SetDraggable( true )
+			MainPanel:ShowCloseButton( true )
+			MainPanel:MakePopup()
+			PrintTable(tab)
+			local chanceinput = {}
+			local payoutinput = {}
+			local text = {}
+			text[0] = "No prize"
+			text[1] = "2 of a kind (♥♣♦♠)"
+			text[2] = "3 cards (♥♣♦♠)"
+			text[3] = "♥ ♥ ♥"
+			text[4] = "♣ ♣ ♣"
+			text[5] = "♦ ♦ ♦"
+			text[6] = "♠ ♠ ♠"
+			text[7] = "$ $ $"
+			text[8] = "7 7 7"
+			text[9] = "? ? ?"
+			local percentlbl = {}
+			local pflbl = vgui.Create( "DLabel",MainPanel) -- Creates our label
+			pflbl:SetText("Income multiplier:")
+			pflbl:SetPos( 5, 332)
+			pflbl:SetSize(110,30)
+			local profitinput = vgui.Create( "DNumberWang",MainPanel)
+			profitinput:SetPos( 100, 340)
+			profitinput:SetSize( 55, 20 )
+			profitinput:SetMinMax( 1.1, 100 )
+			profitinput:SetDecimals(2)
+			profitinput:SetValue( tab.Profit )
+			local SaveButton = vgui.Create( "DButton", MainPanel )
+			SaveButton:SetText( "Update settings" )
+			SaveButton:SetPos( 10, 370 )
+			SaveButton:SetSize( 180, 20 )
+			SaveButton.DoClick = function()	
+				net.Start("ARCSlots_Admin_GUI")
+				net.WriteString("Slot")
+				net.WriteTable(tab)
+				net.SendToServer()
+			end
+			for i=0,9 do
+				local lbl = vgui.Create( "DLabel",MainPanel) -- Creates our label
+				lbl:SetText(text[i])
+				lbl:SetPos( 5, 22 + i*30)
+				lbl:SetSize(100,30)
+				
+				local plbl = vgui.Create( "DLabel",MainPanel) -- Creates our label
+				plbl:SetText("Prize:")
+				plbl:SetPos( 120, 22 + i*30)
+				plbl:SetSize(50,30)
+				--lbl:Center()
+				payoutinput[i] = vgui.Create( "DNumberWang",MainPanel)
+				payoutinput[i]:SetPos( 160, 30 + i*30)
+				payoutinput[i]:SetSize( 55, 20 )
+				payoutinput[i]:SetMinMax( 0, 100000000 )
+				payoutinput[i]:SetValue( tab.Prizes[i] )
+				
+				local clbl = vgui.Create( "DLabel",MainPanel) -- Creates our label
+				clbl:SetText("Chances:")
+				clbl:SetPos( 235, 22 + i*30)
+				clbl:SetSize(50,30)
+				--lbl:Center()
+				chanceinput[i] = vgui.Create( "DNumberWang",MainPanel)
+				chanceinput[i]:SetPos( 300, 30 + i*30)
+				chanceinput[i]:SetSize( 55, 20 )
+				chanceinput[i]:SetMinMax( 0, 100000000 )
+				chanceinput[i]:SetValue( tab.Chances[i] )
+				
+				local plbl = vgui.Create( "DLabel",MainPanel) -- Creates our label
+				plbl:SetText("12.34567890123%")
+				plbl:SetPos( 365, 22 + i*30)
+				plbl:SetSize(110,30)
 			
+			end
 		elseif thing == "logs" then
 			local MainPanel = vgui.Create( "DFrame" )
 			MainPanel:SetSize( 600,575 )
 			MainPanel:Center()
-			MainPanel:SetTitle( ARCPhone.Msgs.AdminMenu.ServerLogs )
+			MainPanel:SetTitle( ARCSlots.Msgs.AdminMenu.ServerLogs )
 			MainPanel:SetVisible( true )
 			MainPanel:SetDraggable( true )
 			MainPanel:ShowCloseButton( true )
@@ -49,10 +127,10 @@ if ARCPhone then
 				LogList:AddChoice(tab[i])
 			end
 			function LogList:OnSelect(index,value,data)
-				ARCPhone.AdminLog(value,false,function(data,per)
+				ARCSlots.AdminLog(value,false,function(data,per)
 					if isnumber(data) then
 						if data == ARCBANK_ERROR_DOWNLOADING then
-							Text:SetText(ARCPhone.Msgs.ATMMsgs.Loading.."(%"..math.Round(per*100)..")")
+							Text:SetText(ARCSlots.Msgs.ATMMsgs.Loading.."(%"..math.Round(per*100)..")")
 						else
 							Text:SetText(ARCBANK_ERRORSTRINGS[data])
 						end
@@ -66,7 +144,7 @@ if ARCPhone then
 			local MainMenu = vgui.Create( "DFrame" )
 			MainMenu:SetSize( 200, 150 )
 			MainMenu:Center()
-			MainMenu:SetTitle( ARCPhone.Settings.name_long )
+			MainMenu:SetTitle( ARCSlots.Settings.name_long )
 			MainMenu:SetVisible( true )
 			MainMenu:SetDraggable( true )
 			MainMenu:ShowCloseButton( true )
@@ -76,32 +154,37 @@ if ARCPhone then
 			LogButton:SetPos( 10, 30 )
 			LogButton:SetSize( 180, 20 )
 			LogButton.DoClick = function()
-				--RunConsoleCommand( "arcphone","admin_gui","logs")
-			end
-			local AccountsButton = vgui.Create( "DButton", MainMenu )
-			AccountsButton:SetText( "// DO NOTHING //" )
-			AccountsButton:SetPos( 10, 60 )
-			AccountsButton:SetSize( 180, 20 )
-			AccountsButton.DoClick = function()	
-
+				--RunConsoleCommand( "ARCSlots","admin_gui","logs")
 			end
 			local SettingsButton = vgui.Create( "DButton", MainMenu )
 			SettingsButton:SetText( "Settings" )
-			SettingsButton:SetPos( 10, 90 )
+			SettingsButton:SetPos( 10, 60 )
 			SettingsButton:SetSize( 180, 20 )
 			SettingsButton.DoClick = function()	
-				ARCLib.AddonConfigMenu("ARCPhone","arcphone")
+				ARCLib.AddonConfigMenu("ARCSlots","arcslots")
 			end
+			local AccountsButton = vgui.Create( "DComboBox", MainMenu )
+			AccountsButton:SetText( "Advanced Settings" )
+			AccountsButton:SetPos( 10, 90 )
+			AccountsButton:SetSize( 180, 20 )
+			for i=1,#tab do 
+				AccountsButton:AddChoice(tab[i])
+			end
+			function AccountsButton:OnSelect(index,value,data)
+				RunConsoleCommand( "arcslots","admin_gui","adv",value)
+				AccountsButton:SetText( "Advanced Settings" )
+			end
+			
 			local CommandButton = vgui.Create( "DButton", MainMenu )
-			CommandButton:SetText( "Commands" )
+			CommandButton:SetText(ARCSlots.Msgs.AdminMenu.Commands)
 			CommandButton:SetPos( 10, 120 )
 			CommandButton:SetSize( 180, 20 )
 			CommandButton.DoClick = function()		
-				local cmdlist = {"antenna_save","antenna_unsave","antenna_respawn"}
+				local cmdlist = {"slots_save","slots_unsave","slots_respawn","vault_save","vault_unsave"}
 				local CommandFrame = vgui.Create( "DFrame" )
 				CommandFrame:SetSize( 200*math.ceil(#cmdlist/8), 30+(30*math.Clamp(#cmdlist,0,8)) )
 				CommandFrame:Center()
-				CommandFrame:SetTitle(ARCPhone.Msgs.AdminMenu.Commands)
+				CommandFrame:SetTitle(ARCSlots.Msgs.AdminMenu.Commands)
 				CommandFrame:SetVisible( true )
 				CommandFrame:SetDraggable( true )
 				CommandFrame:ShowCloseButton( true )
@@ -109,11 +192,11 @@ if ARCPhone then
 				for i = 0,(#cmdlist-1) do
 				
 					local LogButton = vgui.Create( "DButton", CommandFrame )
-					LogButton:SetText(tostring(ARCPhone.Msgs.Commands[cmdlist[i+1]]))
+					LogButton:SetText(tostring(ARCSlots.Msgs.Commands[cmdlist[i+1]]))
 					LogButton:SetPos( 10+(200*math.floor(i/8)), 30+(30*(i%8)) )
 					LogButton:SetSize( 180, 20 )
 					LogButton.DoClick = function()
-						RunConsoleCommand( "arcphone",cmdlist[i+1])
+						RunConsoleCommand( "arcslots",cmdlist[i+1])
 					end
 				end
 			end

@@ -21,7 +21,7 @@ hook.Add( "CanProperty", "ARCSlots BlockProperties", function( ply, property, en
 	if ent.ARCSlots_MapEntity then return false end 
 end )
 hook.Add( "CanPlayerUnfreeze", "ARCSlots BlockUnfreeze", function( ply, ent, phys )
-	if ent.ARCPhone_MapEntity then return false end 
+	if ent.ARCSlots_MapEntity then return false end 
 end )
 if SERVER then
 	hook.Add( "ShutDown", "ARCSlots Shutdown", function()
@@ -36,5 +36,19 @@ if SERVER then
 			ARCLib.SendAddonLanguage("ARCSlots",ply)
 			ARCLib.SendAddonSettings("ARCSlots",ply) 
 		end
+	end)
+	
+	hook.Add( "ARCLoad_OnLoaded", "ARCSlots SpawStuffs", function(loaded)
+		if loaded != true && loaded != "ARCSlots" then return end
+			ARCSlots.Load()
+	end )
+	hook.Add( "ARCLoad_OnUpdate", "ARCSlots RemuvStuffs",function(loaded)
+		if loaded != "ARCSlots" then return end
+		for k,v in pairs(player.GetAll()) do 
+			ARCSlots.MsgCL(v,"Updating...") 
+		end
+		ARCSlots.SaveDisk()
+		ARCSlots.ClearVaults()
+		ARCSlots.ClearSlotMachines()
 	end)
 end

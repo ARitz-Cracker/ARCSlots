@@ -90,7 +90,6 @@ function ENT:SpawnFunction( ply, tr )
 	blarg:SetPos(tr.HitPos + tr.HitNormal * 40)
 	blarg:Spawn()
 	blarg:Activate()
-	blarg.Hacker = ply
 	return blarg
 end
 

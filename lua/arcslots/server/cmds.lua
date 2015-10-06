@@ -128,6 +128,35 @@ ARCSlots.Commands = { --Make sure they are less then 16 chars long.$
 		adminonly = true,
 		hidden = false
 	},
+	["vault_save"] = {
+		command = function(ply,args)
+			if !ARCSlots.Loaded then ARCSlots.MsgCL(ply,"System reset required!") return end
+			if ARCLib.SaveVault() then
+				ARCSlots.MsgCL(ply,"Vault saved!")
+			else
+				ARCSlots.MsgCL(ply,"There ain't no vault to save")
+			end
+		end, 
+		usage = "",
+		description = "Makes all the vault a part of the map.",
+		adminonly = true,
+		hidden = false
+	},
+	["vault_unsave"] = {
+		command = function(ply,args)
+			if !ARCSlots.Loaded then ARCSlots.MsgCL(ply,"System reset required!") return end
+			ARCSlots.MsgCL(ply,"Detatching Slot Machines from map...")
+			if ARCSlots.UnSaveValt() then
+				ARCSlots.MsgCL(ply,"Slot Machines Detached from map!")
+			else
+				ARCSlots.MsgCL(ply,"An error occurred while detaching Slot Machines from map.")
+			end
+		end, 
+		usage = "",
+		description = "Makes all the vault moveable again.",
+		adminonly = true,
+		hidden = false
+	},
 	["reset"] = {
 		command = function(ply,args) 
 			ARCSlots.MsgCL(ply,"Resetting ARCSlots system...")

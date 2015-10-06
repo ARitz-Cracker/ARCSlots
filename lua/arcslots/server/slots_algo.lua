@@ -11,52 +11,59 @@ ARitz Cracker: All cards = 5 * bet (50% free spins)
 ARitz Cracker: 2 cards = 2* bet (50% free spins)
 
 ]]
+ARCSlots.SpecialSettings.Slot = {}
+ARCSlots.SpecialSettings.Slot.Profit = 1.5
 
-ARCSlots.SlotPrizes = {}
-ARCSlots.SlotPrizes[0] = 0
-ARCSlots.SlotPrizes[1] = 2
-ARCSlots.SlotPrizes[2] = 5
-ARCSlots.SlotPrizes[3] = 50
-ARCSlots.SlotPrizes[4] = 100
-ARCSlots.SlotPrizes[5] = 150
-ARCSlots.SlotPrizes[6] = 300
-ARCSlots.SlotPrizes[7] = 1000
-ARCSlots.SlotPrizes[8] = 10000
-ARCSlots.SlotPrizes[9] = 100000
+ARCSlots.SpecialSettings.Slot.Prizes = {}
+ARCSlots.SpecialSettings.Slot.Prizes[0] = 0
+ARCSlots.SpecialSettings.Slot.Prizes[1] = 2
+ARCSlots.SpecialSettings.Slot.Prizes[2] = 5
+ARCSlots.SpecialSettings.Slot.Prizes[3] = 50
+ARCSlots.SpecialSettings.Slot.Prizes[4] = 100
+ARCSlots.SpecialSettings.Slot.Prizes[5] = 150
+ARCSlots.SpecialSettings.Slot.Prizes[6] = 300
+ARCSlots.SpecialSettings.Slot.Prizes[7] = 1000
+ARCSlots.SpecialSettings.Slot.Prizes[8] = 10000
+ARCSlots.SpecialSettings.Slot.Prizes[9] = 100000
 
-ARCSlots.SlotChances = {}
---ARCSlots.SlotChances[0] = 0
-ARCSlots.SlotChances[1] = 100000
-ARCSlots.SlotChances[2] = 50000
-ARCSlots.SlotChances[3] = 500
-ARCSlots.SlotChances[4] = 250
-ARCSlots.SlotChances[5] = 100
-ARCSlots.SlotChances[6] = 50
-ARCSlots.SlotChances[7] = 10
-ARCSlots.SlotChances[8] = 5
-ARCSlots.SlotChances[9] = 2
+ARCSlots.SpecialSettings.Slot.Chances = {}
+--ARCSlots.SpecialSettings.Slot.Chances[0] = 0
+ARCSlots.SpecialSettings.Slot.Chances[1] = 100000
+ARCSlots.SpecialSettings.Slot.Chances[2] = 50000
+ARCSlots.SpecialSettings.Slot.Chances[3] = 500
+ARCSlots.SpecialSettings.Slot.Chances[4] = 250
+ARCSlots.SpecialSettings.Slot.Chances[5] = 100
+ARCSlots.SpecialSettings.Slot.Chances[6] = 50
+ARCSlots.SpecialSettings.Slot.Chances[7] = 10
+ARCSlots.SpecialSettings.Slot.Chances[8] = 5
+ARCSlots.SpecialSettings.Slot.Chances[9] = 2
 
+--[[
 local total = 0
 local profit = 0
 for i=1,9 do
-	total = total + ARCSlots.SlotChances[i]
-	profit = profit + ARCSlots.SlotChances[i]*ARCSlots.SlotPrizes[i]
+	total = total + ARCSlots.SpecialSettings.Slot.Chances[i]
+	profit = profit + ARCSlots.SpecialSettings.Slot.Chances[i]*ARCSlots.SpecialSettings.Slot.Prizes[i]
 end
-ARCSlots.SlotChances[0] = profit * 1.5
-total = total + ARCSlots.SlotChances[0]
-
+ARCSlots.SpecialSettings.Slot.Chances[0] = profit * 1.5
+total = total + ARCSlots.SpecialSettings.Slot.Chances[0]
 
 for i=0,9 do
-	MsgN("Prize "..i.."("..ARCSlots.SlotPrizes[i]..")")
-	local prob = ARCSlots.SlotChances[i]/total
+	MsgN("Prize "..i.."("..ARCSlots.SpecialSettings.Slot.Prizes[i]..")")
+	local prob = ARCSlots.SpecialSettings.Slot.Chances[i]/total
 	MsgN("%"..(prob * 100))
 	MsgN("1 in "..(1/prob))
 end
-function ARCSlots.SlotPrizeSelector()
+]]
+function ARCSlots.SlotPrizeselector()
+	local total = 0
+	for i=0,9 do
+		total = total + ARCSlots.SpecialSettings.Slot.Chances[i]
+	end
 	local prize = 0
 	local rnd = math.random(1,total)
 	for i=0,9 do
-		prize = prize + ARCSlots.SlotChances[i]
+		prize = prize + ARCSlots.SpecialSettings.Slot.Chances[i]
 		if rnd <= prize then
 			return i
 		end
@@ -148,7 +155,7 @@ function ARCSlots.Slot3OfKindIcon(icon)
 end
 
 function ARCSlots.SlotPrizePayout()
-	local prize = ARCSlots.SlotPrizeSelector()
+	local prize = ARCSlots.SlotPrizeselector()
 	local tab = {"SOMETING WENT HORRIBLY WRONG"}
 	if prize == 0 then
 		tab = {ARCSlots.SlotLooseIcon()}
@@ -157,31 +164,31 @@ function ARCSlots.SlotPrizePayout()
 	elseif prize == 1 then
 		if tobool(math.Round(math.random())) then
 			tab = {ARCSlots.Slot2OfKindIcon(1)}
-			tab[4] = ARCSlots.SlotPrizes[prize]*-1
+			tab[4] = ARCSlots.SpecialSettings.Slot.Prizes[prize]*-1
 			tab[5] = 1
 			
 		else
 			local winicon = math.random(2,5)
 			tab = {ARCSlots.Slot2OfKindIcon(winicon)}
-			tab[4] = ARCSlots.SlotPrizes[prize]
+			tab[4] = ARCSlots.SpecialSettings.Slot.Prizes[prize]
 			tab[5] = winicon
 			
 		end
 	elseif prize == 2 then
 		if tobool(math.Round(math.random())) then
 			tab = {ARCSlots.Slot3OfKindIcon(1)}
-			tab[4] = ARCSlots.SlotPrizes[prize]*-1
+			tab[4] = ARCSlots.SpecialSettings.Slot.Prizes[prize]*-1
 			tab[5] = 1
 			
 		else
 			tab = {ARCSlots.AllCardsIcon()}
-			tab[4] = ARCSlots.SlotPrizes[prize]
+			tab[4] = ARCSlots.SpecialSettings.Slot.Prizes[prize]
 			tab[5] = 9
 			
 		end
 	else
 		tab = {ARCSlots.Slot3OfKindIcon(prize-1)}
-		tab[4] = ARCSlots.SlotPrizes[prize]
+		tab[4] = ARCSlots.SpecialSettings.Slot.Prizes[prize]
 		tab[5] = prize-1
 	end
 	--PrintTable(tab)
