@@ -66,6 +66,34 @@ if ARCSlots then
 				net.WriteTable(tab)
 				net.SendToServer()
 			end
+			local antiinfloop = false
+			local function UpdateValues()
+				if antiinfloop then return end
+				antiinfloop = true
+				tab.Profit = profitinput:GetValue()
+				
+				local total = 0
+				local profit = 0
+				for i=1,9 do
+					tab.Chances[i] = chanceinput[i]:GetValue()
+					tab.Prizes[i] = payoutinput[i]:GetValue()
+					total = total + tab.Chances[i]
+					profit = profit + tab.Chances[i]*tab.Prizes[i]
+				end
+				tab.Prizes[0] = 0
+				payoutinput[0]:SetValue(0)
+				
+				tab.Chances[0] = profit * 1.5
+				chanceinput[0]:SetValue(tab.Chances[0])
+				total = total + tab.Chances[0]
+
+				for i=0,9 do
+					--MsgN("Prize "..i.."("..ARCSlots.SpecialSettings.Slot.Prizes[i]..")")
+					percentlbl[i]:SetText("%"..tostring(tab.Chances[i]/total * 100))
+				end
+				antiinfloop = false
+			end
+			profitinput.OnValueChanged = UpdateValues
 			for i=0,9 do
 				local lbl = vgui.Create( "DLabel",MainPanel) -- Creates our label
 				lbl:SetText(text[i])
@@ -82,6 +110,7 @@ if ARCSlots then
 				payoutinput[i]:SetSize( 55, 20 )
 				payoutinput[i]:SetMinMax( 0, 100000000 )
 				payoutinput[i]:SetValue( tab.Prizes[i] )
+				payoutinput[i].OnValueChanged = UpdateValues
 				
 				local clbl = vgui.Create( "DLabel",MainPanel) -- Creates our label
 				clbl:SetText("Chances:")
@@ -93,13 +122,15 @@ if ARCSlots then
 				chanceinput[i]:SetSize( 55, 20 )
 				chanceinput[i]:SetMinMax( 0, 100000000 )
 				chanceinput[i]:SetValue( tab.Chances[i] )
+				chanceinput[i].OnValueChanged = UpdateValues
 				
-				local plbl = vgui.Create( "DLabel",MainPanel) -- Creates our label
-				plbl:SetText("12.34567890123%")
-				plbl:SetPos( 365, 22 + i*30)
-				plbl:SetSize(110,30)
+				percentlbl[i] = vgui.Create( "DLabel",MainPanel) -- Creates our label
+				percentlbl[i]:SetText("UPDATE VALUES")
+				percentlbl[i]:SetPos( 365, 22 + i*30)
+				percentlbl[i]:SetSize(110,30)
 			
 			end
+			--UpdateValues()
 		elseif thing == "logs" then
 			local MainPanel = vgui.Create( "DFrame" )
 			MainPanel:SetSize( 600,575 )
