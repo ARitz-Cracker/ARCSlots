@@ -111,6 +111,7 @@ if ARCSlots then
 				payoutinput[i]:SetMinMax( 0, 100000000 )
 				payoutinput[i]:SetValue( tab.Prizes[i] )
 				payoutinput[i].OnValueChanged = UpdateValues
+				payoutinput[i]:SetDisabled(i==0)
 				
 				local clbl = vgui.Create( "DLabel",MainPanel) -- Creates our label
 				clbl:SetText("Chances:")
@@ -123,6 +124,7 @@ if ARCSlots then
 				chanceinput[i]:SetMinMax( 0, 100000000 )
 				chanceinput[i]:SetValue( tab.Chances[i] )
 				chanceinput[i].OnValueChanged = UpdateValues
+				chanceinput[i]:SetDisabled(i==0)
 				
 				percentlbl[i] = vgui.Create( "DLabel",MainPanel) -- Creates our label
 				percentlbl[i]:SetText("UPDATE VALUES")
