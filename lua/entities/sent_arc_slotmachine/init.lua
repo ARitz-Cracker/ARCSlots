@@ -132,9 +132,9 @@ function ENT:Spin(ply,amount)
 		else
 			if !ARCSlots.PlayerCanAfford(ply,amount) then 
 				if ARCBank then
-					ARCLib.NotifyPlayer(ply,ARCBANK_ERRORSTRINGS[4],NOTIFY_ERROR,4,true)
+					ARCLib.NotifyPlayer(ply,ARCSlots.Msgs.Notifications.NoMoney,NOTIFY_ERROR,4,true)
 				else
-					ARCLib.NotifyPlayer(ply,"Check yer wallet.",NOTIFY_GENERIC,4,true)
+					ARCLib.NotifyPlayer(ply,ARCSlots.Msgs.Notifications.NoMoney,NOTIFY_GENERIC,4,true)
 				end
 				return 
 			end
@@ -219,35 +219,35 @@ function ENT:DingDing(payout,winicon,amount,ply)
 		self.Status = 1
 		self:EmitSound("arcslots/winner.wav")
 		self.FreeSpins = self.FreeSpins - payout
-		self.ScreenMsg = (-1*payout).." FREE SPINS ("..self.FreeSpins..")"
+		self.ScreenMsg = ARCLib.PlaceholderReplace(ARCSlots.Msgs.SlotMsgs.FreeSpins,{AMOUNT=tostring(-1*payout)}).."("..self.FreeSpins..")"
 	elseif payout == 0 then
 		if ((self.Icon1 == self.Icon2) || (self.Icon1 == 8 || self.Icon2 == 8)) && self.Icon1 > 5 && self.Icon2 > 5 then
 			self:EmitSound("arcslots/soooclose.mp3")
 			idletime = 4
-			if math.random(1,4) == 1 then
-				self.ScreenMsg = "HA HA HA NOT TODAY"
+			if math.random(1,10) == 1 then
+				self.ScreenMsg = ARCSlots.Msgs.SlotMsgs.LooseMock
 			else
-				self.ScreenMsg = "BETTER LUCK NEXT TIME"
+				self.ScreenMsg = ARCSlots.Msgs.SlotMsgs.Loose
 			end
 		else
 			idletime = 1
-			self.ScreenMsg = "BETTER LUCK NEXT TIME"
+			self.ScreenMsg = ARCSlots.Msgs.SlotMsgs.Loose
 		end
 		self.Status = -1
 	else
 		self:GiveOutPrize(ply,amount*payout)
 		--self.FreeSpins = self.FreeSpins + payout
-		if payout >= 100000 then
+		if winicon >= 8 then
 			self:EmitSound("music/hl1_song25_remix3.mp3",115,100)
-			self.ScreenMsg = "CONGRATULATIONS YOU HAVE WON THE MEGA JACKPOT"--.."("..self.FreeSpins..")"
+			self.ScreenMsg = ARCLib.PlaceholderReplace(ARCSlots.Msgs.SlotMsgs.Jackpot,{AMOUNT=tostring(-1*payout)})--.."("..self.FreeSpins..")"
 			idletime = 60
-		elseif payout >= 1000 then
+		elseif winicon >= 6 then
 			self:EmitSound("arcslots/jackpot.wav")
-			self.ScreenMsg = "WOW YOU WON "..amount*payout--.."("..self.FreeSpins..")"
+			self.ScreenMsg = ARCLib.PlaceholderReplace(ARCSlots.Msgs.SlotMsgs.MegaWin,{AMOUNT=tostring(-1*payout)})
 			idletime = 6
 		else
 			self:EmitSound("arcslots/winner.wav")
-			self.ScreenMsg = "YOU WON "..amount*payout--.."("..self.FreeSpins..")"
+			self.ScreenMsg = ARCLib.PlaceholderReplace(ARCSlots.Msgs.SlotMsgs.Win,{AMOUNT=tostring(-1*payout)})
 		end
 		self.Status = 1
 	end

@@ -116,15 +116,14 @@ function ENT:OnRemove()
 		end
 	end
 end
-local moneyPerSecond = 50
 function ENT:Use( ply, caller )
-	if self.InUse && ARCSlots.Disk.VaultFunds > moneyPerSecond then
+	if self.InUse && ARCSlots.Disk.VaultFunds > ARCSlots.Settings["vault_steal_rate"] then
 		if !ply._VaultTime then
 			ply._VaultTime = 1
 		end
 		if ply._VaultTime <= CurTime() then
-			ARCSlots.RawPlayerAddMoney(ply,moneyPerSecond)
-			ARCSlots.Disk.VaultFunds = ARCSlots.Disk.VaultFunds - moneyPerSecond
+			ARCSlots.RawPlayerAddMoney(ply,ARCSlots.Settings["vault_steal_rate"])
+			ARCSlots.Disk.VaultFunds = ARCSlots.Disk.VaultFunds - ARCSlots.Settings["vault_steal_rate"]
 			net.Start("arcslots_worth")
 			net.WriteDouble(ARCSlots.Disk.CasinoFunds)
 			net.WriteDouble(ARCSlots.Disk.VaultFunds)
@@ -142,8 +141,9 @@ function ENT:BeginHacked(amount)
 	self:EmitSound("arcslots/vault/lock.wav")
 	timer.Simple(2,function() 
 		if !IsValid(self) then return end
+		ARCSlots.SoundVaultAlarm(true)
 		self:ToggleDoor(true)
-		timer.Simple(amount/moneyPerSecond,function() 
+		timer.Simple(amount/ARCSlots.Settings["vault_steal_rate"],function() 
 			if !IsValid(self) then return end
 			self:ToggleDoor(false)
 			
@@ -159,6 +159,7 @@ function ENT:BeginHacked(amount)
 				if !IsValid(self) then return end
 				self.Screens[3]:SetScrType(3)
 				self:EmitSound("arcslots/vault/lock.wav")
+				ARCSlots.SoundVaultAlarm(false)
 			end)
 			
 			self.InUse = false

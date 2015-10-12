@@ -119,7 +119,7 @@ net.Receive( "ARCSlots_Update", function(length)
 	if idle then
 		machine.IdleTime = CurTime() + math.Rand(5,15)
 	end
-	machine.TopScreenText = "THIS IS A NEW SLOT MACHINE"
+	machine.TopScreenText = ARCSlots.Settings.slots_idle_text
 	if machine.Winnings[1] == -3 then
 		machine.ScreenScroll = 26
 	end

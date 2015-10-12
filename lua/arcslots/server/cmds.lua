@@ -76,12 +76,11 @@ ARCSlots.Commands = { --Make sure they are less then 16 chars long.$
 	},
 	["slots_save"] = {
 		command = function(ply,args)
-			if !ARCSlots.Loaded then ARCSlots.MsgCL(ply,"System reset required!") return end
-			ARCSlots.MsgCL(ply,"Saving Slot Machines to map...")
+			if !ARCSlots.Loaded then ARCSlots.MsgCL(ply,ARCSlots.Msgs.CommandOutput.SysReset) return end
 			if ARCSlots.SaveSlotMachines() then
-				ARCSlots.MsgCL(ply,"Slot Machines saved onto map!")
+				ARCSlots.MsgCL(ply,ARCSlots.Msgs.CommandOutput.SaveSlots)
 			else
-				ARCSlots.MsgCL(ply,"An error occurred while saving the Slot Machines onto the map.")
+				ARCSlots.MsgCL(ply,ARCSlots.Msgs.CommandOutput.SaveSlotsNo)
 			end
 		end, 
 		usage = "",
@@ -91,12 +90,11 @@ ARCSlots.Commands = { --Make sure they are less then 16 chars long.$
 	},
 	["slots_unsave"] = {
 		command = function(ply,args)
-			if !ARCSlots.Loaded then ARCSlots.MsgCL(ply,"System reset required!") return end
-			ARCSlots.MsgCL(ply,"Detatching Slot Machines from map...")
+			if !ARCSlots.Loaded then ARCSlots.MsgCL(ply,ARCSlots.Msgs.CommandOutput.SysReset) return end
 			if ARCSlots.UnSaveSlotMachines() then
-				ARCSlots.MsgCL(ply,"Slot Machines Detached from map!")
+				ARCSlots.MsgCL(ply,ARCSlots.Msgs.CommandOutput.UnSaveSlot)
 			else
-				ARCSlots.MsgCL(ply,"An error occurred while detaching Slot Machines from map.")
+				ARCSlots.MsgCL(ply,ARCSlots.Msgs.CommandOutput.UnSaveSlotNo)
 			end
 		end, 
 		usage = "",
@@ -106,16 +104,15 @@ ARCSlots.Commands = { --Make sure they are less then 16 chars long.$
 	},
 	["slots_respawn"] = {
 		command = function(ply,args) 
-			if !ARCSlots.Loaded then ARCSlots.MsgCL(ply,"System reset required!") return end
-			ARCSlots.MsgCL(ply,"Spawning Map-Based Slot Machines...")
+			if !ARCSlots.Loaded then ARCSlots.MsgCL(ply,ARCSlots.Msgs.CommandOutput.SysReset) return end
 			if ARCSlots.SpawnSlotMachines() then
-				ARCSlots.MsgCL(ply,"Map-Based Slot Machines Spawned!")
+				ARCSlots.MsgCL(ply,ARCSlots.Msgs.CommandOutput.SpawnSlots)
 			else
-				ARCSlots.MsgCL(ply,"No Slot Machines associated with this map. (Non-existent/Currupt file)")
+				ARCSlots.MsgCL(ply,ARCSlots.Msgs.CommandOutput.SpawnSlotsNo)
 			end
 		end, 
 		usage = "",
-		description = "Respawns all Map-Based Slot Machines.",
+		description = "Re-spawns all Map-Based Slot Machines.",
 		adminonly = true,
 		hidden = false
 	},
@@ -130,11 +127,11 @@ ARCSlots.Commands = { --Make sure they are less then 16 chars long.$
 	},
 	["vault_save"] = {
 		command = function(ply,args)
-			if !ARCSlots.Loaded then ARCSlots.MsgCL(ply,"System reset required!") return end
+			if !ARCSlots.Loaded then ARCSlots.MsgCL(ply,ARCSlots.Msgs.CommandOutput.SysReset) return end
 			if ARCLib.SaveVault() then
-				ARCSlots.MsgCL(ply,"Vault saved!")
+				ARCSlots.MsgCL(ply,ARCSlots.Msgs.CommandOutput.SaveVault)
 			else
-				ARCSlots.MsgCL(ply,"There ain't no vault to save")
+				ARCSlots.MsgCL(ply,ARCSlots.Msgs.CommandOutput.SaveVaultNo)
 			end
 		end, 
 		usage = "",
@@ -144,12 +141,11 @@ ARCSlots.Commands = { --Make sure they are less then 16 chars long.$
 	},
 	["vault_unsave"] = {
 		command = function(ply,args)
-			if !ARCSlots.Loaded then ARCSlots.MsgCL(ply,"System reset required!") return end
-			ARCSlots.MsgCL(ply,"Detatching Slot Machines from map...")
+			if !ARCSlots.Loaded then ARCSlots.MsgCL(ply,ARCSlots.Msgs.CommandOutput.SysReset) return end
 			if ARCSlots.UnSaveValt() then
-				ARCSlots.MsgCL(ply,"Slot Machines Detached from map!")
+				ARCSlots.MsgCL(ply,ARCSlots.Msgs.CommandOutput.UnSaveVault)
 			else
-				ARCSlots.MsgCL(ply,"An error occurred while detaching Slot Machines from map.")
+				ARCSlots.MsgCL(ply,ARCSlots.Msgs.CommandOutput.UnSaveVaultNo)
 			end
 		end, 
 		usage = "",
@@ -171,7 +167,7 @@ ARCSlots.Commands = { --Make sure they are less then 16 chars long.$
 			end)
 		end, 
 		usage = "",
-		description = "Updates settings and checks for any currupt or invalid accounts. (SAVE YOUR SETTINGS BEFORE DOING THIS!)",
+		description = "Updates settings and checks for any corrupt or invalid accounts. (SAVE YOUR SETTINGS BEFORE DOING THIS!)",
 		adminonly = true,
 		hidden = false}
 }

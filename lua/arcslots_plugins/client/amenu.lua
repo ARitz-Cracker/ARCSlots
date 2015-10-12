@@ -26,7 +26,7 @@ if ARCSlots then
 			local MainPanel = vgui.Create( "DFrame" )
 			MainPanel:SetSize( 480,400 )
 			MainPanel:Center()
-			MainPanel:SetTitle( "Slot machine config" )
+			MainPanel:SetTitle( ARCSlots.Msgs.AdminMenu.SlotConfig )
 			MainPanel:SetVisible( true )
 			MainPanel:SetDraggable( true )
 			MainPanel:ShowCloseButton( true )
@@ -35,9 +35,9 @@ if ARCSlots then
 			local chanceinput = {}
 			local payoutinput = {}
 			local text = {}
-			text[0] = "No prize"
-			text[1] = "2 of a kind (♥♣♦♠)"
-			text[2] = "3 cards (♥♣♦♠)"
+			text[0] = "X X X"
+			text[1] = "♥♥/♣♣/♦♦/♠♠"
+			text[2] = "3 x (♥♣♦♠)"
 			text[3] = "♥ ♥ ♥"
 			text[4] = "♣ ♣ ♣"
 			text[5] = "♦ ♦ ♦"
@@ -47,7 +47,7 @@ if ARCSlots then
 			text[9] = "? ? ?"
 			local percentlbl = {}
 			local pflbl = vgui.Create( "DLabel",MainPanel) -- Creates our label
-			pflbl:SetText("Income multiplier:")
+			pflbl:SetText(ARCSlots.Msgs.AdminMenu.SlotIncome)
 			pflbl:SetPos( 5, 332)
 			pflbl:SetSize(110,30)
 			local profitinput = vgui.Create( "DNumberWang",MainPanel)
@@ -57,7 +57,7 @@ if ARCSlots then
 			profitinput:SetDecimals(2)
 			profitinput:SetValue( tab.Profit )
 			local SaveButton = vgui.Create( "DButton", MainPanel )
-			SaveButton:SetText( "Update settings" )
+			SaveButton:SetText( ARCSlots.Msgs.AdminMenu.SaveSettings )
 			SaveButton:SetPos( 10, 370 )
 			SaveButton:SetSize( 180, 20 )
 			SaveButton.DoClick = function()	
@@ -101,7 +101,7 @@ if ARCSlots then
 				lbl:SetSize(100,30)
 				
 				local plbl = vgui.Create( "DLabel",MainPanel) -- Creates our label
-				plbl:SetText("Prize:")
+				plbl:SetText(ARCSlots.Msgs.AdminMenu.SlotPrize)
 				plbl:SetPos( 120, 22 + i*30)
 				plbl:SetSize(50,30)
 				--lbl:Center()
@@ -114,7 +114,7 @@ if ARCSlots then
 				payoutinput[i]:SetDisabled(i==0)
 				
 				local clbl = vgui.Create( "DLabel",MainPanel) -- Creates our label
-				clbl:SetText("Chances:")
+				clbl:SetText(ARCSlots.Msgs.AdminMenu.SlotChance)
 				clbl:SetPos( 235, 22 + i*30)
 				clbl:SetSize(50,30)
 				--lbl:Center()
@@ -127,7 +127,7 @@ if ARCSlots then
 				chanceinput[i]:SetDisabled(i==0)
 				
 				percentlbl[i] = vgui.Create( "DLabel",MainPanel) -- Creates our label
-				percentlbl[i]:SetText("UPDATE VALUES")
+				percentlbl[i]:SetText("????????")
 				percentlbl[i]:SetPos( 365, 22 + i*30)
 				percentlbl[i]:SetSize(110,30)
 			
@@ -183,21 +183,22 @@ if ARCSlots then
 			MainMenu:ShowCloseButton( true )
 			MainMenu:MakePopup()
 			local LogButton = vgui.Create( "DButton", MainMenu )
-			LogButton:SetText( "// DO NOTHING //" )
+			LogButton:SetText( ARCSlots.Msgs.AdminMenu.Logs )
 			LogButton:SetPos( 10, 30 )
 			LogButton:SetSize( 180, 20 )
 			LogButton.DoClick = function()
 				--RunConsoleCommand( "ARCSlots","admin_gui","logs")
+				Derma_Message( ARCSlots.Msgs.AdminMenu.Unavailable, "Uh oh...", "OK" )
 			end
 			local SettingsButton = vgui.Create( "DButton", MainMenu )
-			SettingsButton:SetText( "Settings" )
+			SettingsButton:SetText( ARCSlots.Msgs.AdminMenu.Settings )
 			SettingsButton:SetPos( 10, 60 )
 			SettingsButton:SetSize( 180, 20 )
 			SettingsButton.DoClick = function()	
 				ARCLib.AddonConfigMenu("ARCSlots","arcslots")
 			end
 			local AccountsButton = vgui.Create( "DComboBox", MainMenu )
-			AccountsButton:SetText( "Advanced Settings" )
+			AccountsButton:SetText( ARCSlots.Msgs.AdminMenu.AdvSettings )
 			AccountsButton:SetPos( 10, 90 )
 			AccountsButton:SetSize( 180, 20 )
 			for i=1,#tab do 
@@ -205,7 +206,7 @@ if ARCSlots then
 			end
 			function AccountsButton:OnSelect(index,value,data)
 				RunConsoleCommand( "arcslots","admin_gui","adv",value)
-				AccountsButton:SetText( "Advanced Settings" )
+				AccountsButton:SetText( ARCSlots.Msgs.AdminMenu.AdvSettings )
 			end
 			
 			local CommandButton = vgui.Create( "DButton", MainMenu )

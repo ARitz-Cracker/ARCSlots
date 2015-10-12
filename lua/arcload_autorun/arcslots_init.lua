@@ -17,8 +17,8 @@ ARCSlots.Msg(table.Random({"Finally, a god damn update for this...","\"The negle
 ARCSlots.Msg("© Copyright 2015 Aritz Beobide-Cardinal (ARitz Cracker) All rights reserved.")
 
 
-ARCSlots.Update = "October 8th 2015"
-ARCSlots.Version = "1.0.0"
+ARCSlots.Update = "%%UPDATE%%"
+ARCSlots.Version = "%%VERSION%%"
 
 NULLFUNC = function(...) end
 

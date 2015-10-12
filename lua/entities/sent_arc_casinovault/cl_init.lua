@@ -24,8 +24,65 @@ function ENT:Initialize()
 	self.Planes[4] = {{normal=Vector(-1,0,0),dist = -13.25},{normal=Vector(0,0,1),dist = 96},{normal=Vector(0,0,-1),dist = -30},{normal=Vector(0,1,0),dist = 0}}
 	self.MoneyPos = {}
 	self.MoneyTabs = {}
-	for i=1,105 do
-		self.MoneyPos[i] = Vector(9,(i-1)%11*4 +3,32 + math.floor((i-1)/11))
+	self.InsidePos = {}
+	self.InsideAngs = {}
+	self.InsideTabs = {}
+	
+	self.InsidePos[1] = Vector(-10.6,23.25,29)
+	self.InsideAngs[1] = Angle(0,0,0)
+	self.InsideTabs[1] = {model = "models/props_phx/construct/metal_plate1.mdl"}
+	
+	self.InsidePos[2] = Vector(-10.6,23.25,95)
+	self.InsideAngs[2] = Angle(0,0,0)
+	self.InsideTabs[2] = {model = "models/props_phx/construct/metal_plate1.mdl"}
+
+	
+	self.InsidePos[3] = Vector(-10.6,0.5,79.7)
+	self.InsideAngs[3] = Angle(0,0,90)
+	self.InsideTabs[3] = {model = "models/props_phx/construct/metal_plate1x2.mdl"}
+	
+	self.InsidePos[4] = Vector(-10.6,23.25,79.3)
+	self.InsideAngs[4] = Angle(0,0,0)
+	self.InsideTabs[4] = {model = "models/props_phx/construct/metal_plate1.mdl"}
+	
+	self.InsidePos[5] = Vector(-10.6,49.5,79.7)
+	self.InsideAngs[5] = Angle(0,0,90)
+	self.InsideTabs[5] = {model = "models/props_phx/construct/metal_plate1x2.mdl"}
+	
+	
+	self.InsidePos[6] = Vector(-14,23.25,79.7)
+	self.InsideAngs[6] = Angle(0,90,90)
+	self.InsideTabs[6] = {model = "models/props_phx/construct/metal_plate1x2.mdl"}
+	
+	self.InsidePos[7] = Vector(-10,-0.47,43)
+	self.InsideAngs[7] = Angle(0,0,0)
+	self.InsideTabs[7] = {model = "models/PHXtended/bar1x.mdl"}
+	self.InsidePos[8] = Vector(-4,-0.47,43)
+	self.InsideAngs[8] = Angle(0,0,0)
+	self.InsideTabs[8] = {model = "models/PHXtended/bar1x.mdl"}
+	self.InsidePos[9] = Vector(2,-0.47,43)
+	self.InsideAngs[9] = Angle(0,0,0)
+	self.InsideTabs[9] = {model = "models/PHXtended/bar1x.mdl"}
+	
+	self.InsidePos[10] = Vector(-10,-0.47,59.6)
+	self.InsideAngs[10] = Angle(0,0,0)
+	self.InsideTabs[10] = {model = "models/PHXtended/bar1x.mdl"}
+	self.InsidePos[11] = Vector(-4,-0.47,59.6)
+	self.InsideAngs[11] = Angle(0,0,0)
+	self.InsideTabs[11] = {model = "models/PHXtended/bar1x.mdl"}
+	self.InsidePos[12] = Vector(2,-0.47,59.6)
+	self.InsideAngs[12] = Angle(0,0,0)
+	self.InsideTabs[12] = {model = "models/PHXtended/bar1x.mdl"}
+	
+	for i=1,396 do
+		local j = i-1
+		local perrow = (math.floor(j/6))
+		local up1row = perrow %11
+		local up1rowmove = (math.floor(perrow/11))
+		local moveyup = math.floor(up1rowmove/2) * 16.7
+		
+		local xpos = up1row * 4
+		self.MoneyPos[i] = Vector(-6 + up1rowmove%2 *10,3 + xpos,32.1 + (j%6)*0.8 + moveyup)
 		self.MoneyTabs[i] = {model="models/props/cs_assault/money.mdl",angle=self:GetAngles(),pos=self:LocalToWorld(self.MoneyPos[i])}
 	end
 	
@@ -38,12 +95,14 @@ function ENT:Initialize()
 end
 
 function ENT:Think()
+
 	if self.Open then
 		
 		self.RotateAng = ARCLib.BetweenNumberScale(self.AnimStartTime,CurTime(),self.AnimEndTime)*95
 	else
 		self.RotateAng = 95 - ARCLib.BetweenNumberScale(self.AnimStartTime,CurTime(),self.AnimEndTime)*95
 	end
+
 end
 
 function ENT:OnRestore()
@@ -85,16 +144,27 @@ end
 
 
 function ENT:DrawInterior()
-	for i=1,math.Clamp(math.floor(ARCSlots.VaultFunds/50),0,105) do
+	for i=1,#self.InsideTabs do
+		self.InsideTabs[i].pos = self:LocalToWorld(self.InsidePos[i])
+		self.InsideTabs[i].angle = self:LocalToWorldAngles(self.InsideAngs[i])
+		render.Model( self.InsideTabs[i] ) 
+	end
+	
+	
+
+	
+	for i=1,math.Clamp(math.floor(ARCSlots.VaultFunds/ARCSlots.Settings["vault_steal_rate"]),0,396) do
 		self.MoneyTabs[i].pos = self:LocalToWorld(self.MoneyPos[i])
 		self.MoneyTabs[i].angle = self:GetAngles()
 		render.Model( self.MoneyTabs[i] ) 
 	end
+	
+	
 end
 	
 
 function ENT:DrawOverlay()
-	--render.Model( {model="models/props/cs_assault/money.mdl",ang=self:GetAngles(),pos=self.MoneyPos} ) 
+
 end
 
 function ENT:DrawBaseModel()
@@ -207,6 +277,6 @@ function ENT:Draw()
 
 		render.SetStencilEnable( false );
 
-		self:DrawOverlay();
+		--self:DrawOverlay();
 	end
 end

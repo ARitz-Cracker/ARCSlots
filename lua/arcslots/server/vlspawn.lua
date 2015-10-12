@@ -18,12 +18,7 @@ function ARCSlots.SpawnVault()
 	if IsValid(phys) then
 		phys:EnableMotion( false )
 	end
-	phys = ent.Screens[1]:GetPhysicsObject()
-	ent.Screens[1].ARCSlots_MapEntity = true
-	if IsValid(phys) then
-		phys:EnableCollisions( false )
-	end
-	for i=2,3 do
+	for i=1,3 do
 		ent.Screens[i].ARCSlots_MapEntity = true
 		phys = ent.Screens[i]:GetPhysicsObject()
 		if IsValid(phys) then
@@ -32,6 +27,21 @@ function ARCSlots.SpawnVault()
 	end
 	ent.ARCSlots_MapEntity = true
 	ent.ConsoleEnt.ARCSlots_MapEntity = true
+	
+	if !data.alarms then return end
+	for i=1,#data.alarms do
+		local ent = ents.Create("sent_arc_casinoalarm")
+		ent:SetPos(data.alarms[i].pos)
+		ent:SetAngles(data.alarms[i].ang)
+		ent:Spawn()
+		ent:Activate()
+		local phys = ent:GetPhysicsObject()
+		if IsValid(phys) then
+			phys:EnableMotion( false )
+		end
+		ent.ARCSlots_MapEntity = true
+	end
+	
 	return true
 end
 
@@ -43,6 +53,7 @@ function ARCLib.SaveVault()
 	local tab = {}
 	tab.pos = ent:GetPos()
 	tab.ang = ent:GetAngles()
+	tab.alarms = {}
 	local phys = ent:GetPhysicsObject()
 	if IsValid(phys) then
 		phys:EnableMotion( false )
@@ -51,14 +62,20 @@ function ARCLib.SaveVault()
 	if IsValid(phys) then
 		phys:EnableMotion( false )
 	end
-	phys = ent.Screens[1]:GetPhysicsObject()
-	ent.Screens[1].ARCSlots_MapEntity = true
-	if IsValid(phys) then
-		phys:EnableCollisions( false )
-	end
-	for i=2,3 do
+	for i=1,3 do
 		ent.Screens[i].ARCSlots_MapEntity = true
 		phys = ent.Screens[i]:GetPhysicsObject()
+		if IsValid(phys) then
+			phys:EnableMotion( false )
+		end
+	end
+	
+	local alarms = ents.FindByClass("sent_arc_casinoalarm")
+	for i=1,#alarms do
+		tab.alarms[i] = {}
+		tab.alarms[i].pos = alarms[i]:GetPos()
+		tab.alarms[i].ang = alarms[i]:GetAngles()
+		local phys = alarms[i]:GetPhysicsObject()
 		if IsValid(phys) then
 			phys:EnableMotion( false )
 		end
@@ -72,6 +89,12 @@ function ARCLib.UnSaveValt()
 	if !IsValid(ent) || !IsValid(ent.ConsoleEnt) then return false end 
 	ent.ARCSlots_MapEntity = false
 	ent.ConsoleEnt.ARCSlots_MapEntity = false
+	
+	local alarms = ents.FindByClass("sent_arc_casinoalarm")
+	for i=1,#alarms do
+		alarms.ARCSlots_MapEntity = false
+	end
+	
 	file.Delete(ARCSlots.Dir.."/saved_vault/"..string.lower(game.GetMap())..".txt", "DATA" )
 	return true
 end
@@ -80,6 +103,11 @@ function ARCSlots.ClearVaults() -- Make sure this doesn't crash (dump %%CONFIRMA
 	for _, oldatms in pairs( ents.FindByClass("sent_arc_casinovault") ) do
 		oldatms.ARCSlots_MapEntity = false
 		oldatms:Remove()
+	end
+	local alarms = ents.FindByClass("sent_arc_casinoalarm")
+	for i=1,#alarms do
+		alarms.ARCSlots_MapEntity = false
+		alarms:Remove()
 	end
 	ARCSlots.Msg("All Slot Machines Removed.")
 end

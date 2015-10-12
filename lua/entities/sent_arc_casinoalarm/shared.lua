@@ -6,12 +6,14 @@ DEFINE_BASECLASS( "base_anim" )
 ENT.Base = "base_anim"
 ENT.Type = "anim"
 
-ENT.PrintName		= "ARC Slot Machine"
+ENT.PrintName		= "Vault Alarm"
 ENT.Author			= "ARitz Cracker"
 ENT.Category 		= "ARCSlots"
 ENT.Contact    		= "aritz-rocks@hotmail.com"
 ENT.Purpose 		= "Feelin' lucky today?"
 ENT.Instructions 	= "Use it."
 
-ENT.Spawnable = true;
+ENT.Spawnable = true
 ENT.AdminOnly = false
+
+ENT.RenderGroup = RENDERGROUP_BOTH

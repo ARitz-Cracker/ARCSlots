@@ -47,6 +47,8 @@ function ARCSlots.SettingsReset() --DO NOT EDIT THIS!!!!
 	ARCSlots.Settings["name_long"] = "ARitz Cracker Gambling" --DO NOT EDIT THIS!!!!
 	ARCSlots.Settings["superadmin_only"] = false
 	ARCSlots.Settings["owner_only"] = false
+	ARCSlots.Settings["slots_idle_text"] = "COME TRY YOUR LUCK"
+	ARCSlots.Settings["vault_steal_rate"] = 50
 end
 --
 ARCSlots.SettingsReset()
