@@ -25,7 +25,7 @@ ARCLib.AddDir("materials/arc/slotmachine")
 
 util.AddNetworkString( "ARCSlots_Update" )
 function ENT:Initialize()
-	self:SetModel( "models/thedoctor/crackslot.mdl" )
+	self:SetModel( "models/arc/slotmachine.mdl" )
 	self:PhysicsInit( SOLID_VPHYSICS )
 	self:SetMoveType( MOVETYPE_VPHYSICS )
 	self:SetSolid( SOLID_VPHYSICS )

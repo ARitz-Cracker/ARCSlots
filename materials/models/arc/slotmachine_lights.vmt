@@ -1,0 +1,22 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" 		"models/arc/slotmachine_lights"
+	
+	"$envmap" 		"env_cubemap"
+	"$envmaptint" 		"[ .005 .005 .005 ]"
+
+	//"$halflambert" 1
+
+	"$phong" "1" 
+	"$phongboost" "1" 
+	"$phongfresnelranges" "[0 0.5 1]"
+	"$phongexponent" "5"
+	
+	// Yack, but it's the only way I can find to enable phong.
+	"$bumpmap" "null-bumpmap"
+
+	$rimlight               1
+	$rimlightexponent       2
+	$rimlightboost          .2	
+	"$model" 1
+}
