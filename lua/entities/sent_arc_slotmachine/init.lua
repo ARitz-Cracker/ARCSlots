@@ -244,11 +244,11 @@ function ENT:DingDing(payout,winicon,amount,ply)
 	else
 		self:GiveOutPrize(ply,amount*payout)
 		--self.FreeSpins = self.FreeSpins + payout
-		if winicon >= 8 then
+		if winicon == 8 then
 			self:EmitSound("music/hl1_song25_remix3.mp3",115,100)
 			self.ScreenMsg = ARCLib.PlaceholderReplace(ARCSlots.Msgs.SlotMsgs.Jackpot,{AMOUNT=ARCSlots.Settings["money_symbol"]..tostring(amount*payout)})--.."("..self.FreeSpins..")"
 			idletime = 60
-		elseif winicon >= 6 then
+		elseif winicon >= 6 && winicon < 8 then
 			self:EmitSound("arcslots/jackpot.wav")
 			self.ScreenMsg = ARCLib.PlaceholderReplace(ARCSlots.Msgs.SlotMsgs.MegaWin,{AMOUNT=ARCSlots.Settings["money_symbol"]..tostring(amount*payout)})
 			idletime = 6

@@ -1,15 +1,3 @@
-
-hook.Add( "ARCLoad_OnUpdate", "ARCSlots Remuv",function(loaded)
-	if loaded != "ARCSlots" then return end
-	if SERVER then
-		for k,v in pairs(player.GetAll()) do 
-			ARCSlots.MsgCL(v,"Updating...") 
-		end
-		ARCSlots.SaveDisk()
-		ARCSlots.ClearAntennas()
-	end
-end)
-
 hook.Add( "PhysgunPickup", "ARCSlots NoPhys", function( ply, ent ) 
 	if ent.ARCSlots_MapEntity then return false end 
 end)

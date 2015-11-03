@@ -142,13 +142,13 @@ function ARCSlots.Load()
 			ARCSlots.Msg("LOADING FALIURE!")
 			return
 		end
-		if !file.IsDir( ARCBank.Dir.."/saved_atms","DATA" ) then
-			ARCBank.Msg("Created Folder: "..ARCBank.Dir.."/saved_atms")
-			file.CreateDir(ARCBank.Dir.."/saved_atms")
+		if !file.IsDir( ARCSlots.Dir.."/saved_atms","DATA" ) then
+			ARCSlots.Msg("Created Folder: "..ARCSlots.Dir.."/saved_atms")
+			file.CreateDir(ARCSlots.Dir.."/saved_atms")
 		end
-		if !file.IsDir( ARCBank.Dir.."/saved_vault","DATA" ) then
-			ARCBank.Msg("Created Folder: "..ARCBank.Dir.."/saved_atms")
-			file.CreateDir(ARCBank.Dir.."/saved_atms")
+		if !file.IsDir( ARCSlots.Dir.."/saved_vault","DATA" ) then
+			ARCSlots.Msg("Created Folder: "..ARCSlots.Dir.."/saved_atms")
+			file.CreateDir(ARCSlots.Dir.."/saved_atms")
 		end
 		if file.Exists(ARCSlots.Dir.."/__data.txt","DATA") then
 			ARCSlots.Disk = util.JSONToTable(file.Read( ARCSlots.Dir.."/__data.txt","DATA" ))
