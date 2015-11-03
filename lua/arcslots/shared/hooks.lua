@@ -46,7 +46,11 @@ if SERVER then
 	end)
 	
 else
-
+hook.Add( "OnPhysgunFreeze", "ARCSlots PhysFreeze", function( weapon, phys, ent, ply )
+	if halo.RenderedEntity == nil && IsValid(ent) && ent:GetClass() == "sent_arc_slotmachine" then
+		notification.AddLegacy( "I know about this bug. Don't report it. It's a bug with GMod and it can only be fixed once GMod updates.", NOTIFY_GENERIC, 2 )
+	end
+end )
 hook.Add( "PhysgunPickup", "ARCSlots SlotmachineHolofix", function( ply, ent ) 
 	if halo.RenderedEntity == nil && IsValid(ent) && ent:GetClass() == "sent_arc_slotmachine" then
 		ent.DoStencil = false
