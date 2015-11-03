@@ -120,6 +120,11 @@ ARCSlots.Msgs.SlotMsgs.LooseMock = "HA HA HA NOT TODAY"
 ARCSlots.Msgs.SlotMsgs.Loose = "BETTER LUCK NEXT TIME"
 ARCSlots.Msgs.SlotMsgs.FreeSpins = "%AMOUNT% FREE SPINS!"
 
+ARCSlots.Msgs.SlotMsgs.Bet = "bet"
+ARCSlots.Msgs.SlotMsgs.BadLuck = "Being broke is bad Luck! If you get that bad card, you loose!"
+ARCSlots.Msgs.SlotMsgs.Wild = "The WILD card can substitute for any other symbol!"
+ARCSlots.Msgs.SlotMsgs.MaxPrize = "MAX PRIZE: %AMOUNT%"
+
 ARCSlots.Msgs.Commands["slots_save"] = "Save all Slot machines"
 ARCSlots.Msgs.Commands["slots_unsave"] = "Unsave all Slot machines"
 ARCSlots.Msgs.Commands["slots_respawn"] = "Respawn Slot machines"

@@ -19,7 +19,7 @@ if ARCSlots then
 	net.Receive( "ARCSlots_Admin_GUI", function(length)
 		local thing = net.ReadString()
 		local tab = net.ReadTable()
-		MsgN(thing)
+		--MsgN(thing)
 		if thing == "settings" then
 			error("Tell aritz that this shouldn't happen, be sure to attach the FULL error reporst")
 		elseif thing == "adv_Slot" then

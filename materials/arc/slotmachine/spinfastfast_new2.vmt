@@ -10,7 +10,7 @@
 	{
             	"LinearRamp"
             	{
-                	"rate" -0.7
+                	"rate" -1.1
                 	"initialValue" 0.0
                 	"resultVar" "$center[1]"
             	}

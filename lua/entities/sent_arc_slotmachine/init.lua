@@ -37,6 +37,9 @@ function ENT:Initialize()
 	self.Icon1 = math.random(0,8)
 	self.Icon2 = math.random(0,8)
 	self.Icon3 = math.random(0,8)
+	--self.Icon1 = -1
+	--self.Icon2 = -1
+	--self.Icon3 = -1
 	self.UseDelay = CurTime()
 	self.Status = 0
 	self.WinningThing = 1
@@ -52,11 +55,11 @@ function ENT:UpdateIcons()
 	net.Start("ARCSlots_Update")
 	net.WriteEntity(self.Entity)
 	net.WriteBit(self.Idle)
-	net.WriteInt(self.Icon1-5,4)
-	net.WriteInt(self.Icon2-5,4)
-	net.WriteInt(self.Icon3-5,4)
+	net.WriteInt(self.Icon1-4,4)
+	net.WriteInt(self.Icon2-4,4)
+	net.WriteInt(self.Icon3-4,4)
 	net.WriteInt(self.Status,2)
-	net.WriteInt(self.WinningThing-5,4)
+	net.WriteInt(self.WinningThing-4,4)
 	net.WriteString(self.ScreenMsg)
 	net.Broadcast()
 end
@@ -103,7 +106,7 @@ function ENT:Use( ply, caller )
 	return end
 	if self.UseDelay > CurTime() then return end
 	if ply:IsPlayer() then
-		ply:SendLua("ents.GetByIndex("..self:EntIndex().."):ReqSpin(false)")
+		--ply:SendLua("ents.GetByIndex("..self:EntIndex().."):ReqSpin(false)")
 	end
 end
 function ENT:ATM_USE(activator)
@@ -124,7 +127,7 @@ function ENT:Spin(ply,amount)
 	return end
 	if self.UseDelay > CurTime() then 
 	return end
-	self.ScreenMsg = string.gsub(ply:Nick(), "[^_%w]", "_").." * BET "..amount
+	self.ScreenMsg = string.gsub(ply:Nick(), "[^_%w]", "_").." "..ARCSlots.Settings["money_symbol"]..amount
 	self.SpinSound = CreateSound( self, "arcslots/spin_loop1.wav" ) 
 	if self.FreeSpins <= 0 then
 		if self.UseARCBank then
@@ -152,9 +155,9 @@ function ENT:Spin(ply,amount)
 		end
 		self:EmitSound("arcslots/start.wav")
 		self.SpinSound:PlayEx(70,100)
-		self.Icon1 = -3
-		self.Icon2 = -3
-		self.Icon3 = -3
+		self.Icon1 = math.random(-4,-3)
+		self.Icon2 = math.random(-4,-3)
+		self.Icon3 = math.random(-4,-3)
 		self.Idle = false
 		self:UpdateIcons()
 		local icon1,icon2,icon3,payout,winicon = ARCSlots.SlotPrizePayout()
@@ -175,7 +178,7 @@ function ENT:Spin(ply,amount)
 				timer.Simple(time,function()
 					if !IsValid(self) then return end
 					if ((self.Icon1 == self.Icon2) || (self.Icon1 == 8 || self.Icon2 == 8)) && self.Icon1 > 5 && self.Icon2 > 5 then
-						timer.Simple(math.Rand(1,5),function()
+						timer.Simple(math.Rand(1,3),function()
 						--timer.Simple(1,function()
 							if !IsValid(self) then return end
 							
@@ -193,9 +196,13 @@ function ENT:Spin(ply,amount)
 									if !IsValid(self) then return end
 									self.Icon3 = icon3
 									self:UpdateIcons()
-									self:EmitSound("arcslots/stop3.wav")
-									self.SpinSound:Stop()
-									timer.Simple(0.5,function() self:DingDing(payout,winicon,amount,ply) end)
+									--self:EmitSound("arcslots/stop3.wav")
+									
+									timer.Simple(math.Rand(0,2.5),function()
+										if !IsValid(self) then return end
+										self.SpinSound:Stop()
+									end)
+									timer.Simple(math.Rand(3,4),function() if !IsValid(self) then return end self:DingDing(payout,winicon,amount,ply) end)
 								end)
 							end)
 						end)
@@ -239,15 +246,15 @@ function ENT:DingDing(payout,winicon,amount,ply)
 		--self.FreeSpins = self.FreeSpins + payout
 		if winicon >= 8 then
 			self:EmitSound("music/hl1_song25_remix3.mp3",115,100)
-			self.ScreenMsg = ARCLib.PlaceholderReplace(ARCSlots.Msgs.SlotMsgs.Jackpot,{AMOUNT=tostring(-1*payout)})--.."("..self.FreeSpins..")"
+			self.ScreenMsg = ARCLib.PlaceholderReplace(ARCSlots.Msgs.SlotMsgs.Jackpot,{AMOUNT=ARCSlots.Settings["money_symbol"]..tostring(amount*payout)})--.."("..self.FreeSpins..")"
 			idletime = 60
 		elseif winicon >= 6 then
 			self:EmitSound("arcslots/jackpot.wav")
-			self.ScreenMsg = ARCLib.PlaceholderReplace(ARCSlots.Msgs.SlotMsgs.MegaWin,{AMOUNT=tostring(-1*payout)})
+			self.ScreenMsg = ARCLib.PlaceholderReplace(ARCSlots.Msgs.SlotMsgs.MegaWin,{AMOUNT=ARCSlots.Settings["money_symbol"]..tostring(amount*payout)})
 			idletime = 6
 		else
 			self:EmitSound("arcslots/winner.wav")
-			self.ScreenMsg = ARCLib.PlaceholderReplace(ARCSlots.Msgs.SlotMsgs.Win,{AMOUNT=tostring(-1*payout)})
+			self.ScreenMsg = ARCLib.PlaceholderReplace(ARCSlots.Msgs.SlotMsgs.Win,{AMOUNT=ARCSlots.Settings["money_symbol"]..tostring(amount*payout)})
 		end
 		self.Status = 1
 	end

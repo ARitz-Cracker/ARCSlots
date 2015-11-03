@@ -90,17 +90,17 @@ function ENT:Draw()
 		surface.DrawRect(0,0,self.ResX,self.ResY)
 		if self.ScrType == 1 then
 			for i=1,20 do
-				draw.SimpleText( "$", "Trebuchet24",self.ResX/2 + i*13 - (21*13/2), self.ResY/2 + math.sin(CurTime()+i/2)--[[*math.sin(CurTime()/4)]]*85, Color(0,64,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
-				draw.SimpleText( "$", "Trebuchet24",self.ResX/2 + i*13 - (21*13/2), self.ResY/2 + math.sin(CurTime()/3.5+i)--[[*math.sin(CurTime()/4)]]*85, Color(0,64,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
-				draw.SimpleText( "$", "Trebuchet24",self.ResX/2 + i*13 - (21*13/2), self.ResY/2 + math.sin(CurTime()+i)--[[*math.sin(CurTime()/4)]]*85, Color(0,64,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
+				draw.SimpleText( ARCSlots.Settings["money_symbol"], "Trebuchet24",self.ResX/2 + i*13 - (21*13/2), self.ResY/2 + math.sin(CurTime()+i/2)--[[*math.sin(CurTime()/4)]]*85, Color(0,64,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
+				draw.SimpleText( ARCSlots.Settings["money_symbol"], "Trebuchet24",self.ResX/2 + i*13 - (21*13/2), self.ResY/2 + math.sin(CurTime()/3.5+i)--[[*math.sin(CurTime()/4)]]*85, Color(0,64,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
+				draw.SimpleText( ARCSlots.Settings["money_symbol"], "Trebuchet24",self.ResX/2 + i*13 - (21*13/2), self.ResY/2 + math.sin(CurTime()+i)--[[*math.sin(CurTime()/4)]]*85, Color(0,64,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
 			end
 			draw.SimpleText( "TOTAL FUNDS:", "Trebuchet24",self.ResX/2, self.ResY/2 - 12 - 36, Color(0,255,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
-			draw.SimpleText( "$"..ARCSlots.CasinoFunds, "Trebuchet24",self.ResX/2, self.ResY/2 + 12 - 36, Color(0,255,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
+			draw.SimpleText( ARCSlots.Settings["money_symbol"]..ARCSlots.CasinoFunds, "Trebuchet24",self.ResX/2, self.ResY/2 + 12 - 36, Color(0,255,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
 			draw.SimpleText( "VAULT FUNDS:", "Trebuchet24",self.ResX/2, self.ResY/2 - 12 + 36, Color(0,255,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
-			draw.SimpleText( "$"..ARCSlots.VaultFunds, "Trebuchet24",self.ResX/2, self.ResY/2 + 12 + 36, Color(0,255,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
+			draw.SimpleText( ARCSlots.Settings["money_symbol"]..ARCSlots.VaultFunds, "Trebuchet24",self.ResX/2, self.ResY/2 + 12 + 36, Color(0,255,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
 		elseif self.ScrType == 2 then			
 			for i=1,20 do
-				draw.SimpleText( "$", "Trebuchet24",self.ResX/2 + i*13 - (21*13/2), self.ResY/2 + math.sin(CurTime()+i/4)--[[*math.sin(CurTime()/4)]]*75, Color(0,255,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
+				draw.SimpleText( ARCSlots.Settings["money_symbol"], "Trebuchet24",self.ResX/2 + i*13 - (21*13/2), self.ResY/2 + math.sin(CurTime()+i/4)--[[*math.sin(CurTime()/4)]]*75, Color(0,255,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
 			end
 		elseif self.ScrType == 3 then
 			for i=1,#self.TallScroolText do
@@ -118,9 +118,9 @@ function ENT:Draw()
 				draw.SimpleText( "** WARNING **", "Trebuchet24",self.ResX/2 + math.sin(CurTime()+1)*40, self.ResY/2 + math.sin(CurTime()+1)--[[*math.sin(CurTime()/4)]]*85, Color(64,0,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
 
 			draw.SimpleText( "TOTAL FUNDS:", "Trebuchet24",self.ResX/2, self.ResY/2 - 12 - 36, Color(255,0,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
-			draw.SimpleText( "$"..ARCSlots.CasinoFunds, "Trebuchet24",self.ResX/2, self.ResY/2 + 12 - 36, Color(255,0,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
+			draw.SimpleText( ARCSlots.Settings["money_symbol"]..ARCSlots.CasinoFunds, "Trebuchet24",self.ResX/2, self.ResY/2 + 12 - 36, Color(255,0,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
 			draw.SimpleText( "VAULT FUNDS:", "Trebuchet24",self.ResX/2, self.ResY/2 - 12 + 36, Color(255,0,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
-			draw.SimpleText( "$"..ARCSlots.VaultFunds, "Trebuchet24",self.ResX/2, self.ResY/2 + 12 + 36, Color(255,0,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
+			draw.SimpleText( ARCSlots.Settings["money_symbol"]..ARCSlots.VaultFunds, "Trebuchet24",self.ResX/2, self.ResY/2 + 12 + 36, Color(255,0,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
 		elseif self.ScrType == 5 then
 			surface.SetDrawColor(255,0,0,255)
 			if math.sin(CurTime()*math.pi) > 0 then

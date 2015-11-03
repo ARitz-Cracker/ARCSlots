@@ -55,7 +55,13 @@ for i=0,9 do
 	MsgN("1 in "..(1/prob))
 end
 ]]
+
+local OVERRIDE = false
+
 function ARCSlots.SlotPrizeselector()
+	if OVERRIDE then
+		return 7
+	end
 	local total = 0
 	for i=0,9 do
 		total = total + ARCSlots.SpecialSettings.Slot.Chances[i]

@@ -26,7 +26,7 @@ function ENT:ATM_USE(ply)
 	ARCLib.NotifyPlayer(ply,"This machine isn't accepting your card",NOTIFY_GENERIC,5,true)
 end
 function ENT:OnRemove()
-	MsgN(self.Vault)
+	--MsgN(self.Vault)
 	if IsValid(self.Vault) then
 		self.Vault:Remove()
 	end

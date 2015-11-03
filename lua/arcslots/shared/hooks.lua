@@ -25,7 +25,7 @@ hook.Add( "CanPlayerUnfreeze", "ARCSlots BlockUnfreeze", function( ply, ent, phy
 end )
 if SERVER then
 	hook.Add( "ShutDown", "ARCSlots Shutdown", function()
-		for _, oldatms in pairs( ents.FindByClass("sent_arc_phone_antenna") ) do
+		for _, oldatms in pairs( ents.FindByClass("sent_arc_slotmachine") ) do
 			oldatms.ARCSlots_MapEntity = false
 			--oldatms:Remove()
 		end
@@ -35,6 +35,11 @@ if SERVER then
 		if IsValid(ply) && ply:IsPlayer() then
 			ARCLib.SendAddonLanguage("ARCSlots",ply)
 			ARCLib.SendAddonSettings("ARCSlots",ply) 
+			net.Start("arcslots_prizes")
+			for i=1,9 do
+				net.WriteUInt(ARCSlots.SpecialSettings.Slot.Prizes[i],32)
+			end
+			net.Send(ply)
 		end
 	end)
 	
@@ -51,4 +56,17 @@ if SERVER then
 		ARCSlots.ClearVaults()
 		ARCSlots.ClearSlotMachines()
 	end)
+	
+else
+
+hook.Add( "PhysgunPickup", "ARCSlots SlotmachineHolofix", function( ply, ent ) 
+	if halo.RenderedEntity == nil && IsValid(ent) && ent:GetClass() == "sent_arc_slotmachine" then
+		ent.DoStencil = false
+	end
+end)
+hook.Add( "PhysgunDrop", "ARCSlots SlotmachineHolofix", function( ply, ent ) 
+	if halo.RenderedEntity == nil && IsValid(ent) && ent:GetClass() == "sent_arc_slotmachine" then
+		ent.DoStencil = true
+	end
+end)
 end
