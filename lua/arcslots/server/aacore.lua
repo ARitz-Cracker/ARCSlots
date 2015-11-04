@@ -147,8 +147,8 @@ function ARCSlots.Load()
 			file.CreateDir(ARCSlots.Dir.."/saved_atms")
 		end
 		if !file.IsDir( ARCSlots.Dir.."/saved_vault","DATA" ) then
-			ARCSlots.Msg("Created Folder: "..ARCSlots.Dir.."/saved_atms")
-			file.CreateDir(ARCSlots.Dir.."/saved_atms")
+			ARCSlots.Msg("Created Folder: "..ARCSlots.Dir.."/saved_vault")
+			file.CreateDir(ARCSlots.Dir.."/saved_vault")
 		end
 		if file.Exists(ARCSlots.Dir.."/__data.txt","DATA") then
 			ARCSlots.Disk = util.JSONToTable(file.Read( ARCSlots.Dir.."/__data.txt","DATA" ))
