@@ -2,7 +2,7 @@
 
 function ARCSlots.SpawnVault()
 	ARCSlots.ClearVaults()
-	local data = util.TableToJSON(file.Read(ARCSlots.Dir.."/saved_vault/"..string.lower(game.GetMap())..".txt", "DATA" ))
+	local data = util.JSONToTable(file.Read(ARCSlots.Dir.."/saved_vault/"..string.lower(game.GetMap())..".txt", "DATA" ))
 	if !data then return false end
 	local ent = ents.Create ("sent_arc_casinovault")
 	ent:SetPos(data.pos)
