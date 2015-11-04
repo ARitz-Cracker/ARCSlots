@@ -106,8 +106,8 @@ function ARCSlots.ClearVaults() -- Make sure this doesn't crash (dump %%CONFIRMA
 	end
 	local alarms = ents.FindByClass("sent_arc_casinoalarm")
 	for i=1,#alarms do
-		alarms.ARCSlots_MapEntity = false
-		alarms:Remove()
+		alarms[i].ARCSlots_MapEntity = false
+		alarms[i]:Remove()
 	end
 	ARCSlots.Msg("All Slot Machines Removed.")
 end
