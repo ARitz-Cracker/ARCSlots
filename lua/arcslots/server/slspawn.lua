@@ -29,9 +29,6 @@ function ARCSlots.SpawnSlotMachines()
 				shizniggle:SetPos(atmdata.pos[i]+Vector(0,0,ARCLib.BoolToNumber(!atmdata.NewATMModel)*8.6))
 				shizniggle:SetAngles(atmdata.angles[i])
 				shizniggle:SetPos(shizniggle:GetPos()+(shizniggle:GetRight()*ARCLib.BoolToNumber(!atmdata.NewATMModel)*-4.1)+(shizniggle:GetForward()*ARCLib.BoolToNumber(!atmdata.NewATMModel)*19))
-				if atmdata.atmtype then
-					shizniggle.ARCSlots_InitSpawnType = atmdata.atmtype[i]
-				end
 				shizniggle:Spawn()
 				shizniggle:Activate()
 			else
@@ -71,9 +68,7 @@ function ARCSlots.SaveSlotMachines()
 		atms[i].ARitzDDProtected = true
 		atmdata.pos[i] = atms[i]:GetPos()
 		atmdata.angles[i] = atms[i]:GetAngles()
-		atmdata.atmtype[i] = atms[i]:GetATMType()
 	end
-	PrintTable(atmdata)
 	local savepos = ARCSlots.Dir.."/saved_atms/"..string.lower(game.GetMap())..".txt"
 	file.Write(savepos,util.TableToJSON(atmdata))
 	if file.Exists(savepos,"DATA") then

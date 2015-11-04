@@ -60,6 +60,8 @@ function ENT:Initialize()
 	
 	self.WheelPos = table.FullCopy(self.WheelPos)
 	self.prizecolours = table.FullCopy(self.prizecolours)
+	
+	self.SpinnerPos = {model="models/arc/slotmachine_pull_bar.mdl",pos=vector_origin,angle=angle_zero}
 		--Special thanks to swep construction kit
 		self.LastWildChange = SysTime()
 	local selectsprite = { sprite = "effects/yellowflare", nocull = true, additive = true, vertexalpha = true, vertexcolor = true, ignorez = false}
@@ -99,6 +101,10 @@ net.Receive( "ARCSlots_Update", function(length)
 	if !machine.Winnings then return end
 	
 	machine.Idle = idle
+	
+	if newnums[1] < -2 then
+		machine.SpinAnimStartTime = SysTime()
+	end
 	
 	for i=1,3 do
 		if machine.Winnings[i] != newnums[i] then
@@ -221,6 +227,8 @@ ENT.LastFakeIconTime = 0
 ENT.FakeIconSpeed = 10
 color_black = Color(0,0,0,255)
 ENT.ExtraCodeForDetail = false
+
+ENT.SpinAnimStartTime = 0
 function ENT:Think()
 	if self.Winnings[3] == -1 || self.ExtraCodeForDetail then
 	
@@ -301,7 +309,7 @@ function ENT:Think()
 				end
 			else
 				for i=1,3 do
-					if self.Winnings[i] == 8 || self.WinningThing == 10 || self.Winnings[i] == self.WinningThing then
+					if self.Winnings[i] == 8 || self.WinningThing == 9 || self.Winnings[i] == self.WinningThing then
 						if self.WheelPos[i].bdcol.g == 0 then
 							self.WheelPos[i].bdcol.g = 255
 							
@@ -703,6 +711,14 @@ end
 
 function ENT:Draw()
 	self:DrawModel()
+	if ARCSlots.Settings["slots_handle"] then
+		local x = SysTime() - self.SpinAnimStartTime
+		local add = 1 / ((2*(x-0.5))^2+0.05)
+
+		self.SpinnerPos.pos = self:LocalToWorld(Vector(-21,-8,30))
+		self.SpinnerPos.angle = self:LocalToWorldAngles(Angle(0,0,-add*3))
+		render.Model( self.SpinnerPos ) 
+	end
 	if LocalPlayer():GetPos():DistToSqr(self:GetPos()) > 1000000 then return end
 	self:DrawShadow( true )
 	cam.Start3D2D(self:LocalToWorld(Vector(18.6,8.75,69.2)), self:LocalToWorldAngles(Angle(180,-0.4,-107.6)), 0.1246)
