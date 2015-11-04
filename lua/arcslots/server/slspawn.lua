@@ -14,13 +14,13 @@ function ARCSlots.SpawnSlotMachines()
 		ARCSlots.Msg("Cannot spawn Slot Machines. Corrupt file associated with this map.")
 		return false
 	end
-	for _, oldatms in pairs( ents.FindByClass("sent_arc_antenna") ) do
+	for _, oldatms in pairs( ents.FindByClass("sent_arc_slotmachine") ) do
 		oldatms.ARCSlots_MapEntity = false
 		oldatms:Remove()
 	end
 	ARCSlots.Msg("Spawning Map Slot Machines...")
 	for i=1,atmdata.atmcount do
-			local shizniggle = ents.Create("sent_arc_antenna")
+			local shizniggle = ents.Create("sent_arc_slotmachine")
 			if !IsValid(shizniggle) then
 				atmdata.atmcount = 1
 				ARCSlots.Msg("Slot Machines failed to spawn.")
