@@ -558,6 +558,7 @@ ENT.LastCardChange = SysTime()
 ENT.WildChangeColor = 1
 local colorvars = {"r","g","b","r"}
 function ENT:DrawPrizeScreen()
+	if !ARCSlots.Settings["money_symbol"] then return end
 	surface.SetDrawColor(0,0,0,255)
 	surface.DrawRect(0,0,336,258)
 	draw.SimpleText( ARCSlots.Msgs.SlotMsgs.BadLuck , "DermaDefault", 336/2,10, Color(128,128,128,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
