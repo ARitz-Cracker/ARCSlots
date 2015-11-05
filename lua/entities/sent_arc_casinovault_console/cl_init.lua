@@ -24,13 +24,14 @@ surface.CreateFont( "ARCBankATMConsole", {
 
 net.Receive("arcslots_fakeconsolehack",function(len)
 	local ent = net.ReadEntity()
-	if ent.Fakehack <= CurTime() then
-		ent.Fakehackcount = 1
-	else
-		ent.Fakehackcount = ent.Fakehackcount + 1
+	if IsValid(ent) then
+		if ent.Fakehack <= CurTime() then
+			ent.Fakehackcount = 1
+		else
+			ent.Fakehackcount = ent.Fakehackcount + 1
+		end
+		ent.Fakehack = CurTime() + 10
 	end
-	ent.Fakehack = CurTime() + 10
-
 end)
 
 function ENT:Initialize()
