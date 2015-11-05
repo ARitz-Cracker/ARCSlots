@@ -45,7 +45,7 @@ if ARCSlots then
 		if !ply:IsAdmin() && !ply:IsSuperAdmin() then
 			ARCSlots.MsgCL(ply,ARCSlots.Msgs.CommandOutput.admin)
 		return end
-		if ARCBank.Settings["superadmin_only"] && !ply:IsSuperAdmin() then
+		if ARCSlots.Settings["superadmin_only"] && !ply:IsSuperAdmin() then
 			ARCSlots.MsgCL(ply,ARCSlots.Msgs.CommandOutput.superadmin)
 		return end
 		if ARCSlots.Settings["owner_only"] && string.lower(ply:GetUserGroup()) != "owner" then

@@ -112,11 +112,13 @@ end
 function ENT:ATM_USE(activator)
 	if IsValid(activator) && activator:IsPlayer() then
 		if IsValid(activator.SlotMachine) && activator.SlotMachine.UseDelay > CurTime() then
-		return end
+			return false 
+		end
 		if self.UseDelay > CurTime() then 
-			ARCLib.NotifyPlayer(activator,ARCBank.Msgs.CardMsgs.NoCard,NOTIFY_GENERIC,5,true)
+			return false
 		else
 			activator:SendLua("ents.GetByIndex("..self:EntIndex().."):ReqSpin(true)")
+			return true
 		end
 	end
 end

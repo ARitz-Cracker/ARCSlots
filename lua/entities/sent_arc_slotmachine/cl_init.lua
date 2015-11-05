@@ -522,6 +522,7 @@ function ENT:DrawMainScreen()
 end
 
 function ENT:ScrollStuffs(str)
+	if !isstring(str) || #str == 0 then return end
 	if self.ScrollTime <= SysTime() then
 		self.ScrollPos = self.ScrollPos + 1 
 		if self.ScrollPos > utf8.len(str) then
