@@ -583,6 +583,10 @@ function ENT:DrawPrizeScreen()
 	end
 	
 	draw.SimpleText( ARCSlots.Msgs.SlotMsgs.Wild , "DermaDefault", 336/2,240, self.prizecolours[9], TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
+	
+	if SysTime() - self.LastWildChange > 10 then
+		self.LastWildChange = SysTime()
+	end
 	if self.LastWildChange <= SysTime() then
 		if self.prizecolours[9][colorvars[self.WildChangeColor]] == 180 then
 			if self.prizecolours[9][colorvars[self.WildChangeColor+1]] == 180 then
@@ -597,6 +601,9 @@ function ENT:DrawPrizeScreen()
 		end
 
 		self.LastWildChange = self.LastWildChange + 0.2
+	end
+	if SysTime() - self.LastCardChange > 10 then
+		self.LastCardChange = SysTime()
 	end
 	if self.LastCardChange <= SysTime() then
 		self.prizecolours[2] = table.Random(self.prizecolours[1])
