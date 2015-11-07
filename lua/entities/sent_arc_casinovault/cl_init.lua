@@ -9,6 +9,7 @@ net.Receive("arcslots_casino_vault_anim",function(len)
 	local ent = net.ReadEntity()
 	local open = tobool(net.ReadBit())
 	local time = net.ReadDouble()
+	if !IsValid(ent) then return end
 	local oldtime = ent.AnimEndTime - CurTime()
 	if oldtime < 0 then oldtime = 0 end
 	ent.Open = open
