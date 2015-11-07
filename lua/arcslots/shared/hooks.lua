@@ -28,6 +28,10 @@ if SERVER then
 				net.WriteUInt(ARCSlots.SpecialSettings.Slot.Prizes[i],32)
 			end
 			net.Send(ply)
+			net.Start("arcslots_worth")
+			net.WriteDouble(ARCSlots.Disk.CasinoFunds)
+			net.WriteDouble(ARCSlots.Disk.VaultFunds)
+			net.Send(ply)
 		end
 	end)
 	
