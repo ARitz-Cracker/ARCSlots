@@ -117,7 +117,9 @@ function ARCSlots.PlayerCanAfford(ply,amount)
 		return true
 	end
 end
-
+function ARCSlots.CustomSlotPrize(amount,payout)
+	return true
+end
 
 function ARCSlots.Load()
 	ARCSlots.Loaded = false

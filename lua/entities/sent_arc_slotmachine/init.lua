@@ -244,7 +244,10 @@ function ENT:DingDing(payout,winicon,amount,ply)
 		end
 		self.Status = -1
 	else
-		self:GiveOutPrize(ply,amount*payout)
+		if (ARCSlots.CustomSlotPrize(amount,payout)) then
+			self:GiveOutPrize(ply,amount*payout)
+		end
+		
 		--self.FreeSpins = self.FreeSpins + payout
 		if winicon == 8 then
 			self:EmitSound("music/hl1_song25_remix3.mp3",115,100)
