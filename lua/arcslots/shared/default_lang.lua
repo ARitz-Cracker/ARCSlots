@@ -125,6 +125,8 @@ ARCSlots.Msgs.SlotMsgs.BadLuck = "Being broke is bad Luck! If you get that bad c
 ARCSlots.Msgs.SlotMsgs.Wild = "The WILD card can substitute for any other symbol!"
 ARCSlots.Msgs.SlotMsgs.MaxPrize = "MAX PRIZE: %AMOUNT%"
 
+ARCSlots.Msgs.SlotMsgs.BetMsg = "Select the amount you wish to bet:"
+
 ARCSlots.Msgs.Commands["slots_save"] = "Save all Slot machines"
 ARCSlots.Msgs.Commands["slots_unsave"] = "Unsave all Slot machines"
 ARCSlots.Msgs.Commands["slots_respawn"] = "Respawn Slot machines"

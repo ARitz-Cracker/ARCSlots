@@ -20,6 +20,23 @@ ARCSlots.Msg("© Copyright 2015 Aritz Beobide-Cardinal (ARitz Cracker) All right
 ARCSlots.Update = "%%UPDATE%%"
 ARCSlots.Version = "%%VERSION%%"
 
+ARCSlots.About = [[      
+          *** ARitz Cracker Gambling ***
+    © Copyright Aritz Beobide-Cardinal 2015
+                All rights reserved.
+				
+				
+If you're having any trouble, please visit:
+www.aritzcracker.ca
+	
+Coding, Models, and Custom textures by:
+ *    Aritz Beobide-Cardinal (ARitz Cracker) (STEAM_0:0:18610144)
+	
+Model Concept/Design
+ *    LOT (STEAM_0:1:83890442)
+
+]]
+
 NULLFUNC = function(...) end
 
 ARCPHONE_NO_ERROR = 0

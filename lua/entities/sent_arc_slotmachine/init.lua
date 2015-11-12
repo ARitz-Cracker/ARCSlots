@@ -102,11 +102,13 @@ function ENT:GiveOutPrize(ply,prize)
 end
 
 function ENT:Use( ply, caller )
-	if IsValid(ply.SlotMachine) && ply.SlotMachine.UseDelay > CurTime() then
-	return end
-	if self.UseDelay > CurTime() then return end
-	if ply:IsPlayer() then
-		--ply:SendLua("ents.GetByIndex("..self:EntIndex().."):ReqSpin(false)")
+	if ARCSlots.Settings["legacy_bet_interface"] then
+		if IsValid(ply.SlotMachine) && ply.SlotMachine.UseDelay > CurTime() then
+		return end
+		if self.UseDelay > CurTime() then return end
+		if ply:IsPlayer() then
+			ply:SendLua("ents.GetByIndex("..self:EntIndex().."):ReqSpin(false)")
+		end
 	end
 end
 function ENT:ATM_USE(activator)

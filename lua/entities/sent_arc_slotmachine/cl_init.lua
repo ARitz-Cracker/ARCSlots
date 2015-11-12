@@ -667,6 +667,10 @@ function ENT:DrawSelectionScreen()
 	--surface.SetDrawColor(0,0,0,255)
 	--surface.DrawRect(0,0,100,100)
 	if LocalPlayer():GetPos():DistToSqr(self:GetPos()) > 5000 then return end
+	draw.SimpleText( "||||||||||" , "ARCSlotMachineBack", 105,44, Color(100,0,0,100), TEXT_ALIGN_RIGHT , TEXT_ALIGN_CENTER   )
+	draw.SimpleText( ARCSlots.Settings["money_symbol"]..lastbet , "ARCSlotMachine", 105,44, Color(255,0,0,100), TEXT_ALIGN_RIGHT , TEXT_ALIGN_CENTER   )
+
+	if ARCSlots.Settings["legacy_bet_interface"] then return end
 	--Ply:KeyReleased(IN_USE)||Ply:KeyDownLast(IN_USE)
 	local pos = util.IntersectRayWithPlane( ply:GetShootPos(), ply:GetAimVector(), self:LocalToWorld(selscreen), self:LocalToWorldAngles(selscreenAng):Up() ) 
 	if pos then
@@ -686,9 +690,6 @@ function ENT:DrawSelectionScreen()
 			end
 		end
 	end
-					 
-	draw.SimpleText( "||||||||||" , "ARCSlotMachineBack", 105,44, Color(100,0,0,100), TEXT_ALIGN_RIGHT , TEXT_ALIGN_CENTER   )
-	draw.SimpleText( ARCSlots.Settings["money_symbol"]..lastbet , "ARCSlotMachine", 105,44, Color(255,0,0,100), TEXT_ALIGN_RIGHT , TEXT_ALIGN_CENTER   )
 end
 
 function ENT:PressButton(id)
@@ -755,15 +756,27 @@ function ENT:Draw()
 		--end
 	end
 end
-
+--ARCLib.Derma_NumberRequest( strTitle, strText, numMin, numMax, numDefault, fnEnter)
 function ENT:ReqSpin(UseARCBank)
 	--error("Note to self: Remove this")
-	if lastbet == 0 then
-		lastbet = math.Round((ARCSlots.Settings.slots_min_bet+ARCSlots.Settings.slots_max_bet)/2)
+	if ARCSlots.Settings["legacy_bet_interface"] then
+		ARCLib.Derma_NumberRequest( ARCSlots.Settings["name_long"], ARCSlots.Msgs.SlotMsgs.BetMsg, ARCSlots.Settings.slots_min_bet, ARCSlots.Settings.slots_max_bet, math.Clamp(lastbet,ARCSlots.Settings.slots_min_bet,ARCSlots.Settings.slots_max_bet), function(val)
+			if !IsValid(self) then return end
+			net.Start("ARCSlots_Update")
+			net.WriteEntity(self.Entity)
+			net.WriteInt(val - (2^31),32)
+			net.WriteBit(UseARCBank)
+			net.SendToServer()
+			lastbet = val
+		end)
+	else
+		if lastbet == 0 then
+			lastbet = math.Round((ARCSlots.Settings.slots_min_bet+ARCSlots.Settings.slots_max_bet)/2)
+		end
+		net.Start("ARCSlots_Update")
+		net.WriteEntity(self.Entity)
+		net.WriteInt(lastbet - (2^31),32)
+		net.WriteBit(UseARCBank)
+		net.SendToServer()
 	end
-	net.Start("ARCSlots_Update")
-	net.WriteEntity(self.Entity)
-	net.WriteInt(lastbet - (2^31),32)
-	net.WriteBit(UseARCBank)
-	net.SendToServer()
 end

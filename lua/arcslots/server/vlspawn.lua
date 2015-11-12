@@ -11,7 +11,7 @@ function ARCSlots.SpawnVault()
 	ent:SetAngles(data.ang)
 	ent:Spawn()
 	ent:Activate()
-	
+	if !IsValid(ent.ConsoleEnt) then return end
 	local phys = ent:GetPhysicsObject()
 	if IsValid(phys) then
 		phys:EnableMotion( false )
