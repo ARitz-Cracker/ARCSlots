@@ -90,8 +90,23 @@ function ARCLib.UnSaveValt()
 	local ent = ents.FindByClass("sent_arc_casinovault")[1]
 	if !IsValid(ent) || !IsValid(ent.ConsoleEnt) then return false end 
 	ent.ARCSlots_MapEntity = false
+	local phys = ent:GetPhysicsObject()
+	if IsValid(phys) then
+		phys:EnableMotion( true )
+	end
 	ent.ConsoleEnt.ARCSlots_MapEntity = false
-	
+	phys = ent.ConsoleEnt:GetPhysicsObject()
+	if IsValid(phys) then
+		phys:EnableMotion( true )
+	end
+	for i=1,3 do
+		ent.Screens[i].ARCSlots_MapEntity = false
+		phys = ent.Screens[i]:GetPhysicsObject()
+		if IsValid(phys) then
+			phys:EnableMotion( true )
+		end
+	end
+
 	local alarms = ents.FindByClass("sent_arc_casinoalarm")
 	for i=1,#alarms do
 		alarms.ARCSlots_MapEntity = false

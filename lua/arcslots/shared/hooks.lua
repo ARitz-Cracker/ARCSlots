@@ -11,6 +11,13 @@ end )
 hook.Add( "CanPlayerUnfreeze", "ARCSlots BlockUnfreeze", function( ply, ent, phys )
 	if ent.ARCSlots_MapEntity then return false end 
 end )
+
+local pocketfunction = function(ply,ent)
+	if ent.ARCSlots_MapEntity then return false,ARCSlots.Msgs.Notifications.Pocket end 
+end
+hook.Add( "CanPocket", "ARCSlots Pocket", pocketfunction)
+hook.Add( "canPocket", "ARCSlots Pocket", pocketfunction)
+
 if SERVER then
 	hook.Add( "ShutDown", "ARCSlots Shutdown", function()
 		for _, oldatms in pairs( ents.FindByClass("sent_arc_slotmachine") ) do
