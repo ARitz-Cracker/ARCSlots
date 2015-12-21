@@ -47,7 +47,7 @@ function ARCSlots.SpawnVault()
 	return true
 end
 
-function ARCLib.SaveVault()
+function ARCSlots.SaveVault()
 	local ent = ents.FindByClass("sent_arc_casinovault")[1]
 	if !IsValid(ent) || !IsValid(ent.ConsoleEnt) then return false end 
 	ent.ARCSlots_MapEntity = true
@@ -86,7 +86,7 @@ function ARCLib.SaveVault()
 	return true
 end
 
-function ARCLib.UnSaveValt()
+function ARCSlots.UnSaveValt()
 	local ent = ents.FindByClass("sent_arc_casinovault")[1]
 	if !IsValid(ent) || !IsValid(ent.ConsoleEnt) then return false end 
 	ent.ARCSlots_MapEntity = false

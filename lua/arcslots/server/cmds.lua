@@ -128,7 +128,7 @@ ARCSlots.Commands = { --Make sure they are less then 16 chars long.$
 	["vault_save"] = {
 		command = function(ply,args)
 			if !ARCSlots.Loaded then ARCSlots.MsgCL(ply,ARCSlots.Msgs.CommandOutput.SysReset) return end
-			if ARCLib.SaveVault() then
+			if ARCSlots.SaveVault() then
 				ARCSlots.MsgCL(ply,ARCSlots.Msgs.CommandOutput.SaveVault)
 			else
 				ARCSlots.MsgCL(ply,ARCSlots.Msgs.CommandOutput.SaveVaultNo)
