@@ -561,28 +561,28 @@ function ENT:DrawPrizeScreen()
 	if !ARCSlots.Settings["money_symbol"] then return end
 	surface.SetDrawColor(0,0,0,255)
 	surface.DrawRect(0,0,336,258)
-	draw.SimpleText( ARCSlots.Msgs.SlotMsgs.BadLuck , "DermaDefault", 336/2,10, Color(128,128,128,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
+	draw.SimpleText( ARCSlots.Msgs.SlotMsgs.BadLuck , "DermaDefault", 336/2,10, Color(128,128,128,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
 	
 	
-	draw.SimpleText( "[♪ ♪]"  , "DermaDefault", 10,25, Color(0,0,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
-	draw.SimpleText( ARCLib.PlaceholderReplace(ARCSlots.Msgs.SlotMsgs.FreeSpins,{AMOUNT=tostring(ARCSlots.SlotPrizes[1])}) , "DermaDefault", 66,25, Color(0,0,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+	draw.SimpleText( "[♪ ♪]"  , "DermaDefault", 10,25, Color(0,0,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+	draw.SimpleText( ARCLib.PlaceholderReplace(ARCSlots.Msgs.SlotMsgs.FreeSpins,{AMOUNT=tostring(ARCSlots.SlotPrizes[1])}) , "DermaDefault", 66,25, Color(0,0,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 	
-	draw.SimpleText( "[♪ ♪ ♪]"  , "DermaDefault", 10,40, Color(0,0,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
-	draw.SimpleText( ARCLib.PlaceholderReplace(ARCSlots.Msgs.SlotMsgs.FreeSpins,{AMOUNT=tostring(ARCSlots.SlotPrizes[2])}) , "DermaDefault", 66,40, Color(0,0,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
-	--draw.SimpleText( ARCLib.PlaceholderReplace(ARCSlots.Msgs.SlotMsgs.MaxPrize,{AMOUNT=ARCSlots.Settings["money_symbol"]..tostring(ARCSlots.SlotPrizes[1]*ARCSlots.Settings["slots_max_bet"])}) , "DermaDefault", 130,20 + i * 15, self.prizecolours[i], TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+	draw.SimpleText( "[♪ ♪ ♪]"  , "DermaDefault", 10,40, Color(0,0,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+	draw.SimpleText( ARCLib.PlaceholderReplace(ARCSlots.Msgs.SlotMsgs.FreeSpins,{AMOUNT=tostring(ARCSlots.SlotPrizes[2])}) , "DermaDefault", 66,40, Color(0,0,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+	--draw.SimpleText( ARCLib.PlaceholderReplace(ARCSlots.Msgs.SlotMsgs.MaxPrize,{AMOUNT=ARCSlots.Settings["money_symbol"]..tostring(ARCSlots.SlotPrizes[1]*ARCSlots.Settings["slots_max_bet"])}) , "DermaDefault", 130,20 + i * 15, self.prizecolours[i], TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 
 	for i=1,4 do
-		draw.SimpleText( "["..self.prizesymbols[1][i].."]"  , "DermaDefault", 10,40 + i * 15, self.prizecolours[1][i], TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
-		draw.SimpleText( ARCSlots.Msgs.SlotMsgs.Bet.." * "..ARCSlots.SlotPrizes[1] , "DermaDefault", 66,40 + i * 15, self.prizecolours[1][i], TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
-		draw.SimpleText( ARCLib.PlaceholderReplace(ARCSlots.Msgs.SlotMsgs.MaxPrize,{AMOUNT=ARCSlots.Settings["money_symbol"]..tostring(ARCSlots.SlotPrizes[1]*ARCSlots.Settings["slots_max_bet"])}) , "DermaDefault", 170,40 + i * 15, self.prizecolours[1][i], TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+		draw.SimpleText( "["..self.prizesymbols[1][i].."]"  , "DermaDefault", 10,40 + i * 15, self.prizecolours[1][i], TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+		draw.SimpleText( ARCSlots.Msgs.SlotMsgs.Bet.." * "..ARCSlots.SlotPrizes[1] , "DermaDefault", 66,40 + i * 15, self.prizecolours[1][i], TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+		draw.SimpleText( ARCLib.PlaceholderReplace(ARCSlots.Msgs.SlotMsgs.MaxPrize,{AMOUNT=ARCSlots.Settings["money_symbol"]..tostring(ARCSlots.SlotPrizes[1]*ARCSlots.Settings["slots_max_bet"])}) , "DermaDefault", 170,40 + i * 15, self.prizecolours[1][i], TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 	end
 	for i=2,9 do
-		draw.SimpleText( "["..self.prizesymbols[i].."]"  , "DermaDefault", 10,85 + i * 15, self.prizecolours[i], TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
-		draw.SimpleText( ARCSlots.Msgs.SlotMsgs.Bet.." * "..ARCSlots.SlotPrizes[i] , "DermaDefault", 66,85 + i * 15, self.prizecolours[i], TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
-		draw.SimpleText( ARCLib.PlaceholderReplace(ARCSlots.Msgs.SlotMsgs.MaxPrize,{AMOUNT=ARCSlots.Settings["money_symbol"]..tostring(ARCSlots.SlotPrizes[i]*ARCSlots.Settings["slots_max_bet"])}) , "DermaDefault", 170,85 + i * 15, self.prizecolours[i], TEXT_ALIGN_LEFT, TEXT_ALIGN_BOTTOM)
+		draw.SimpleText( "["..self.prizesymbols[i].."]"  , "DermaDefault", 10,85 + i * 15, self.prizecolours[i], TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+		draw.SimpleText( ARCSlots.Msgs.SlotMsgs.Bet.." * "..ARCSlots.SlotPrizes[i] , "DermaDefault", 66,85 + i * 15, self.prizecolours[i], TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
+		draw.SimpleText( ARCLib.PlaceholderReplace(ARCSlots.Msgs.SlotMsgs.MaxPrize,{AMOUNT=ARCSlots.Settings["money_symbol"]..tostring(ARCSlots.SlotPrizes[i]*ARCSlots.Settings["slots_max_bet"])}) , "DermaDefault", 170,85 + i * 15, self.prizecolours[i], TEXT_ALIGN_LEFT, TEXT_ALIGN_TOP)
 	end
 	
-	draw.SimpleText( ARCSlots.Msgs.SlotMsgs.Wild , "DermaDefault", 336/2,240, self.prizecolours[9], TEXT_ALIGN_CENTER, TEXT_ALIGN_BOTTOM)
+	draw.SimpleText( ARCSlots.Msgs.SlotMsgs.Wild , "DermaDefault", 336/2,240, self.prizecolours[9], TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP)
 	
 	if SysTime() - self.LastWildChange > 10 then
 		self.LastWildChange = SysTime()

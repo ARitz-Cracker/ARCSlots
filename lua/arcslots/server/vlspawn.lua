@@ -81,6 +81,7 @@ function ARCSlots.SaveVault()
 		if IsValid(phys) then
 			phys:EnableMotion( false )
 		end
+		alarms[i].ARCSlots_MapEntity = true
 	end
 	file.Write(ARCSlots.Dir.."/saved_vault/"..string.lower(game.GetMap())..".txt", util.TableToJSON(tab) )
 	return true
@@ -109,7 +110,7 @@ function ARCSlots.UnSaveValt()
 
 	local alarms = ents.FindByClass("sent_arc_casinoalarm")
 	for i=1,#alarms do
-		alarms.ARCSlots_MapEntity = false
+		alarms[i].ARCSlots_MapEntity = false
 	end
 	
 	file.Delete(ARCSlots.Dir.."/saved_vault/"..string.lower(game.GetMap())..".txt", "DATA" )

@@ -75,7 +75,7 @@ function ENT:DrawIdle()
 	end
 	
 	for i=1,26 do
-		draw.SimpleText( self.Texts[i], "ARCBankATMConsole",-138, -154 + i*12, Color(255,255,255,255), TEXT_ALIGN_LEFT , TEXT_ALIGN_TOP  )
+		draw.SimpleText( self.Texts[i], "ARCBankATMConsole",-138, -154 + i*12, Color(255,255,255,255), TEXT_ALIGN_LEFT , TEXT_ALIGN_BOTTOM  )
 	end
 	
 end

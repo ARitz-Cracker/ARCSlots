@@ -104,7 +104,7 @@ function ENT:Draw()
 			end
 		elseif self.ScrType == 3 then
 			for i=1,#self.TallScroolText do
-				draw.SimpleText( self.TallScroolText[math.floor((CurTime()*15+i)%(#self.TallScroolText-1)+1)], "ARCBankATMConsoleSmall",0,i*8, Color(0,128,0,255), TEXT_ALIGN_LEFT , TEXT_ALIGN_TOP  )
+				draw.SimpleText( self.TallScroolText[math.floor((CurTime()*15+i)%(#self.TallScroolText-1)+1)], "ARCBankATMConsoleSmall",0,i*8, Color(0,128,0,255), TEXT_ALIGN_LEFT , TEXT_ALIGN_BOTTOM  )
 			end
 			draw.SimpleText( "VAULT STATUS:", "Trebuchet24",self.ResX/2, self.ResY/2 - 24, Color(0,255,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
 			
@@ -136,7 +136,7 @@ function ENT:Draw()
 		elseif self.ScrType == 6 then
 			for i=1,#self.TallScroolText-1 do	
 				if i%6 < 5 || math.sin(CurTime()*math.pi*2) > 0 then
-					draw.SimpleText( self.TallScroolText[i], "ARCBankATMConsoleSmall",0,i*8, Color(128,0,0,255), TEXT_ALIGN_LEFT , TEXT_ALIGN_TOP  )
+					draw.SimpleText( self.TallScroolText[i], "ARCBankATMConsoleSmall",0,i*8, Color(128,0,0,255), TEXT_ALIGN_LEFT , TEXT_ALIGN_BOTTOM  )
 				end
 			end
 			
@@ -144,13 +144,13 @@ function ENT:Draw()
 			draw.SimpleText( "VAULT STATUS:", "Trebuchet24",self.ResX/2, self.ResY/2 - 24, Color(255,0,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
 			
 			if math.sin(CurTime()*math.pi*2) > 0 then
-				draw.SimpleText( self.TallScroolText[#self.TallScroolText], "ARCBankATMConsoleSmall",0,#self.TallScroolText*8, Color(128,0,0,255), TEXT_ALIGN_LEFT , TEXT_ALIGN_TOP  )
+				draw.SimpleText( self.TallScroolText[#self.TallScroolText], "ARCBankATMConsoleSmall",0,#self.TallScroolText*8, Color(128,0,0,255), TEXT_ALIGN_LEFT , TEXT_ALIGN_BOTTOM  )
 				
 				surface.SetDrawColor(255,0,0,255)
 				surface.DrawRect(self.ResX/2 - 80, self.ResY/2 + 24 - 14 ,160, 28)
 				draw.SimpleText( "**BREACHED**", "Trebuchet24",self.ResX/2, self.ResY/2 + 24, Color(0,0,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
 			else
-				draw.SimpleText( self.TallScroolText[#self.TallScroolText].."_", "ARCBankATMConsoleSmall",0,#self.TallScroolText*8, Color(128,0,0,255), TEXT_ALIGN_LEFT , TEXT_ALIGN_TOP  )
+				draw.SimpleText( self.TallScroolText[#self.TallScroolText].."_", "ARCBankATMConsoleSmall",0,#self.TallScroolText*8, Color(128,0,0,255), TEXT_ALIGN_LEFT , TEXT_ALIGN_BOTTOM  )
 			
 				surface.SetDrawColor(0,0,0,255)
 				surface.DrawRect(self.ResX/2 - 80, self.ResY/2 + 24 - 14 ,160, 28)
@@ -161,7 +161,7 @@ function ENT:Draw()
 				if math.random(0,300) == 300 then
 					self.TallScroolText[i] = randomstr(math.random(10,39))
 				end
-				draw.SimpleText( self.TallScroolText[i], "ARCBankATMConsoleSmall",0,i*8, Color(0,math.random(0,255),0,255), TEXT_ALIGN_LEFT , TEXT_ALIGN_TOP  )
+				draw.SimpleText( self.TallScroolText[i], "ARCBankATMConsoleSmall",0,i*8, Color(0,math.random(0,255),0,255), TEXT_ALIGN_LEFT , TEXT_ALIGN_BOTTOM  )
 			end
 			draw.SimpleText( "VAULT STATUS:", "Trebuchet24",self.ResX/2, self.ResY/2 - 24, Color(255,255,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
 			
