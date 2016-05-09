@@ -117,7 +117,7 @@ function ARCSlots.PlayerCanAfford(ply,amount)
 		return true
 	end
 end
-function ARCSlots.CustomSlotPrize(amount,payout)
+function ARCSlots.CustomSlotPrize(ply,bet,prize)
 	return true
 end
 

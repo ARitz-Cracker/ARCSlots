@@ -246,7 +246,7 @@ function ENT:DingDing(payout,winicon,amount,ply)
 		end
 		self.Status = -1
 	else
-		if (ARCSlots.CustomSlotPrize(amount,payout)) then
+		if (ARCSlots.CustomSlotPrize(ply,amount,payout)) then
 			self:GiveOutPrize(ply,amount*payout)
 		end
 		
