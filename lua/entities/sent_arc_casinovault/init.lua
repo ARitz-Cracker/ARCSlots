@@ -136,30 +136,30 @@ end
 function ENT:BeginHacked(amount)
 	self.InUse = true
 	self.Screens[1]:SetScrType(4)
-	self.Screens[2]:SetScrType(5)
 	self.Screens[3]:SetScrType(6)
 	self:EmitSound("arcslots/vault/lock.wav")
 	timer.Simple(2,function() 
 		if !IsValid(self) then return end
+		self.Screens[2]:SetScrType(5)
 		ARCSlots.SoundVaultAlarm(true)
 		self:ToggleDoor(true)
 		timer.Simple(amount/ARCSlots.Settings["vault_steal_rate"],function() 
 			if !IsValid(self) then return end
 			self:ToggleDoor(false)
-			
 			self.Screens[1]:SetScrType(1)
-			timer.Simple(math.Rand(2,3),function()
-				if !IsValid(self) then return end
-				self.Screens[2]:SetScrType(2)
-				if IsValid(self.ConsoleEnt.HackUnit) then
-					self.ConsoleEnt.HackUnit:StopHack()
-				end
-			end)
+
 			timer.Simple(4.20,function()
 				if !IsValid(self) then return end
 				self.Screens[3]:SetScrType(3)
+				if IsValid(self.ConsoleEnt.HackUnit) then
+					self.ConsoleEnt.HackUnit:StopHack()
+				end
 				self:EmitSound("arcslots/vault/lock.wav")
-				ARCSlots.SoundVaultAlarm(false)
+				timer.Simple(math.Rand(5,10),function()
+					if !IsValid(self) then return end
+					self.Screens[2]:SetScrType(2)
+					ARCSlots.SoundVaultAlarm(false)
+				end)
 			end)
 			
 			self.InUse = false

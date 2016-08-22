@@ -15,14 +15,30 @@ end)
 ]]
 ENT.ScrType = 1
 
+local alarmSounds = {}
+
+local function ResetSounds(doit) --Old function name from when the sounds were clientside don't hurt me D:
+	for k,v in pairs(alarmSounds) do
+		--v:FadeOut(0.1) 
+		v:Stop()
+		if !IsValid(Entity(k)) then
+			alarmSounds[k] = nil
+		end
+	end
+	if !doit then return end
+	timer.Simple(0.01,function()
+		for k,v in pairs(alarmSounds) do
+			v:Play()
+		end
+	end)
+end
+
 function ARCSlots.SoundVaultAlarm(doit)
 	local ent = ents.FindByClass("sent_arc_casinoalarm")
 	net.Start("arcslots_alarm")
+	ResetSounds(doit)
 	net.WriteBit(doit)
-	net.WriteUInt(#ent,32)
-	for i=1,#ent do
-		net.WriteUInt(ent[i]:EntIndex(),32)
-	end
+	net.WriteDouble(CurTime()-0.02)
 	net.Broadcast()
 end
 
@@ -43,6 +59,10 @@ function ENT:Initialize()
 	end
 	self:SetUseType( SIMPLE_USE )
 	self:SetSkin(1)
+	local entin = self:EntIndex()
+	if !alarmSounds[entin] then
+		alarmSounds[entin] = CreateSound( self, "ambient/alarms/alarm_citizen_loop1.wav", entin ) 
+	end
 end
 
 function ENT:SpawnFunction( ply, tr )
@@ -58,5 +78,8 @@ function ENT:Think()
 
 end
 function ENT:OnRemove()
-
+	local entin = self:EntIndex()
+	if alarmSounds[entin] then
+		alarmSounds[entin] = nil
+	end
 end
