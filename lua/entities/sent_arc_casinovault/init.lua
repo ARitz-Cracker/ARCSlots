@@ -10,7 +10,7 @@ util.AddNetworkString("arcslots_casino_vault_anim")
 
 function ENT:Initialize()
 	if !ARCBank || !ARCBank.ARCSlotsReady then
-		ARCLib.NotifyBroadcast("The vault requires ARCBank v1.3.4 or later (the paid version)",NOTIFY_ERROR,5,true)
+		ARCLib.NotifyBroadcast("The vault requires ARCBank v1.3.6 or later (the paid version)",NOTIFY_ERROR,5,true)
 		self:Remove()
 		return
 	end
@@ -134,7 +134,6 @@ function ENT:Use( ply, caller )
 	end
 end
 function ENT:BeginHacked(amount)
-	self.InUse = true
 	self.Screens[1]:SetScrType(4)
 	self.Screens[3]:SetScrType(6)
 	self:EmitSound("arcslots/vault/lock.wav")
@@ -161,8 +160,6 @@ function ENT:BeginHacked(amount)
 					ARCSlots.SoundVaultAlarm(false)
 				end)
 			end)
-			
-			self.InUse = false
 		end)
 	end)
 end

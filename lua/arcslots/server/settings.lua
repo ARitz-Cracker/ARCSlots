@@ -2,7 +2,7 @@
 
 -- This shit is under copyright.
 -- Any 3rd party content has been used as either public domain or with permission.
--- © Copyright 2014 Aritz Beobide-Cardinal All rights reserved.
+-- © Copyright 2014-2016 Aritz Beobide-Cardinal All rights reserved.
 ARCSlots.Loaded = false
 ARCSlots.Settings = {}
 
@@ -53,6 +53,7 @@ function ARCSlots.SettingsReset() --DO NOT EDIT THIS!!!!
 	ARCSlots.Settings["slots_idle_text"] = "FEELIN LUCKY TODAY? $$$ COME TRY YOUR LUCK"
 	ARCSlots.Settings["money_symbol"] = "$"
 	ARCSlots.Settings["vault_steal_rate"] = 50
+	
 	ARCSlots.Settings["legacy_bet_interface"] = false
 end
 --
