@@ -146,6 +146,7 @@ else
 end
 if !arcload_exists then
 	hook.Add("ARCLib_OnPlayerFullyLoaded","ARCSlots DevLoad",function(ply)
+		ply.ARCLoad_Loaded = true
 		hook.Call( "ARCLoad_OnPlayerLoaded",GM,ply)
 	end)
 end

@@ -411,7 +411,7 @@ function ENT:DrawMainScreen()
 				if ok || self.Winnings[i] < -1 then
 					self.ExtraCodeForDetail = false
 					self.ClickTime[3] = SysTime()
-					self:EmitSound("arcslots/stop3.wav")
+					self:EmitSound("arcslots/stop3.wav",90,math.random(85,101))
 				end
 			end
 		elseif self.Winnings[i] >= 0 then

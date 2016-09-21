@@ -168,14 +168,14 @@ function ENT:Spin(ply,amount)
 		timer.Simple(math.Rand(0.7,1.7),function()
 			if !IsValid(self) then return end
 			self.Icon1 = icon1
-			self:EmitSound("arcslots/stop1.wav")
+			self:EmitSound("arcslots/stop"..math.random(1,2)..".wav",90,math.random(90,110))
 			self:UpdateIcons()
 			local time = math.Rand(0.1,0.9)
 			if self.Icon1 == 0 then time = 0.1 end
 			timer.Simple(time,function()
 				if !IsValid(self) then return end
 				self.Icon2 = icon2
-				self:EmitSound("arcslots/stop2.wav")
+				self:EmitSound("arcslots/stop"..math.random(1,2)..".wav",90,math.random(90,110))
 				self:UpdateIcons()
 				local time = math.Rand(0.1,0.9)
 				if self.Icon1 == 0 then time = 0.1 end
@@ -213,7 +213,7 @@ function ENT:Spin(ply,amount)
 					else
 						self.Icon3 = icon3
 						self:UpdateIcons()
-						self:EmitSound("arcslots/stop3.wav")
+						self:EmitSound("arcslots/stop"..math.random(1,3)..".wav",90,math.random(90,110))
 						self.SpinSound:Stop()
 						timer.Simple(0.5,function() self:DingDing(payout,winicon,amount,ply) end)
 					end
