@@ -123,7 +123,7 @@ function ENT:Draw()
 			draw.SimpleText( ARCSlots.Settings["money_symbol"]..ARCSlots.VaultFunds, "Trebuchet24",self.ResX/2, self.ResY/2 + 12 + 36, Color(255,0,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
 		elseif self.ScrType == 5 then
 			surface.SetDrawColor(255,0,0,255)
-			if math.sin(CurTime()*math.pi) > 0 then
+			if ARCSlots.LightOn then
 				draw.NoTexture()
 				surface.DrawPoly(self.TriangleDraw)
 				surface.SetDrawColor(255,255,255,255)
