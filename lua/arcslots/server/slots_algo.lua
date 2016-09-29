@@ -60,7 +60,7 @@ local OVERRIDE = false
 
 function ARCSlots.SlotPrizeselector()
 	if OVERRIDE then
-		return 7
+		return 9
 	end
 	local total = 0
 	for i=0,9 do
