@@ -47,6 +47,29 @@ function ENT:Use(ply, act)
 	end)
 	self.NextFakeHack = CurTime() + 2.1
 end
+function ENT:Spark()
+	self.SparkTime = SysTime() + 0.1
+end
+
+function ENT:Hackable()
+	return IsValid(self.Vault)
+end
+function ENT:HackStop()
+	if IsValid(self.Vault) && self.Vault.Hacked then return true end
+	self.Hacked = false
+end
+function ENT:HackStart()
+	self.Hacked = true
+end
+function ENT:HackProgress(per)
+	self.Percent = per
+end
+function ENT:HackComplete(ply,amount,rand)
+	self.Percent = 1
+	self.HackAmount = amount
+	self.HackRandom = rand
+	self.Vault:BeginHacked(amount)
+end
 
 function ENT:Think()
 

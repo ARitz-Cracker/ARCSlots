@@ -39,11 +39,35 @@ function ENT:Initialize()
 	self.Texts = {}
 	self.Texts[1] = "RockOS 0.0.1 vault.arcslots.gmod tty1"
 	self.Percent = 0
+	self.SparkTime = SysTime()
 end
 
 function ENT:Think()
 
 end
+
+function ENT:Spark()
+	self.SparkTime = SysTime() + 0.1
+end
+
+function ENT:Hackable()
+	return true
+end
+function ENT:HackStop()
+	self.Hacked = false
+end
+function ENT:HackStart()
+	self.Hacked = true
+end
+function ENT:HackProgress(per)
+	self.Percent = per
+end
+function ENT:HackComplete(ply,amount,rand)
+	self.Percent = 1
+	self.HackAmount = amount
+	self.HackRandom = rand
+end
+
 
 function ENT:DrawIdle()
 	local logintext = "vault login: "
@@ -84,6 +108,11 @@ function ENT:DrawHack()
 	self.Percent = ARCLib.BetweenNumberScale(self.hackstart,CurTime(),self.HackDelay)
 	draw.SimpleText( "Unlocking vault...", "ARCBankATMConsole",0,-12, Color(255,255,255,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
 	draw.SimpleText( "|"..string.rep( "#", math.floor(self.Percent*18) )..string.rep( "-", 18 - math.floor(self.Percent*18) ).."|", "ARCBankATMConsole",0,12, Color(255,255,255,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
+	if (self.SparkTime > SysTime()) then
+		for i=1,20 do
+			draw.SimpleText( ARCLib.RandomChars(math.random(10,39)), "ARCBankATMConsole",-138, -154 + i*12, Color(255,255,255,255), TEXT_ALIGN_LEFT , TEXT_ALIGN_BOTTOM  )
+		end
+	end
 end
 
 function ENT:Draw()
@@ -108,3 +137,4 @@ function ENT:Draw()
 		end
 	cam.End3D2D()
 end
+

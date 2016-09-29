@@ -43,18 +43,20 @@ arcslots settings (setting) (value)
 function ARCSlots.SettingsReset() --DO NOT EDIT THIS!!!!
 	ARCSlots.Settings["slots_max_bet"] = 50 --DO NOT EDIT THIS!!!!
 	ARCSlots.Settings["slots_min_bet"] = 25 --DO NOT EDIT THIS!!!!
-	ARCSlots.Settings["slots_incr"] = 5
-	ARCSlots.Settings["slots_incr_big"] = 10
-	ARCSlots.Settings["slots_handle"] = true
+	ARCSlots.Settings["slots_incr"] = 5 --DO NOT EDIT THIS!!!!
+	ARCSlots.Settings["slots_incr_big"] = 10 --DO NOT EDIT THIS!!!!
+	ARCSlots.Settings["slots_handle"] = true --DO NOT EDIT THIS!!!!
 	ARCSlots.Settings["name"] = "ARCSlots" --DO NOT EDIT THIS!!!!
 	ARCSlots.Settings["name_long"] = "ARitz Cracker Gambling" --DO NOT EDIT THIS!!!!
-	ARCSlots.Settings["superadmin_only"] = false
-	ARCSlots.Settings["owner_only"] = false
-	ARCSlots.Settings["slots_idle_text"] = "FEELIN LUCKY TODAY? $$$ COME TRY YOUR LUCK"
-	ARCSlots.Settings["money_symbol"] = "$"
+
+	ARCSlots.Settings["slots_idle_text"] = "FEELIN LUCKY TODAY? $$$ COME TRY YOUR LUCK" --DO NOT EDIT THIS!!!!
+	ARCSlots.Settings["money_symbol"] = "$" --DO NOT EDIT THIS!!!!
+	ARCSlots.Settings["legacy_bet_interface"] = false --DO NOT EDIT THIS!!!!
+	ARCSlots.Settings["admins"] = {"owner","superadmin","admin"} --DO NOT EDIT THIS!!!!
+	
 	ARCSlots.Settings["vault_steal_rate"] = 50
 	
-	ARCSlots.Settings["legacy_bet_interface"] = false
+	
 end
 --
 ARCSlots.SettingsReset()

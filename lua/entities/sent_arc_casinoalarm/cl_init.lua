@@ -27,7 +27,7 @@ local starttime = SysTime()
 local function ResetSounds(st) --Old function name from when the sounds were clientside don't hurt me D:
 	if !doAlarm then return end
 	timer.Simple(0.01,function()
-		starttime = st or CurTime()
+		starttime = SysTime()
 		ARCSlots.LightOn = true
 	end)
 end
@@ -42,8 +42,7 @@ end
 
 net.Receive("arcslots_alarm",function(len)
 	doAlarm = tobool(net.ReadBit())
-	local st = net.ReadDouble()
-	ResetSounds(st)
+	ResetSounds()
 	if !doAlarm then
 		ARCSlots.LightOn = false
 	end

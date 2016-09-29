@@ -134,6 +134,7 @@ function ENT:Use( ply, caller )
 	end
 end
 function ENT:BeginHacked(amount)
+	self.Hacked = true
 	self.Screens[1]:SetScrType(4)
 	self.Screens[3]:SetScrType(6)
 	self:EmitSound("arcslots/vault/lock.wav")
@@ -142,7 +143,7 @@ function ENT:BeginHacked(amount)
 		self.Screens[2]:SetScrType(5)
 		ARCSlots.SoundVaultAlarm(true)
 		self:ToggleDoor(true)
-		timer.Simple(amount/ARCSlots.Settings["vault_steal_rate"],function() 
+		timer.Simple(amount/ARCSlots.Settings["vault_steal_rate"]+0.5,function() 
 			if !IsValid(self) then return end
 			self:ToggleDoor(false)
 			self.Screens[1]:SetScrType(1)
@@ -150,9 +151,7 @@ function ENT:BeginHacked(amount)
 			timer.Simple(4.20,function()
 				if !IsValid(self) then return end
 				self.Screens[3]:SetScrType(3)
-				if IsValid(self.ConsoleEnt.HackUnit) then
-					self.ConsoleEnt.HackUnit:StopHack()
-				end
+				self.Hacked = false
 				self:EmitSound("arcslots/vault/lock.wav")
 				timer.Simple(math.Rand(5,10),function()
 					if !IsValid(self) then return end

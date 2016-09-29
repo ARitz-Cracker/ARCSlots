@@ -38,7 +38,6 @@ function ARCSlots.SoundVaultAlarm(doit)
 	net.Start("arcslots_alarm")
 	ResetSounds(doit)
 	net.WriteBit(doit)
-	net.WriteDouble(CurTime()-0.02)
 	net.Broadcast()
 end
 

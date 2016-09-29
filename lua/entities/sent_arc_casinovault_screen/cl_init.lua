@@ -60,16 +60,9 @@ function draw.Circle( x, y, radius, seg )
 	draw.NoTexture()
 	surface.DrawPoly( cir )
 end
-local function randomstr(len)
-	local result = {}
-	for i=1,len do
-		result[i] = math.random(32,127)
-	end
-	return string.char(unpack(result))
-end
 
 for i=1,32 do
-	ENT.TallScroolText[i] = randomstr(math.random(10,39))
+	ENT.TallScroolText[i] = ARCLib.RandomChars(math.random(10,39))
 end
 function ENT:Initialize()
 	net.Start("arcslots_monitortype")
