@@ -17,8 +17,8 @@ ARCSlots.Msg(table.Random({"tbh script enforcer is kinda shit.","","Finally, a g
 ARCSlots.Msg("© Copyright 2015 Aritz Beobide-Cardinal (ARitz Cracker) All rights reserved.")
 
 
-ARCSlots.Update = "%%UPDATE%%"
-ARCSlots.Version = "%%VERSION%%"
+ARCSlots.Update = "October 1st 2016"
+ARCSlots.Version = "1.1.1"
 
 ARCSlots.About = [[      
           *** ARitz Cracker Gambling ***
@@ -39,13 +39,12 @@ Model Concept/Design
 
 NULLFUNC = function(...) end
 
-ARCPHONE_NO_ERROR = 0
-ARCPHONE_ERROR_NONE = 0
+ARCSLOTS_NO_ERROR = 0
+ARCSLOTS_ERROR_NONE = 0
 
 ARCSlots.Msg("Version: "..ARCSlots.Version)
 ARCSlots.Msg("Updated on: "..ARCSlots.Update)
 if SERVER then
-	AddCSLuaFile() -----------------------------------------
 	util.AddNetworkString( "ARCSlots_Msg" )
 	function ARCSlots.MsgCL(ply,msg)
 		--net.Start( "ARCSlots_Msg" )
@@ -73,3 +72,4 @@ else
 	end
 end
 
+return "ARCSlots","ARCSlots",{"arclib"}

@@ -40,14 +40,18 @@ function ENT:Initialize()
 	self.Texts[1] = "RockOS 0.0.1 vault.arcslots.gmod tty1"
 	self.Percent = 0
 	self.SparkTime = SysTime()
+	self.Fakehackcount = 1
 end
 
 function ENT:Think()
 
 end
 
-function ENT:Spark()
+function ENT:HackSpark()
 	self.SparkTime = SysTime() + 0.1
+	for i=1,26 do
+		self.Texts[i] = ARCLib.RandomChars(math.random(10,39))
+	end
 end
 
 function ENT:Hackable()
@@ -55,6 +59,7 @@ function ENT:Hackable()
 end
 function ENT:HackStop()
 	self.Hacked = false
+	self.Fakehack = CurTime() + 1
 end
 function ENT:HackStart()
 	self.Hacked = true
@@ -73,15 +78,16 @@ function ENT:DrawIdle()
 	local logintext = "vault login: "
 	
 	local textend = 2
-	if self.Fakehack <= CurTime() then
+	if self.Fakehack <= CurTime() && !self.Hacked then
+		self.Texts[1] = "RockOS 0.0.1 vault.arcslots.gmod tty1"
 		self.Texts[2] = logintext
 		for i=3,26 do
 			self.Texts[i] = ""
 		end
 
-		text2 = "vault login: root"
-		text3 = "Password:"
-		text4 = "Login incorrect"
+		--text2 = "vault login: root"
+		--text3 = "Password:"
+		--text4 = "Login incorrect"
 	else
 		for i=1,self.Fakehackcount do
 			local mul = i-1
@@ -105,13 +111,13 @@ function ENT:DrawIdle()
 end
 
 function ENT:DrawHack()
-	self.Percent = ARCLib.BetweenNumberScale(self.hackstart,CurTime(),self.HackDelay)
-	draw.SimpleText( "Unlocking vault...", "ARCBankATMConsole",0,-12, Color(255,255,255,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
-	draw.SimpleText( "|"..string.rep( "#", math.floor(self.Percent*18) )..string.rep( "-", 18 - math.floor(self.Percent*18) ).."|", "ARCBankATMConsole",0,12, Color(255,255,255,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
 	if (self.SparkTime > SysTime()) then
-		for i=1,20 do
-			draw.SimpleText( ARCLib.RandomChars(math.random(10,39)), "ARCBankATMConsole",-138, -154 + i*12, Color(255,255,255,255), TEXT_ALIGN_LEFT , TEXT_ALIGN_BOTTOM  )
+		for i=1,26 do
+			draw.SimpleText( self.Texts[i], "ARCBankATMConsole",-138, -154 + i*12, Color(255,255,255,255), TEXT_ALIGN_LEFT , TEXT_ALIGN_BOTTOM  )
 		end
+	else
+		draw.SimpleText( "Unlocking vault...", "ARCBankATMConsole",0,-10, Color(255,255,255,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_BOTTOM  )
+		draw.SimpleText( "|"..string.rep( "#", math.floor(self.Percent*18) )..string.rep( "-", 18 - math.floor(self.Percent*18) ).."|", "ARCBankATMConsole",0,14, Color(255,255,255,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_BOTTOM  )
 	end
 end
 

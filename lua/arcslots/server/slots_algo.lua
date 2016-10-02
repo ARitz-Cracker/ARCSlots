@@ -12,7 +12,9 @@ ARitz Cracker: 2 cards = 2* bet (50% free spins)
 
 ]]
 ARCSlots.SpecialSettings.Slot = {}
-ARCSlots.SpecialSettings.Slot.Profit = 1.5
+ARCSlots.SpecialSettings.Slot.Profit = 1.2
+
+ARCSlots.SpecialSettings.Slot.FreeSpin = 0.5
 
 ARCSlots.SpecialSettings.Slot.Prizes = {}
 ARCSlots.SpecialSettings.Slot.Prizes[0] = 0
@@ -28,12 +30,13 @@ ARCSlots.SpecialSettings.Slot.Prizes[9] = 1000
 
 ARCSlots.SpecialSettings.Slot.Chances = {}
 --ARCSlots.SpecialSettings.Slot.Chances[0] = 0
+
 ARCSlots.SpecialSettings.Slot.Chances[1] = 100000
-ARCSlots.SpecialSettings.Slot.Chances[2] = 5000
-ARCSlots.SpecialSettings.Slot.Chances[3] = 2000
-ARCSlots.SpecialSettings.Slot.Chances[4] = 1500
+ARCSlots.SpecialSettings.Slot.Chances[2] = 50000
+ARCSlots.SpecialSettings.Slot.Chances[3] = 3000
+ARCSlots.SpecialSettings.Slot.Chances[4] = 2000
 ARCSlots.SpecialSettings.Slot.Chances[5] = 1000
-ARCSlots.SpecialSettings.Slot.Chances[6] = 500
+ARCSlots.SpecialSettings.Slot.Chances[6] = 600
 ARCSlots.SpecialSettings.Slot.Chances[7] = 100
 ARCSlots.SpecialSettings.Slot.Chances[8] = 50
 ARCSlots.SpecialSettings.Slot.Chances[9] = 5
@@ -168,7 +171,7 @@ function ARCSlots.SlotPrizePayout()
 		tab[4] = 0
 		tab[5] = 0
 	elseif prize == 1 then
-		if tobool(math.Round(math.random())) then
+		if math.random() > ARCSlots.SpecialSettings.Slot.FreeSpin then
 			tab = {ARCSlots.Slot2OfKindIcon(1)}
 			tab[4] = ARCSlots.SpecialSettings.Slot.Prizes[prize]*-1
 			tab[5] = 1
@@ -181,7 +184,7 @@ function ARCSlots.SlotPrizePayout()
 			
 		end
 	elseif prize == 2 then
-		if tobool(math.Round(math.random())) then
+		if math.random() > ARCSlots.SpecialSettings.Slot.FreeSpin then
 			tab = {ARCSlots.Slot3OfKindIcon(1)}
 			tab[4] = ARCSlots.SpecialSettings.Slot.Prizes[prize]*-1
 			tab[5] = 1

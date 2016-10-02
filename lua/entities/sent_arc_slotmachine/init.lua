@@ -135,7 +135,7 @@ function ENT:Spin(ply,amount)
 	self.SpinSound = CreateSound( self, "arcslots/spin_loop1.wav" ) 
 	if self.FreeSpins <= 0 then
 		if self.UseARCBank then
-			self:EmitSound("arcbank/atm/cardremove.wav",65,math.random(95,105))
+			self:EmitSound("arcbank/atm/cardremove.wav",65,math.random(95,105),ARCSlots.Settings["slots_volume"])
 		else
 			if !ARCSlots.PlayerCanAfford(ply,amount) then 
 				if ARCBank then
@@ -145,20 +145,20 @@ function ENT:Spin(ply,amount)
 				end
 				return 
 			end
-			self:EmitSound("arcslots/coin.wav")
+			self:EmitSound("arcslots/coin.wav",65,100,ARCSlots.Settings["slots_volume"])
 			ARCSlots.PlayerAddMoney(ply,-amount)
 		end
 	end
 	ply.SlotMachine = self
 	self.UseDelay = CurTime() + 20
-	timer.Simple(ARCLib.BoolToNumber(self.FreeSpins <= 0),function() 
+	timer.Simple(ARCLib.BoolToNumber(self.FreeSpins <= 0)*0.5 + ARCLib.BoolToNumber(!self.UseARCBank)*0.5,function() 
 		if !IsValid(self) then return end
 		self.FreeSpins = self.FreeSpins - 1
 		if self.FreeSpins < 0 then
 			self.FreeSpins = 0
 		end
-		self:EmitSound("arcslots/start.wav")
-		self.SpinSound:PlayEx(70,100)
+		self:EmitSound("arcslots/start.wav",75,100,ARCSlots.Settings["slots_volume"])
+		self.SpinSound:PlayEx(ARCSlots.Settings["slots_volume"],100)
 		self.Icon1 = math.random(-4,-3)
 		self.Icon2 = math.random(-4,-3)
 		self.Icon3 = math.random(-4,-3)
@@ -168,14 +168,14 @@ function ENT:Spin(ply,amount)
 		timer.Simple(math.Rand(0.7,1.7),function()
 			if !IsValid(self) then return end
 			self.Icon1 = icon1
-			self:EmitSound("arcslots/stop"..math.random(1,2)..".wav",90,math.random(90,110))
+			self:EmitSound("arcslots/stop"..math.random(1,2)..".wav",90,math.random(90,110),ARCSlots.Settings["slots_volume"])
 			self:UpdateIcons()
 			local time = math.Rand(0.1,0.9)
 			if self.Icon1 == 0 then time = 0.1 end
 			timer.Simple(time,function()
 				if !IsValid(self) then return end
 				self.Icon2 = icon2
-				self:EmitSound("arcslots/stop"..math.random(1,2)..".wav",90,math.random(90,110))
+				self:EmitSound("arcslots/stop"..math.random(1,2)..".wav",90,math.random(90,110),ARCSlots.Settings["slots_volume"])
 				self:UpdateIcons()
 				local time = math.Rand(0.1,0.9)
 				if self.Icon1 == 0 then time = 0.1 end
@@ -213,7 +213,7 @@ function ENT:Spin(ply,amount)
 					else
 						self.Icon3 = icon3
 						self:UpdateIcons()
-						self:EmitSound("arcslots/stop"..math.random(1,3)..".wav",90,math.random(90,110))
+						self:EmitSound("arcslots/stop"..math.random(1,3)..".wav",90,math.random(90,110),ARCSlots.Settings["slots_volume"])
 						self.SpinSound:Stop()
 						timer.Simple(0.5,function() self:DingDing(payout,winicon,amount,ply) end)
 					end
@@ -228,12 +228,12 @@ function ENT:DingDing(payout,winicon,amount,ply)
 	local idletime = 2
 	if payout < 0 then
 		self.Status = 1
-		self:EmitSound("arcslots/winner.wav")
+		self:EmitSound("arcslots/winner.wav",75,100,ARCSlots.Settings["slots_volume"])
 		self.FreeSpins = self.FreeSpins - payout
 		self.ScreenMsg = ARCLib.PlaceholderReplace(ARCSlots.Msgs.SlotMsgs.FreeSpins,{AMOUNT=tostring(-1*payout)}).."("..self.FreeSpins..")"
 	elseif payout == 0 then
 		if ((self.Icon1 == self.Icon2) || (self.Icon1 == 8 || self.Icon2 == 8)) && self.Icon1 > 5 && self.Icon2 > 5 then
-			self:EmitSound("arcslots/soooclose.mp3")
+			self:EmitSound("arcslots/soooclose.mp3",75,100,ARCSlots.Settings["slots_volume"])
 			idletime = 4
 			if math.random(1,10) == 1 then
 				self.ScreenMsg = ARCSlots.Msgs.SlotMsgs.LooseMock
@@ -252,15 +252,15 @@ function ENT:DingDing(payout,winicon,amount,ply)
 		
 		--self.FreeSpins = self.FreeSpins + payout
 		if winicon == 8 then
-			self:EmitSound("music/hl1_song25_remix3.mp3",115,100)
+			self:EmitSound("music/hl1_song25_remix3.mp3",115,100,1)
 			self.ScreenMsg = ARCLib.PlaceholderReplace(ARCSlots.Msgs.SlotMsgs.Jackpot,{AMOUNT=ARCSlots.Settings["money_symbol"]..tostring(amount*payout)})--.."("..self.FreeSpins..")"
 			idletime = 60
 		elseif winicon >= 6 && winicon < 8 then
-			self:EmitSound("arcslots/jackpot.wav")
+			self:EmitSound("arcslots/jackpot.wav",75,100,ARCSlots.Settings["slots_volume"])
 			self.ScreenMsg = ARCLib.PlaceholderReplace(ARCSlots.Msgs.SlotMsgs.MegaWin,{AMOUNT=ARCSlots.Settings["money_symbol"]..tostring(amount*payout)})
 			idletime = 6
 		else
-			self:EmitSound("arcslots/winner.wav")
+			self:EmitSound("arcslots/winner.wav",75,100,ARCSlots.Settings["slots_volume"])
 			self.ScreenMsg = ARCLib.PlaceholderReplace(ARCSlots.Msgs.SlotMsgs.Win,{AMOUNT=ARCSlots.Settings["money_symbol"]..tostring(amount*payout)})
 		end
 		self.Status = 1

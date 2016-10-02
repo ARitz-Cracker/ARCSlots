@@ -105,11 +105,19 @@ ARCSlots.Msgs.AdminMenu.Unavailable = "This feature is currently unavailable"
 
 ARCSlots.Msgs.AdminMenu.SlotConfig = "Slot machine configuration menu"
 ARCSlots.Msgs.AdminMenu.SlotIncome = "Income multiplier:"
+ARCSlots.Msgs.AdminMenu.FreeSpin = "Free spin percent chance:"
 ARCSlots.Msgs.AdminMenu.SlotPrize = "Prize:"
 ARCSlots.Msgs.AdminMenu.SlotChance = "Chances:"
+ARCSlots.Msgs.AdminMenu.Explination = "Some of these setting options are counter-intuitive and require explination. Would you like to see the explination?"
+
 
 ARCSlots.Msgs.Notifications.NoMoney = "You do not have enough cash!"
 ARCSlots.Msgs.Notifications.Pocket = "No matter how hard to try, you can't fit this giant thing in your pants!"
+
+
+ARCSlots.Msgs.SlotMsgs.Yes = "Yes"
+ARCSlots.Msgs.SlotMsgs.No = "No"
+
 
 ARCSlots.Msgs.SlotMsgs.Lucky = "Feeling lucky today?"
 ARCSlots.Msgs.SlotMsgs.Win = "YOU WON %AMOUNT%"

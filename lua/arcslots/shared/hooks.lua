@@ -26,7 +26,7 @@ if SERVER then
 		end
 		ARCSlots.SaveDisk()
 	end)
-	hook.Add( "ARCLoad_OnPlayerLoaded", "ARCSlots PlyAuth", function( ply ) 
+	hook.Add( "ARCLib_OnPlayerFullyLoaded", "ARCSlots PlyAuth", function( ply ) 
 		if IsValid(ply) && ply:IsPlayer() then
 			ARCLib.SendAddonLanguage("ARCSlots",ply)
 			ARCLib.SendAddonSettings("ARCSlots",ply) 
@@ -42,10 +42,7 @@ if SERVER then
 		end
 	end)
 	
-	hook.Add( "ARCLoad_OnLoaded", "ARCSlots SpawStuffs", function(loaded)
-		if loaded != true && loaded != "ARCSlots" then return end
-			ARCSlots.Load()
-	end )
+	--[[
 	hook.Add( "ARCLoad_OnUpdate", "ARCSlots RemuvStuffs",function(loaded)
 		if loaded != "ARCSlots" then return end
 		for k,v in pairs(player.GetAll()) do 
@@ -55,7 +52,7 @@ if SERVER then
 		ARCSlots.ClearVaults()
 		ARCSlots.ClearSlotMachines()
 	end)
-	
+	]]
 else
 hook.Add( "OnPhysgunFreeze", "ARCSlots PhysFreeze", function( weapon, phys, ent, ply )
 	if halo.RenderedEntity == nil && IsValid(ent) && ent:GetClass() == "sent_arc_slotmachine" then

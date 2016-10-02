@@ -56,7 +56,7 @@ function ENT:ResetLightPos()
 end
 function ENT:Think()
 	if doAlarm then
-		if CurTime() - starttime >= 0.75 then
+		if SysTime() - starttime >= 0.75 then
 			ARCSlots.LightOn = !ARCSlots.LightOn
 			starttime = starttime + 0.75
 		end

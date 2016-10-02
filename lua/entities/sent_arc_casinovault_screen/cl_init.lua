@@ -8,7 +8,7 @@ include('shared.lua')
 
 --[
 ENT.DisplayAng = Angle(0,90,90)
-ENT.DisplayPos = Vector(3.23,-10.36,24.55)
+ENT.DisplayPos = Vector(3.3,-10.36,24.55)
 ENT.ResX = 518/2
 ENT.ResY = 392/2
 ENT.ScrType = 5
@@ -152,7 +152,7 @@ function ENT:Draw()
 		elseif self.ScrType == 9 then
 			for i=1,#self.TallScroolText do	
 				if math.random(0,300) == 300 then
-					self.TallScroolText[i] = randomstr(math.random(10,39))
+					self.TallScroolText[i] = ARCLib.RandomChars(math.random(10,39))
 				end
 				draw.SimpleText( self.TallScroolText[i], "ARCBankATMConsoleSmall",0,i*8, Color(0,math.random(0,255),0,255), TEXT_ALIGN_LEFT , TEXT_ALIGN_BOTTOM  )
 			end

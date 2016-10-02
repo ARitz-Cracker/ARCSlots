@@ -600,15 +600,12 @@ function ENT:DrawPrizeScreen()
 			end
 		end
 
-		self.LastWildChange = self.LastWildChange + 0.2
-	end
-	if SysTime() - self.LastCardChange > 10 then
-		self.LastCardChange = SysTime()
+		self.LastWildChange = SysTime() + 0.2
 	end
 	if self.LastCardChange <= SysTime() then
 		self.prizecolours[2] = table.Random(self.prizecolours[1])
 		self.prizesymbols[2] = table.Random(cardssym).." "..table.Random(cardssym).." "..table.Random(cardssym)
-		self.LastCardChange = self.LastCardChange + 1.5
+		self.LastCardChange = SysTime() + 1.5
 	end
 end
 
@@ -689,6 +686,9 @@ function ENT:DrawSelectionScreen()
 				break
 			end
 		end
+		
+		surface.SetDrawColor(255,0,0,128)
+		surface.DrawRect(402,47,44,28)
 	end
 end
 

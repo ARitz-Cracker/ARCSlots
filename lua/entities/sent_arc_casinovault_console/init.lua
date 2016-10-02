@@ -57,9 +57,16 @@ end
 function ENT:HackStop()
 	if IsValid(self.Vault) && self.Vault.Hacked then return true end
 	self.Hacked = false
+	self.Vault.Screens[3]:SetScrType(3)
 end
 function ENT:HackStart()
 	self.Hacked = true
+	if IsValid(self.Vault) then
+		self.Vault.Screens[3]:SetScrType(9)
+	end
+end
+function ENT:HackSpark()
+
 end
 function ENT:HackProgress(per)
 	self.Percent = per

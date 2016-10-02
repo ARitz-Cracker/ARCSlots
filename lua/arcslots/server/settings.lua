@@ -49,13 +49,22 @@ function ARCSlots.SettingsReset() --DO NOT EDIT THIS!!!!
 	ARCSlots.Settings["name"] = "ARCSlots" --DO NOT EDIT THIS!!!!
 	ARCSlots.Settings["name_long"] = "ARitz Cracker Gambling" --DO NOT EDIT THIS!!!!
 
+	ARCSlots.Settings["slots_volume"] = 0.9
 	ARCSlots.Settings["slots_idle_text"] = "FEELIN LUCKY TODAY? $$$ COME TRY YOUR LUCK" --DO NOT EDIT THIS!!!!
 	ARCSlots.Settings["money_symbol"] = "$" --DO NOT EDIT THIS!!!!
 	ARCSlots.Settings["legacy_bet_interface"] = false --DO NOT EDIT THIS!!!!
 	ARCSlots.Settings["admins"] = {"owner","superadmin","admin"} --DO NOT EDIT THIS!!!!
 	
 	ARCSlots.Settings["vault_steal_rate"] = 50
+	ARCSlots.Settings["vault_hack_max"] = 5000 --DO NOT EDIT THIS!!!!
+	ARCSlots.Settings["vault_hack_min"] = 100 --DO NOT EDIT THIS!!!!
 	
+	
+	ARCSlots.Settings["vault_hack_time_max"] = 200 --DO NOT EDIT THIS!!!!
+	ARCSlots.Settings["vault_hack_time_min"] = 10 --DO NOT EDIT THIS!!!!
+	
+	ARCSlots.Settings["vault_hack_time_stealth_rate"] = 2.0 --DO NOT EDIT THIS!!!!
+	ARCSlots.Settings["vault_hack_time_curve"] = 2.25 --DO NOT EDIT THIS!!!!
 	
 end
 --

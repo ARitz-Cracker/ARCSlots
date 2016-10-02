@@ -9,7 +9,7 @@ include('shared.lua')
 util.AddNetworkString("arcslots_casino_vault_anim")
 
 function ENT:Initialize()
-	if !ARCBank || !ARCBank.ARCSlotsReady then
+	if !ARCBank || !ARCBank.Features["hackapi"] then
 		ARCLib.NotifyBroadcast("The vault requires ARCBank v1.3.6 or later (the paid version)",NOTIFY_ERROR,5,true)
 		self:Remove()
 		return
@@ -117,7 +117,7 @@ function ENT:OnRemove()
 	end
 end
 function ENT:Use( ply, caller )
-	if self.InUse && ARCSlots.Disk.VaultFunds > ARCSlots.Settings["vault_steal_rate"] then
+	if self.Open && ARCSlots.Disk.VaultFunds > ARCSlots.Settings["vault_steal_rate"] then
 		if !ply._VaultTime then
 			ply._VaultTime = 1
 		end
@@ -150,7 +150,6 @@ function ENT:BeginHacked(amount)
 
 			timer.Simple(4.20,function()
 				if !IsValid(self) then return end
-				self.Screens[3]:SetScrType(3)
 				self.Hacked = false
 				self:EmitSound("arcslots/vault/lock.wav")
 				timer.Simple(math.Rand(5,10),function()

@@ -4,6 +4,7 @@
 -- You can mess around with it, mod it to your liking, and even redistribute it.
 -- However, you must credit me.
 if ARCSlots then
+	local explination = true
 	local ARCSlotsGUI = ARCSlotsGUI or {}
 	ARCSlotsGUI.SelectedAccountRank = 0
 	ARCSlotsGUI.SelectedAccount = ""
@@ -23,6 +24,12 @@ if ARCSlots then
 		if thing == "settings" then
 			error("Tell aritz that this shouldn't happen, be sure to attach the FULL error reporst")
 		elseif thing == "adv_Slot" then
+			if (explination) then
+				Derma_Query( ARCSlots.Msgs.AdminMenu.Explination,  ARCSlots.Msgs.AdminMenu.SlotConfig , ARCSlots.Msgs.SlotMsgs.Yes, function()
+					gui.OpenURL("http://aritzcracker.ca/faq/arcslots")
+				end, ARCSlots.Msgs.SlotMsgs.No)
+				explination = false
+			end
 			local MainPanel = vgui.Create( "DFrame" )
 			MainPanel:SetSize( 480,400 )
 			MainPanel:Center()
@@ -56,6 +63,23 @@ if ARCSlots then
 			profitinput:SetMinMax( 1.1, 100 )
 			profitinput:SetDecimals(2)
 			profitinput:SetValue( tab.Profit )
+			
+			
+			local spinlb = vgui.Create( "DLabel",MainPanel) -- Creates our label
+			spinlb:SetText(ARCSlots.Msgs.AdminMenu.FreeSpin)
+			spinlb:SetPos( 210, 332)
+			spinlb:SetSize(140,30)
+			local spinInput = vgui.Create( "DNumberWang",MainPanel)
+			spinInput:SetPos( 210+140, 340)
+			spinInput:SetSize( 55, 20 )
+			spinInput:SetMinMax( 0, 100 )
+			spinInput:SetDecimals(0)
+			spinInput:SetValue( tab.FreeSpin*100 )
+			spinInput.OnValueChanged = function(panel,val)
+				tab.FreeSpin = val/100
+			end
+			
+			
 			local SaveButton = vgui.Create( "DButton", MainPanel )
 			SaveButton:SetText( ARCSlots.Msgs.AdminMenu.SaveSettings )
 			SaveButton:SetPos( 10, 370 )
@@ -71,7 +95,6 @@ if ARCSlots then
 				if antiinfloop then return end
 				antiinfloop = true
 				tab.Profit = profitinput:GetValue()
-				
 				local total = 0
 				local profit = 0
 				for i=1,9 do
@@ -83,13 +106,13 @@ if ARCSlots then
 				tab.Prizes[0] = 0
 				payoutinput[0]:SetValue(0)
 				
-				tab.Chances[0] = profit * 1.5
+				tab.Chances[0] = profit * tab.Profit
 				chanceinput[0]:SetValue(tab.Chances[0])
 				total = total + tab.Chances[0]
 
 				for i=0,9 do
 					--MsgN("Prize "..i.."("..ARCSlots.SpecialSettings.Slot.Prizes[i]..")")
-					percentlbl[i]:SetText("%"..tostring(tab.Chances[i]/total * 100))
+					percentlbl[i]:SetText("%"..math.Round(tab.Chances[i]/total * 100, 10))
 				end
 				antiinfloop = false
 			end
