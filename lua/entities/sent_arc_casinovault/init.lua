@@ -9,7 +9,7 @@ include('shared.lua')
 util.AddNetworkString("arcslots_casino_vault_anim")
 
 function ENT:Initialize()
-	if !ARCBank || !ARCBank.Features["hackapi"] then
+	if !ARCLib.IsVersion("1.3.6","ARCBank") then
 		ARCLib.NotifyBroadcast("The vault requires ARCBank v1.3.6 or later (the paid version)",NOTIFY_ERROR,5,true)
 		self:Remove()
 		return
