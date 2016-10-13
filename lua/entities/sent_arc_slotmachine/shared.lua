@@ -9,7 +9,7 @@ ENT.Type = "anim"
 ENT.PrintName		= "ARC Slot Machine"
 ENT.Author			= "ARitz Cracker"
 ENT.Category 		= "ARCSlots"
-ENT.Contact    		= "aritz-rocks@hotmail.com"
+ENT.Contact    		= "aritz@aritzcracker.ca"
 ENT.Purpose 		= "Feelin' lucky today?"
 ENT.Instructions 	= "Use it."
 

@@ -26,7 +26,7 @@ if ARCSlots then
 		elseif thing == "adv_Slot" then
 			if (explination) then
 				Derma_Query( ARCSlots.Msgs.AdminMenu.Explination,  ARCSlots.Msgs.AdminMenu.SlotConfig , ARCSlots.Msgs.SlotMsgs.Yes, function()
-					gui.OpenURL("http://aritzcracker.ca/faq/arcslots")
+					gui.OpenURL("https://www.youtube.com/watch?v=gb6pAKYbEdI")
 				end, ARCSlots.Msgs.SlotMsgs.No)
 				explination = false
 			end

@@ -60,7 +60,7 @@ ARCSlots.Commands = { --Make sure they are less then 16 chars long.$
 		command = function(ply,args) 
 			if !ARCSlots.Loaded then ARCSlots.MsgCL(ply,ARCSlots.Msgs.CommandOutput.SysReset) return end
 			local translations = {}
-			translations.errmsgs = ARCBANK_ERRORSTRINGS
+			translations.errmsgs = ARCSLOTS_ERRORSTRINGS
 			translations.msgs = ARCSlots.Msgs
 			translations.settingsdesc = ARCSlots.SettingsDesc
 			local strs = ARCLib.SplitString(util.TableToJSON(translations),4000)

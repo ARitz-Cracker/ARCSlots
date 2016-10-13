@@ -42,19 +42,14 @@ if ARCSlots then
 		hidden = false
 	}
 	net.Receive("ARCSlots_Admin_GUI",function(len,ply) 
-		if !ply:IsAdmin() && !ply:IsSuperAdmin() then
-			ARCSlots.MsgCL(ply,ARCSlots.Msgs.CommandOutput.admin)
+		if !table.HasValue(ARCSlots.Settings.admins,string.lower(ply:GetUserGroup())) then
+			ARCSlots.MsgCL(ply,ARCLib.PlaceholderReplace(ARCSlots.Msgs.CommandOutput.AdminCommand,{RANKS=table.concat( ARCSlots.Settings.admins, ", " )}))
 		return end
-		if ARCSlots.Settings["superadmin_only"] && !ply:IsSuperAdmin() then
-			ARCSlots.MsgCL(ply,ARCSlots.Msgs.CommandOutput.superadmin)
-		return end
-		if ARCSlots.Settings["owner_only"] && string.lower(ply:GetUserGroup()) != "owner" then
-			ARCSlots.MsgCL(ply,ARCSlots.Msgs.CommandOutput.superadmin)
-		return end
+		
 		local setting = net.ReadString()
 		local tab = net.ReadTable()
 		ARCLib.RecursiveTableMerge(ARCSlots.SpecialSettings[setting],tab)
-		ARCSlots.MsgCL(ply,"Advanced setting "..setting.." saved.")
+		ARCSlots.MsgCL(ply,ARCLib.PlaceholderReplace(ARCSlots.Msgs.CommandOutput.AdvSettingsSaved,SETTING=setting))
 		if setting == "Slot" then
 			net.Start("arcslots_prizes")
 			for i=1,9 do

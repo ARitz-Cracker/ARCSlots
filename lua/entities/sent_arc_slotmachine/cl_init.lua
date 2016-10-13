@@ -52,6 +52,9 @@ function ENT:Initialize()
 	self.IdleTime = CurTime()
 	self.Idle = true
 	
+	self.GreenCardLight = SysTime() + 1
+	self.RedCardLight = SysTime() + 1
+	
 	self.FakeIcons = {math.random(0,8),math.random(0,8),math.random(0,8)}
 	self.FakeIconsPos = {0,0,0}
 	
@@ -87,6 +90,17 @@ function ENT:Draw()
 	self:DrawShadow( true )
 end
 --]]
+net.Receive( "ARCSlots_cardlight", function(length)
+	local ent = net.ReadEntity()
+	if IsValid(ent) then
+		if (net.ReadBool()) then
+			ent.GreenCardLight = SysTime() + 1
+		else
+			ent.RedCardLight = SysTime() + 1
+		end
+	end
+end)
+
 net.Receive( "ARCSlots_Update", function(length)
 	local machine = net.ReadEntity()
 	local idle = tobool(net.ReadBit())
@@ -194,7 +208,7 @@ ENT.WheelPos = {{},{},{}}
 ENT.WheelPos[2].x = ENT.CenterX - 32
 ENT.WheelPos[2].y = ENT.CenterY - ENT.WheelHight/2
 
-ENT.WheelPos[2].bgcol = Color(255,255,255,255)
+ENT.WheelPos[2].bgcol = Color(255,255,255,150)
 ENT.WheelPos[2].bdcol = Color(0,0,255,255)
 ENT.WheelPos[2].ficon1 = math.random(0,8)
 ENT.WheelPos[2].ficon2 = math.random(0,8)
@@ -202,7 +216,7 @@ ENT.WheelPos[2].ficon2 = math.random(0,8)
 ENT.WheelPos[1].x = ENT.WheelPos[2].x - 80
 ENT.WheelPos[1].y = ENT.WheelPos[2].y
 
-ENT.WheelPos[1].bgcol = Color(255,255,255,255)
+ENT.WheelPos[1].bgcol = Color(255,255,255,150)
 ENT.WheelPos[1].bdcol = Color(0,0,255,255)
 ENT.WheelPos[1].ficon1 = math.random(0,8)
 ENT.WheelPos[1].ficon2 = math.random(0,8)
@@ -210,7 +224,7 @@ ENT.WheelPos[1].ficon2 = math.random(0,8)
 ENT.WheelPos[3].x = ENT.WheelPos[2].x + 80
 ENT.WheelPos[3].y = ENT.WheelPos[2].y
 
-ENT.WheelPos[3].bgcol = Color(255,255,255,255)
+ENT.WheelPos[3].bgcol = Color(255,255,255,150)
 ENT.WheelPos[3].bdcol = Color(0,0,255,255)
 ENT.WheelPos[3].ficon1 = math.random(0,8)
 ENT.WheelPos[3].ficon2 = math.random(0,8)
@@ -557,6 +571,9 @@ ENT.LastWildChange = SysTime()
 ENT.LastCardChange = SysTime()
 ENT.WildChangeColor = 1
 local colorvars = {"r","g","b","r"}
+
+
+
 function ENT:DrawPrizeScreen()
 	if !ARCSlots.Settings["money_symbol"] then return end
 	surface.SetDrawColor(0,0,0,255)
@@ -659,6 +676,7 @@ icons[7].h = 73
 local selscreen = Vector(17.12,19.3,47.16)
 local selscreenAng = Angle(0,180,0)
 local usetime = 0
+local lightTexture = surface.GetTextureID("effects/brightglow_y")
 function ENT:DrawSelectionScreen()
 	local ply = LocalPlayer()
 	--surface.SetDrawColor(0,0,0,255)
@@ -686,9 +704,11 @@ function ENT:DrawSelectionScreen()
 				break
 			end
 		end
-		
-		surface.SetDrawColor(255,0,0,128)
-		surface.DrawRect(402,47,44,28)
+		if self.Idle && math.sin((CurTime()+(self:EntIndex()/50))*math.pi*2) > 0 then
+			surface.SetDrawColor(100,0,0,255)
+			surface.SetTexture(lightTexture)
+			surface.DrawTexturedRect(402-10,47-8,44+20,28+20)
+		end
 	end
 end
 
@@ -719,8 +739,10 @@ function ENT:PressButton(id)
 	lastbet = math.Clamp(lastbet,ARCSlots.Settings.slots_min_bet,ARCSlots.Settings.slots_max_bet)
 end
 
+local cardLightTexture = surface.GetTextureID("effects/brightglow_y")
 function ENT:Draw()
 	self:DrawModel()
+	local dist = LocalPlayer():GetPos():DistToSqr(self:GetPos())
 	if ARCSlots.Settings["slots_handle"] then
 		local x = SysTime() - self.SpinAnimStartTime
 		local add = 1 / ((2*(x-0.5))^2+0.05)
@@ -729,7 +751,7 @@ function ENT:Draw()
 		self.SpinnerPos.angle = self:LocalToWorldAngles(Angle(0,0,-add*3))
 		render.Model( self.SpinnerPos ) 
 	end
-	if LocalPlayer():GetPos():DistToSqr(self:GetPos()) > 1000000 then return end
+	if dist > 1000000 then return end
 	self:DrawShadow( true )
 	cam.Start3D2D(self:LocalToWorld(Vector(18.6,8.75,69.2)), self:LocalToWorldAngles(Angle(180,-0.4,-107.6)), 0.1246)
 		self:DrawMainScreen()
@@ -743,9 +765,21 @@ function ENT:Draw()
 		self:DrawSelectionScreen()
 	cam.End3D2D()
 	
+	render.SetMaterial(self.spriteMaterial)
+	if self.GreenCardLight > SysTime() then
+		render.DrawSprite(self:LocalToWorld(Vector(-17.75,20.3,48.2)), 2, 2, Color(25,255,25))
+	elseif self.RedCardLight > SysTime() then
+		render.DrawSprite(self:LocalToWorld(Vector(-18.3,20.3,48.2)), 2, 2, Color(255,25,25))
+	elseif dist < 10000 && istable(ARCBank) && self.Idle && math.sin((CurTime()+(self:EntIndex()/50)-0.1)*math.pi*2) > 0 then
+		render.DrawSprite(self:LocalToWorld(Vector(-17.2,20.3,48.2)), 2, 2, Color(25,50,255))
+	end
+
+	--
+	
+	--
+	
 	if self.Status == 1 then
 		--if math.sin(CurTime() * 24) > 0 then
-			render.SetMaterial(self.spriteMaterial)
 			--(math.sin(CurTime()+(2*math.pi/3))/2+0.5)*255
 			if self.Winnings[1] == 8 && self.Winnings[2] == 8 && self.Winnings[3] == 8 then
 			--(math.sin(CurTime()*4)*32)+48

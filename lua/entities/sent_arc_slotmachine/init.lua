@@ -24,6 +24,7 @@ ARCLib.AddDir("materials/arc/slotmachine")
 
 
 util.AddNetworkString( "ARCSlots_Update" )
+util.AddNetworkString("ARCSlots_cardlight")
 function ENT:Initialize()
 	self:SetModel( "models/arc/slotmachine.mdl" )
 	self:PhysicsInit( SOLID_VPHYSICS )
@@ -293,6 +294,10 @@ net.Receive( "ARCSlots_Update", function(length,ply)
 				if worked then
 					ent:Spin(ply,num)
 				end
+				net.Start("ARCSlots_cardlight")
+				net.WriteEntity(ent)
+				net.WriteBool(worked)
+				net.Broadcast()
 			end)
 		else
 			ent:Spin(ply,num)

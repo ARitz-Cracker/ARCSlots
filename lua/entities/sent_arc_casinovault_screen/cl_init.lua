@@ -87,9 +87,9 @@ function ENT:Draw()
 				draw.SimpleText( ARCSlots.Settings["money_symbol"], "Trebuchet24",self.ResX/2 + i*13 - (21*13/2), self.ResY/2 + math.sin(CurTime()/3.5+i)--[[*math.sin(CurTime()/4)]]*85, Color(0,64,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
 				draw.SimpleText( ARCSlots.Settings["money_symbol"], "Trebuchet24",self.ResX/2 + i*13 - (21*13/2), self.ResY/2 + math.sin(CurTime()+i)--[[*math.sin(CurTime()/4)]]*85, Color(0,64,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
 			end
-			draw.SimpleText( "TOTAL FUNDS:", "Trebuchet24",self.ResX/2, self.ResY/2 - 12 - 36, Color(0,255,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
+			draw.SimpleText( ARCSlots.Msgs.VaultMsgs.TotalFunds, "Trebuchet24",self.ResX/2, self.ResY/2 - 12 - 36, Color(0,255,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
 			draw.SimpleText( ARCSlots.Settings["money_symbol"]..ARCSlots.CasinoFunds, "Trebuchet24",self.ResX/2, self.ResY/2 + 12 - 36, Color(0,255,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
-			draw.SimpleText( "VAULT FUNDS:", "Trebuchet24",self.ResX/2, self.ResY/2 - 12 + 36, Color(0,255,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
+			draw.SimpleText( ARCSlots.Msgs.VaultMsgs.Funds, "Trebuchet24",self.ResX/2, self.ResY/2 - 12 + 36, Color(0,255,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
 			draw.SimpleText( ARCSlots.Settings["money_symbol"]..ARCSlots.VaultFunds, "Trebuchet24",self.ResX/2, self.ResY/2 + 12 + 36, Color(0,255,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
 		elseif self.ScrType == 2 then			
 			for i=1,20 do
@@ -99,20 +99,20 @@ function ENT:Draw()
 			for i=1,#self.TallScroolText do
 				draw.SimpleText( self.TallScroolText[math.floor((CurTime()*15+i)%(#self.TallScroolText-1)+1)], "ARCBankATMConsoleSmall",0,i*8, Color(0,128,0,255), TEXT_ALIGN_LEFT , TEXT_ALIGN_BOTTOM  )
 			end
-			draw.SimpleText( "VAULT STATUS:", "Trebuchet24",self.ResX/2, self.ResY/2 - 24, Color(0,255,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
+			draw.SimpleText( ARCSlots.Msgs.VaultMsgs.Status, "Trebuchet24",self.ResX/2, self.ResY/2 - 24, Color(0,255,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
 			
 			surface.SetDrawColor(0,255,0,255)
 			surface.DrawRect(self.ResX/2 - 80, self.ResY/2 + 24 - 14 ,160, 28)
-			draw.SimpleText( "**SECURE**", "Trebuchet24",self.ResX/2, self.ResY/2 + 24, Color(0,0,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
+			draw.SimpleText( ARCSlots.Msgs.VaultMsgs.Secure, "Trebuchet24",self.ResX/2, self.ResY/2 + 24, Color(0,0,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
 		elseif self.ScrType == 4 then
 
-				draw.SimpleText( "** WARNING **", "Trebuchet24",self.ResX/2 + math.sin(CurTime()*2+2)*40, self.ResY/2 + math.sin(CurTime()+1/2)--[[*math.sin(CurTime()/4)]]*85, Color(64,0,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
-				draw.SimpleText( "** WARNING **", "Trebuchet24",self.ResX/2 + math.sin(CurTime()*2.5+4)*40, self.ResY/2 + math.sin(CurTime()/3.5+1)--[[*math.sin(CurTime()/4)]]*85, Color(64,0,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
-				draw.SimpleText( "** WARNING **", "Trebuchet24",self.ResX/2 + math.sin(CurTime()+1)*40, self.ResY/2 + math.sin(CurTime()+1)--[[*math.sin(CurTime()/4)]]*85, Color(64,0,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
+				draw.SimpleText( ARCSlots.Msgs.VaultMsgs.Warning, "Trebuchet24",self.ResX/2 + math.sin(CurTime()*2+2)*40, self.ResY/2 + math.sin(CurTime()+1/2)--[[*math.sin(CurTime()/4)]]*85, Color(64,0,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
+				draw.SimpleText( ARCSlots.Msgs.VaultMsgs.Warning, "Trebuchet24",self.ResX/2 + math.sin(CurTime()*2.5+4)*40, self.ResY/2 + math.sin(CurTime()/3.5+1)--[[*math.sin(CurTime()/4)]]*85, Color(64,0,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
+				draw.SimpleText( ARCSlots.Msgs.VaultMsgs.Warning, "Trebuchet24",self.ResX/2 + math.sin(CurTime()+1)*40, self.ResY/2 + math.sin(CurTime()+1)--[[*math.sin(CurTime()/4)]]*85, Color(64,0,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
 
-			draw.SimpleText( "TOTAL FUNDS:", "Trebuchet24",self.ResX/2, self.ResY/2 - 12 - 36, Color(255,0,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
+			draw.SimpleText( ARCSlots.Msgs.VaultMsgs.TotalFunds, "Trebuchet24",self.ResX/2, self.ResY/2 - 12 - 36, Color(255,0,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
 			draw.SimpleText( ARCSlots.Settings["money_symbol"]..ARCSlots.CasinoFunds, "Trebuchet24",self.ResX/2, self.ResY/2 + 12 - 36, Color(255,0,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
-			draw.SimpleText( "VAULT FUNDS:", "Trebuchet24",self.ResX/2, self.ResY/2 - 12 + 36, Color(255,0,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
+			draw.SimpleText( ARCSlots.Msgs.VaultMsgs.Funds, "Trebuchet24",self.ResX/2, self.ResY/2 - 12 + 36, Color(255,0,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
 			draw.SimpleText( ARCSlots.Settings["money_symbol"]..ARCSlots.VaultFunds, "Trebuchet24",self.ResX/2, self.ResY/2 + 12 + 36, Color(255,0,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
 		elseif self.ScrType == 5 then
 			surface.SetDrawColor(255,0,0,255)
@@ -134,20 +134,20 @@ function ENT:Draw()
 			end
 			
 			
-			draw.SimpleText( "VAULT STATUS:", "Trebuchet24",self.ResX/2, self.ResY/2 - 24, Color(255,0,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
+			draw.SimpleText( ARCSlots.Msgs.VaultMsgs.Status, "Trebuchet24",self.ResX/2, self.ResY/2 - 24, Color(255,0,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
 			
 			if math.sin(CurTime()*math.pi*2) > 0 then
 				draw.SimpleText( self.TallScroolText[#self.TallScroolText], "ARCBankATMConsoleSmall",0,#self.TallScroolText*8, Color(128,0,0,255), TEXT_ALIGN_LEFT , TEXT_ALIGN_BOTTOM  )
 				
 				surface.SetDrawColor(255,0,0,255)
 				surface.DrawRect(self.ResX/2 - 80, self.ResY/2 + 24 - 14 ,160, 28)
-				draw.SimpleText( "**BREACHED**", "Trebuchet24",self.ResX/2, self.ResY/2 + 24, Color(0,0,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
+				draw.SimpleText( ARCSlots.Msgs.VaultMsgs.Insecure, "Trebuchet24",self.ResX/2, self.ResY/2 + 24, Color(0,0,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
 			else
 				draw.SimpleText( self.TallScroolText[#self.TallScroolText].."_", "ARCBankATMConsoleSmall",0,#self.TallScroolText*8, Color(128,0,0,255), TEXT_ALIGN_LEFT , TEXT_ALIGN_BOTTOM  )
 			
 				surface.SetDrawColor(0,0,0,255)
 				surface.DrawRect(self.ResX/2 - 80, self.ResY/2 + 24 - 14 ,160, 28)
-				draw.SimpleText( "**BREACHED**", "Trebuchet24",self.ResX/2, self.ResY/2 + 24, Color(255,0,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
+				draw.SimpleText( ARCSlots.Msgs.VaultMsgs.Insecure, "Trebuchet24",self.ResX/2, self.ResY/2 + 24, Color(255,0,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
 			end
 		elseif self.ScrType == 9 then
 			for i=1,#self.TallScroolText do	
@@ -156,16 +156,16 @@ function ENT:Draw()
 				end
 				draw.SimpleText( self.TallScroolText[i], "ARCBankATMConsoleSmall",0,i*8, Color(0,math.random(0,255),0,255), TEXT_ALIGN_LEFT , TEXT_ALIGN_BOTTOM  )
 			end
-			draw.SimpleText( "VAULT STATUS:", "Trebuchet24",self.ResX/2, self.ResY/2 - 24, Color(255,255,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
+			draw.SimpleText( ARCSlots.Msgs.VaultMsgs.Status, "Trebuchet24",self.ResX/2, self.ResY/2 - 24, Color(255,255,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
 			
 			if math.sin(CurTime()*math.pi*2) > 0 then
 				surface.SetDrawColor(255,255,0,255)
 				surface.DrawRect(self.ResX/2 - 80, self.ResY/2 + 24 - 14 ,160, 28)
-				draw.SimpleText( "**WARNING**", "Trebuchet24",self.ResX/2, self.ResY/2 + 24, Color(0,0,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
+				draw.SimpleText( ARCSlots.Msgs.VaultMsgs.Warning, "Trebuchet24",self.ResX/2, self.ResY/2 + 24, Color(0,0,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
 			else
 				surface.SetDrawColor(0,0,0,255)
 				surface.DrawRect(self.ResX/2 - 80, self.ResY/2 + 24 - 14 ,160, 28)
-				draw.SimpleText( "**WARNING**", "Trebuchet24",self.ResX/2, self.ResY/2 + 24, Color(255,255,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
+				draw.SimpleText( ARCSlots.Msgs.VaultMsgs.Warning, "Trebuchet24",self.ResX/2, self.ResY/2 + 24, Color(255,255,0,255), TEXT_ALIGN_CENTER , TEXT_ALIGN_CENTER  )
 			end
 		end
 	cam.End3D2D()

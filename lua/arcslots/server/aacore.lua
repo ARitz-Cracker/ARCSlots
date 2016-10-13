@@ -43,7 +43,7 @@ function ARCSlots.RawARCBankAddMoney(ply,amount,groupaccount,reason,callback)
 		if err == 0 then
 			callback(true)
 		else
-			ARCLib.NotifyPlayer(ply,"ARCBank: "..ARCBANK_ERRORSTRINGS[ARCBANK_ERROR_WRITE_FAILURE],NOTIFY_ERROR,6,true)
+			ARCLib.NotifyPlayer(ply,"ARCBank: "..ARCBANK_ERRORSTRINGS[err],NOTIFY_ERROR,6,true)
 			callback(false)
 		end
 	end)

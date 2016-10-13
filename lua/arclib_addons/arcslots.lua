@@ -45,6 +45,7 @@ ARCSLOTS_ERROR_NONE = 0
 ARCSlots.Msg("Version: "..ARCSlots.Version)
 ARCSlots.Msg("Updated on: "..ARCSlots.Update)
 if SERVER then
+	resource.AddWorkshop( "251070018" )
 	util.AddNetworkString( "ARCSlots_Msg" )
 	function ARCSlots.MsgCL(ply,msg)
 		--net.Start( "ARCSlots_Msg" )
@@ -55,20 +56,6 @@ if SERVER then
 			ply:PrintMessage( HUD_PRINTTALK, "ARCSlots: "..tostring(msg))
 			--net.Send(ply)
 		end
-	end
-	net.Receive( "ARCSlots_Msg", function(length,ply)
-		local msg = net.ReadString() 
-		MsgN("ARCSlots - "..ply:Nick().." ("..ply:SteamID().."): "..msg)
-	end)
-else
-	net.Receive( "ARCSlots_Msg", function(length)
-		local msg = net.ReadString() 
-		MsgC(Color(255,255,255,255),"ARCSlots Server: "..tostring(msg).."\n")
-	end)
-	function ARCSlots.MsgToServer(msg)
-		net.Start( "ARCSlots_Msg" )
-		net.WriteString( msg )
-		net.SendToServer()
 	end
 end
 

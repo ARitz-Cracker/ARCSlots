@@ -23,7 +23,7 @@ function ENT:SpawnFunction( ply, tr )
 
 end
 function ENT:ATM_USE(ply)
-	ARCLib.NotifyPlayer(ply,"This machine isn't accepting your card",NOTIFY_GENERIC,5,true)
+	return false
 end
 function ENT:OnRemove()
 	--MsgN(self.Vault)

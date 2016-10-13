@@ -13,6 +13,7 @@ ARCSlots.Msgs.Items = ARCSlots.Msgs.Items or {}
 ARCSlots.Msgs.LogMsgs = ARCSlots.Msgs.LogMsgs or {}
 ARCSlots.Msgs.Notifications = ARCSlots.Msgs.Notifications or {}
 ARCSlots.Msgs.SlotMsgs = ARCSlots.Msgs.SlotMsgs or {}
+ARCSlots.Msgs.VaultMsgs = ARCSlots.Msgs.VaultMsgs or {}
 
 ARCSLOTS_ERRORSTRINGS = ARCPHONE_ERRORSTRINGS or {}
 ARCSlots.SettingsDesc = ARCSlots.SettingsDesc or {}
@@ -57,9 +58,9 @@ ARCSLOTS_ERRORSTRINGS[0] = "GIVE YOUR MONEY"
 
 ARCSlots.Msgs.CommandOutput.SysReset = "System reset required! Please enter \"arcslots reset\""
 ARCSlots.Msgs.CommandOutput.SysSetting = "%SETTING% has been changed to %VALUE%"
-ARCSlots.Msgs.CommandOutput.admin = "You must be an admin to use this command!"
-ARCSlots.Msgs.CommandOutput.superadmin = "You must be an superadmin to use this command!"
+ARCSlots.Msgs.CommandOutput.AdminCommand = "You must be one of these ranks to use this command: %RANKS%"
 ARCSlots.Msgs.CommandOutput.SettingsSaved = "Settings have been saved!"
+ARCSlots.Msgs.CommandOutput.AdvSettingsSaved = "Advanced setting %SETTING% saved."
 ARCSlots.Msgs.CommandOutput.SettingsError = "Error saving settings."
 
 ARCSlots.Msgs.CommandOutput.ResetYes = "System reset!"
@@ -113,7 +114,9 @@ ARCSlots.Msgs.AdminMenu.Explination = "Some of these setting options are counter
 
 ARCSlots.Msgs.Notifications.NoMoney = "You do not have enough cash!"
 ARCSlots.Msgs.Notifications.Pocket = "No matter how hard to try, you can't fit this giant thing in your pants!"
-
+ARCSlots.Msgs.Notifications.AlarmVault = "You cannot spawn an alarm without a vault"
+ARCSlots.Msgs.Notifications.VaultOne = "There can only be one vault"
+ARCSlots.Msgs.Notifications.VaultARCBank = "The vault requires ARCBank v1.3.6 or later (the paid version)"
 
 ARCSlots.Msgs.SlotMsgs.Yes = "Yes"
 ARCSlots.Msgs.SlotMsgs.No = "No"
@@ -134,6 +137,14 @@ ARCSlots.Msgs.SlotMsgs.Wild = "The WILD card can substitute for any other symbol
 ARCSlots.Msgs.SlotMsgs.MaxPrize = "MAX PRIZE: %AMOUNT%"
 
 ARCSlots.Msgs.SlotMsgs.BetMsg = "Select the amount you wish to bet:"
+
+
+ARCSlots.Msgs.VaultMsgs.Funds = "VAULT FUNDS:"
+ARCSlots.Msgs.VaultMsgs.TotalFunds = "TOTAL FUNDS:"
+ARCSlots.Msgs.VaultMsgs.Status = "VAULT STATUS:"
+ARCSlots.Msgs.VaultMsgs.Secure = "**SECURE**"
+ARCSlots.Msgs.VaultMsgs.Warning = "** WARNING **"
+ARCSlots.Msgs.VaultMsgs.Insecure = "**BREACHED**:"
 
 ARCSlots.Msgs.Commands["slots_save"] = "Save all Slot machines"
 ARCSlots.Msgs.Commands["slots_unsave"] = "Unsave all Slot machines"

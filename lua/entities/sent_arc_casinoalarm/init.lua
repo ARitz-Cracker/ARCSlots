@@ -43,7 +43,7 @@ end
 
 function ENT:Initialize()
 	if #ents.FindByClass("sent_arc_casinovault") < 1 then
-		ARCLib.NotifyBroadcast("You can't have an alarm without a vault",NOTIFY_ERROR,5,true)
+		ARCLib.NotifyBroadcast(ARCSlots.Msgs.Notifications.AlarmVault,NOTIFY_ERROR,5,true)
 		self:Remove()
 		return
 	end

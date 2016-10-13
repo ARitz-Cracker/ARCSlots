@@ -10,12 +10,12 @@ util.AddNetworkString("arcslots_casino_vault_anim")
 
 function ENT:Initialize()
 	if !ARCLib.IsVersion("1.3.6","ARCBank") then
-		ARCLib.NotifyBroadcast("The vault requires ARCBank v1.3.6 or later (the paid version)",NOTIFY_ERROR,5,true)
+		ARCLib.NotifyBroadcast(ARCSlots.Msgs.Notifications.VaultARCBank,NOTIFY_ERROR,5,true)
 		self:Remove()
 		return
 	end
 	if #ents.FindByClass("sent_arc_casinovault") > 1 then
-		ARCLib.NotifyBroadcast("THERE CAN ONLY BE ONE VAULT",NOTIFY_ERROR,5,true)
+		ARCLib.NotifyBroadcast(ARCSlots.Msgs.Notifications.VaultOne,NOTIFY_ERROR,5,true)
 		self:Remove()
 		return
 	end
