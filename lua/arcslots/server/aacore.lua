@@ -155,7 +155,7 @@ function ARCSlots.Load()
 		if file.Exists(ARCSlots.Dir.."/__data.txt","DATA") then
 			ARCSlots.Disk = util.JSONToTable(file.Read( ARCSlots.Dir.."/__data.txt","DATA" ))
 			if (!ARCSlots.Disk) then
-				ARCSlots.Msg("__data.txt is corrupt. Yeah, some accounts will be too.")
+				ARCSlots.Msg("__data.txt is corrupt.")
 				ARCSlots.Disk = {}
 				ARCSlots.Disk.ProperShutdown = false
 				ARCSlots.Disk.CasinoFunds = 0
@@ -168,9 +168,14 @@ function ARCSlots.Load()
 			ARCSlots.Msg("WARNING! THE SYSTEM DIDN'T SHUT DOWN PROPERLY!")
 		end
 		
+		if !file.IsDir( ARCSlots.Dir.."/languages","DATA" ) then
+			ARCSlots.Msg("Created Folder: "..ARCSlots.Dir.."/languages")
+			file.CreateDir(ARCSlots.Dir.."/languages")
+		end	
+		
 		ARCLib.AddonLoadSettings("ARCSlots")
 		ARCLib.AddonLoadSpecialSettings("ARCSlots")
-		
+		ARCLib.SetAddonLanguage("ARCSlots")
 		
 		ARCSlots.SpecialSettings.Slot.Prizes[0] = 0
 		local profit = 0

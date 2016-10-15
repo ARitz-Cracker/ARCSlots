@@ -676,7 +676,7 @@ icons[7].h = 73
 local selscreen = Vector(17.12,19.3,47.16)
 local selscreenAng = Angle(0,180,0)
 local usetime = 0
-local lightTexture = surface.GetTextureID("effects/brightglow_y")
+local lightTexture = surface.GetTextureID("sprites/physg_glow1")
 function ENT:DrawSelectionScreen()
 	local ply = LocalPlayer()
 	--surface.SetDrawColor(0,0,0,255)
@@ -705,9 +705,9 @@ function ENT:DrawSelectionScreen()
 			end
 		end
 		if self.Idle && math.sin((CurTime()+(self:EntIndex()/50))*math.pi*2) > 0 then
-			surface.SetDrawColor(100,0,0,255)
+			surface.SetDrawColor(200,0,0,255)
 			surface.SetTexture(lightTexture)
-			surface.DrawTexturedRect(402-10,47-8,44+20,28+20)
+			surface.DrawTexturedRect(402-50,47-26,44+100,28+60)
 		end
 	end
 end
@@ -770,8 +770,12 @@ function ENT:Draw()
 		render.DrawSprite(self:LocalToWorld(Vector(-17.75,20.3,48.2)), 2, 2, Color(25,255,25))
 	elseif self.RedCardLight > SysTime() then
 		render.DrawSprite(self:LocalToWorld(Vector(-18.3,20.3,48.2)), 2, 2, Color(255,25,25))
-	elseif dist < 10000 && istable(ARCBank) && self.Idle && math.sin((CurTime()+(self:EntIndex()/50)-0.1)*math.pi*2) > 0 then
-		render.DrawSprite(self:LocalToWorld(Vector(-17.2,20.3,48.2)), 2, 2, Color(25,50,255))
+	elseif dist < 10000 && self.Idle && math.sin((CurTime()+(self:EntIndex()/50)-0.1)*math.pi*2) > 0 then
+		if istable(ARCBank) then
+			render.DrawSprite(self:LocalToWorld(Vector(-17.2,20.3,48.2)), 2, 2, Color(25,50,255))
+		else
+			render.DrawSprite(self:LocalToWorld(Vector(-18.3,20.3,48.2)), 2, 2, Color(255,25,25))
+		end
 	end
 
 	--

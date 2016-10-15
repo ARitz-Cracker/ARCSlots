@@ -49,6 +49,8 @@ function ARCSlots.SettingsReset() --DO NOT EDIT THIS!!!!
 	ARCSlots.Settings["name"] = "ARCSlots" --DO NOT EDIT THIS!!!!
 	ARCSlots.Settings["name_long"] = "ARitz Cracker Gambling" --DO NOT EDIT THIS!!!!
 
+	ARCSlots.Settings["language"] = "en_ca"
+	
 	ARCSlots.Settings["slots_volume"] = 0.9
 	ARCSlots.Settings["slots_idle_text"] = "FEELIN LUCKY TODAY? $$$ COME TRY YOUR LUCK" --DO NOT EDIT THIS!!!!
 	ARCSlots.Settings["money_symbol"] = "$" --DO NOT EDIT THIS!!!!

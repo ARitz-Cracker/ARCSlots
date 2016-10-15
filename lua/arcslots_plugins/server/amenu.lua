@@ -49,7 +49,7 @@ if ARCSlots then
 		local setting = net.ReadString()
 		local tab = net.ReadTable()
 		ARCLib.RecursiveTableMerge(ARCSlots.SpecialSettings[setting],tab)
-		ARCSlots.MsgCL(ply,ARCLib.PlaceholderReplace(ARCSlots.Msgs.CommandOutput.AdvSettingsSaved,SETTING=setting))
+		ARCSlots.MsgCL(ply,ARCLib.PlaceholderReplace(ARCSlots.Msgs.CommandOutput.AdvSettingsSaved,{SETTING=setting}))
 		if setting == "Slot" then
 			net.Start("arcslots_prizes")
 			for i=1,9 do
