@@ -41,7 +41,7 @@ arcslots settings (setting) (value)
 ^ SETS THE SETTING YOU WANT TO THE SPECIFIED VALUE.
 ]]
 function ARCSlots.SettingsReset() --DO NOT EDIT THIS!!!!
-	ARCSlots.Settings["slots_max_bet"] = 50 --DO NOT EDIT THIS!!!!
+	ARCSlots.Settings["slots_max_bet"] = 100 --DO NOT EDIT THIS!!!!
 	ARCSlots.Settings["slots_min_bet"] = 25 --DO NOT EDIT THIS!!!!
 	ARCSlots.Settings["slots_incr"] = 5 --DO NOT EDIT THIS!!!!
 	ARCSlots.Settings["slots_incr_big"] = 10 --DO NOT EDIT THIS!!!!

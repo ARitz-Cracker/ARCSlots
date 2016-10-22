@@ -162,15 +162,14 @@ net.Receive( "ARCSlots_Update", function(length)
 	machine.Status = status
 	machine.WinningThing = winning
 	machine.Idle = idle
+	if machine.BottomScreenText != msg then
+		machine.ScrollPos = -23 --len is 23
+	end
 	machine.BottomScreenText = tostring(msg)
 	if idle then
 		machine.IdleTime = SysTime() + math.random(5,15)
-		machine.ScrollPos = -23 --len is 23
 	end
-	if machine.Winnings[1] == -3 then
-		machine.ScrollPos = -23 --len is 23
-	end
-	
+
 end)
 local winicons = {}
 local winiconstext = {}
@@ -425,7 +424,7 @@ function ENT:DrawMainScreen()
 				if ok || self.Winnings[i] < -1 then
 					self.ExtraCodeForDetail = false
 					self.ClickTime[3] = SysTime()
-					self:EmitSound("arcslots/stop3.wav",90,math.random(85,101))
+					self:EmitSound("arcslots/stop3.wav",65,math.random(85,101))
 				end
 			end
 		elseif self.Winnings[i] >= 0 then

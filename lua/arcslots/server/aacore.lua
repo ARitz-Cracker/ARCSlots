@@ -49,39 +49,15 @@ function ARCSlots.RawARCBankAddMoney(ply,amount,groupaccount,reason,callback)
 	end)
 end
 
-function ARCSlots.RawPlayerAddMoney(ply,amount)
-	if ARCBank then
-		ARCBank.PlayerAddMoney(ply,amount)
-		return
-	end
-	if string.lower(GAMEMODE.Name) == "gmod day-z" then
-		if amount > 0 then
-			ply:GiveItem("item_money", amount)
-		else
-			amount = amount * -1
-			ply:TakeItem("item_money", amount)
-		end
-	elseif string.lower(GAMEMODE.Name) == "underdone - rpg" then
-		if amount > 0 then
-			ply:AddItem("money", amount)
-		else
-			amount = amount * -1
-			ply:RemoveItem("money", amount)
-		end
-	elseif ply.addMoney then -- DarkRP 2.5+
-		ply:addMoney(amount)
-	elseif ply.AddMoney then -- DarkRP 2.4
-		ply:AddMoney(amount)
-	else
-		ply:SendLua("notification.AddLegacy( \"I'm going to pretend that your wallet is unlimited because this is an unsupported gamemode.\", 0, 5 )")
-	end
+function ARCSlots.ChangeFunds(amount)
+	ARCSlots.Disk.CasinoFunds = math.Round(ARCSlots.Disk.CasinoFunds - amount)
+	ARCSlots.Disk.VaultFunds = math.floor(ARCSlots.Disk.VaultFunds - amount*0.25)
 end
 
 function ARCSlots.ARCBankAddMoney(ply,amount,groupaccount,reason,callback)
 	ARCSlots.RawARCBankAddMoney(ply,amount,groupaccount,reason,function(worked)
 		if worked then
-			ARCSlots.Disk.CasinoFunds = math.Round(ARCSlots.Disk.CasinoFunds - amount)
-			ARCSlots.Disk.VaultFunds = math.floor(ARCSlots.Disk.VaultFunds - amount*0.25)
+			ARCSlots.ChangeFunds(-amount)
 			net.Start("arcslots_worth")
 			net.WriteDouble(ARCSlots.Disk.CasinoFunds)
 			net.WriteDouble(ARCSlots.Disk.VaultFunds)
@@ -93,8 +69,7 @@ end
 
 function ARCSlots.PlayerAddMoney(ply,amount)
 	ARCSlots.RawPlayerAddMoney(ply,amount)
-	ARCSlots.Disk.CasinoFunds = math.Round(ARCSlots.Disk.CasinoFunds - amount)
-	ARCSlots.Disk.VaultFunds = math.floor(ARCSlots.Disk.VaultFunds - amount*0.25)
+	ARCSlots.ChangeFunds(-amount)
 	net.Start("arcslots_worth")
 	net.WriteDouble(ARCSlots.Disk.CasinoFunds)
 	net.WriteDouble(ARCSlots.Disk.VaultFunds)
@@ -167,39 +142,36 @@ function ARCSlots.Load()
 		else
 			ARCSlots.Msg("WARNING! THE SYSTEM DIDN'T SHUT DOWN PROPERLY!")
 		end
-		
-		if !file.IsDir( ARCSlots.Dir.."/languages","DATA" ) then
-			ARCSlots.Msg("Created Folder: "..ARCSlots.Dir.."/languages")
-			file.CreateDir(ARCSlots.Dir.."/languages")
-		end	
-		
-		ARCLib.AddonLoadSettings("ARCSlots")
-		ARCLib.AddonLoadSpecialSettings("ARCSlots")
-		ARCLib.SetAddonLanguage("ARCSlots")
-		
-		ARCSlots.SpecialSettings.Slot.Prizes[0] = 0
-		local profit = 0
-		for i=1,9 do
-			profit = profit + ARCSlots.SpecialSettings.Slot.Chances[i]*ARCSlots.SpecialSettings.Slot.Prizes[i]
-		end
-		ARCSlots.SpecialSettings.Slot.Chances[0] = profit * ARCSlots.SpecialSettings.Slot.Profit
-		
-		ARCSlots.LogFile = os.date(ARCSlots.Dir.."/systemlog - %d %b %Y - "..tostring(os.date("%H")*60+os.date("%M"))..".log.txt")
-		file.Write(ARCSlots.LogFile,"***ARCSlots System Log***\r\n"..table.Random({"Oh my god. You're reading this!","WINDOWS LOVES TYPEWRITER COMMANTS IN TXT FILES","What you're refeering to as 'Linux' is in fact GNU/Linux.","... did you mess something up this time?"}).."\r\nDates are in DD-MM-YYYY\r\n")
-		ARCSlots.LogFileWritten = true
-		ARCSlots.Msg("Log File Created at "..ARCSlots.LogFile)
-		timer.Create( "ARCSLOTS_SAVEDISK", 300, 0, function() 
+		ARCLib.LoadDefaultLanguages("ARCSlots","https://raw.githubusercontent.com/ARitz-Cracker/aritzcracker-addon-translations/master/default_arcslots_languages.json",function(langChoices)
+			ARCLib.AddonAddSettingMultichoice("ARCSlots","language",langChoices)
+			ARCLib.AddonLoadSettings("ARCSlots")
+			ARCLib.AddonLoadSpecialSettings("ARCSlots")
+			ARCLib.SetAddonLanguage("ARCSlots")
 			
-			file.Write(ARCSlots.Dir.."/__data.txt", util.TableToJSON(ARCSlots.Disk) )
-		end )
-		timer.Start( "ARCSLOTS_SAVEDISK" ) 
-		ARCSlots.SpawnSlotMachines()
-		ARCSlots.SpawnVault()
-		
-		
-		ARCSlots.Msg("ARCSlots is ready!")
-		ARCSlots.Loaded = true
-		ARCSlots.Busy = false
+			ARCSlots.SpecialSettings.Slot.Prizes[0] = 0
+			local profit = 0
+			for i=1,9 do
+				profit = profit + ARCSlots.SpecialSettings.Slot.Chances[i]*ARCSlots.SpecialSettings.Slot.Prizes[i]
+			end
+			ARCSlots.SpecialSettings.Slot.Chances[0] = profit * ARCSlots.SpecialSettings.Slot.Profit
+			
+			ARCSlots.LogFile = os.date(ARCSlots.Dir.."/systemlog - %d %b %Y - "..tostring(os.date("%H")*60+os.date("%M"))..".log.txt")
+			file.Write(ARCSlots.LogFile,"***ARCSlots System Log***\r\n"..table.Random({"Oh my god. You're reading this!","WINDOWS LOVES TYPEWRITER COMMANTS IN TXT FILES","What you're refeering to as 'Linux' is in fact GNU/Linux.","... did you mess something up this time?"}).."\r\nDates are in DD-MM-YYYY\r\n")
+			ARCSlots.LogFileWritten = true
+			ARCSlots.Msg("Log File Created at "..ARCSlots.LogFile)
+			timer.Create( "ARCSLOTS_SAVEDISK", 300, 0, function() 
+				
+				file.Write(ARCSlots.Dir.."/__data.txt", util.TableToJSON(ARCSlots.Disk) )
+			end )
+			timer.Start( "ARCSLOTS_SAVEDISK" ) 
+			ARCSlots.SpawnSlotMachines()
+			ARCSlots.SpawnVault()
+			
+			
+			ARCSlots.Msg("ARCSlots is ready!")
+			ARCSlots.Loaded = true
+			ARCSlots.Busy = false
+		end)
 	end)
 end
 

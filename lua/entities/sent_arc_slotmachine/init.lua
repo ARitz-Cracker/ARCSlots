@@ -158,7 +158,7 @@ function ENT:Spin(ply,amount)
 		if self.FreeSpins < 0 then
 			self.FreeSpins = 0
 		end
-		self:EmitSound("arcslots/start.wav",75,100,ARCSlots.Settings["slots_volume"])
+		self:EmitSound("arcslots/start.wav",70,100,ARCSlots.Settings["slots_volume"])
 		self.SpinSound:PlayEx(ARCSlots.Settings["slots_volume"],100)
 		self.Icon1 = math.random(-4,-3)
 		self.Icon2 = math.random(-4,-3)
@@ -169,14 +169,14 @@ function ENT:Spin(ply,amount)
 		timer.Simple(math.Rand(0.7,1.7),function()
 			if !IsValid(self) then return end
 			self.Icon1 = icon1
-			self:EmitSound("arcslots/stop"..math.random(1,2)..".wav",90,math.random(90,110),ARCSlots.Settings["slots_volume"])
+			self:EmitSound("arcslots/stop"..math.random(1,2)..".wav",65,math.random(90,110),ARCSlots.Settings["slots_volume"])
 			self:UpdateIcons()
 			local time = math.Rand(0.1,0.9)
 			if self.Icon1 == 0 then time = 0.1 end
 			timer.Simple(time,function()
 				if !IsValid(self) then return end
 				self.Icon2 = icon2
-				self:EmitSound("arcslots/stop"..math.random(1,2)..".wav",90,math.random(90,110),ARCSlots.Settings["slots_volume"])
+				self:EmitSound("arcslots/stop"..math.random(1,2)..".wav",65,math.random(90,110),ARCSlots.Settings["slots_volume"])
 				self:UpdateIcons()
 				local time = math.Rand(0.1,0.9)
 				if self.Icon1 == 0 then time = 0.1 end
@@ -214,7 +214,7 @@ function ENT:Spin(ply,amount)
 					else
 						self.Icon3 = icon3
 						self:UpdateIcons()
-						self:EmitSound("arcslots/stop"..math.random(1,3)..".wav",90,math.random(90,110),ARCSlots.Settings["slots_volume"])
+						self:EmitSound("arcslots/stop"..math.random(1,3)..".wav",65,math.random(90,110),ARCSlots.Settings["slots_volume"])
 						self.SpinSound:Stop()
 						timer.Simple(0.5,function() self:DingDing(payout,winicon,amount,ply) end)
 					end
