@@ -67,7 +67,8 @@ function ARCSlots.SettingsReset() --DO NOT EDIT THIS!!!!
 	
 	ARCSlots.Settings["vault_hack_time_stealth_rate"] = 2.0 --DO NOT EDIT THIS!!!!
 	ARCSlots.Settings["vault_hack_time_curve"] = 2.25 --DO NOT EDIT THIS!!!!
-	
+	ARCSlots.Settings["manager_auth_time"] = 15 --DO NOT EDIT THIS!!!!
+	ARCSlots.Settings["manager_auth_teams"] = {"TEAM_MOB"} -- All casinos are owned by the mob, right?
 end
 --
 ARCSlots.SettingsReset()

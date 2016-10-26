@@ -176,6 +176,7 @@ function ENT:PushCancel()
 		self.InputtingNumber = false
 		return
 	end
+	self.Status = 0
 	net.Start("arcslots_vault_signin")
 	net.WriteEntity(self)
 	net.WriteBool(false)
@@ -192,6 +193,48 @@ function ENT:PushScreen(butt)
 		ARCLib.PlaySoundOnOtherPlayers(table.Random(self.ATMType.PressSound),self,65)
 	else
 		self:EmitSoundTable(self.ATMType.PressNoSound,65)
+	end
+end
+
+function ENT:UpdateList()
+	self.Page = 0
+	if table.maxn(self.ScreenOptions) < 8 then
+		self.ScreenOptions[8] = {}
+		self.ScreenOptions[8].text = ARCSlots.Msgs.VaultMsgs.Exit
+		
+		self.ScreenOptions[8].func = function()
+			if !IsValid(self) then return end
+			self:PushCancel()
+		end
+	else
+		local i = 1
+		
+		local doublebackcmd = {}
+		doublebackcmd.text = ARCSlots.Msgs.VaultMsgs.Exit
+		doublebackcmd.func = function()
+			if !IsValid(self) then return end
+			self:PushCancel()
+		end
+		
+		local nextcmd = {}
+		nextcmd.text = ARCBank.Msgs.ATMMsgs.More --eh why not. The vault needs ARCBank to work anyway
+		nextcmd.func = function() 
+			self.Page = self.Page + 1
+		end
+		local backcmd = {}
+		backcmd.text = ARCBank.Msgs.ATMMsgs.Back
+		backcmd.func = function() 
+			self.Page = self.Page - 1
+		end
+		table.insert(self.ScreenOptions, 7, nextcmd ) 
+		table.insert(self.ScreenOptions, 8, doublebackcmd ) 
+		while i <= (math.ceil(#self.ScreenOptions/8)-1) do -- Eh, for some reason I just feel safer doing this in a while loop
+			if self.ScreenOptions[8+(i*8)] then
+				table.insert(self.ScreenOptions, 7+(i*8), nextcmd ) 
+			end
+			table.insert(self.ScreenOptions, 8+(i*8), backcmd ) 
+			i = i + 1
+		end
 	end
 end
 
@@ -237,7 +280,6 @@ function ENT:Draw()
 						entitlement = ARCSlots.Msgs.VaultMsgs.NotGettingCash.."\n\n"..ARCSlots.Msgs.VaultMsgs.PleaseCheckIn
 					end
 					self.Texts = table.Copy(ARCLib.FitText("** ARitz Cracker Gambling Vault 1.1 **\n"..entitlement.."\n\n"..ARCLib.PlaceholderReplace(ARCSlots.Msgs.VaultMsgs.WithdrawAmount,{AMOUNT=ARCSlots.Settings["money_symbol"]..string.Comma(self.Entitlement)}),"ARCBankATMConsole",self.ATMType.Resolutionx)) --aaah I don't like this
-					
 				end
 				self:Screen_Text()
 				if self.Status > 0 then
@@ -356,25 +398,54 @@ net.Receive("arcslots_vault_signin",function(msglen)
 	end}
 	ent.ScreenOptions[4] = {text=ARCSlots.Msgs.VaultMsgs.WithdrawBank,func=function()
 		ent.Status = 0
-		net.Start("arcslots_vaultwithdraw")
-		net.WriteEntity(ent)
-		net.WriteBool(true)
-		net.WriteUInt(ent.Entitlement,32)
-		net.SendToServer()
+		ARCBank.GroupList(ARCBank.GetPlayerID(LocalPlayer()),ent,function(data,progress,ent)
+			if !IsValid(ent) then return end
+			if isnumber(data) then
+				if data > 0 then
+					notification.AddLegacy( "ARCBank: "..ARCBANK_ERRORSTRINGS[data], NOTIFY_ERROR, 6 ) 
+					ent:PushCancel()
+				end
+			else
+				ent.Texts = table.Copy(ARCLib.FitText("** ARitz Cracker Gambling Vault 1.1 **\n"..ARCSlots.Msgs.VaultMsgs.WhichAccount,"ARCBankATMConsole",ent.ATMType.Resolutionx))
+				ent.ScreenOptions = {}
+				ent.ScreenOptions[1] = {}
+				ent.ScreenOptions[1].text = ARCBank.Msgs.ATMMsgs.PersonalAccount
+				ent.ScreenOptions[1].func = function()
+					ent.Status = 0
+					net.Start("arcslots_vaultwithdraw")
+					net.WriteEntity(ent)
+					net.WriteBool(true)
+					net.WriteUInt(ent.Entitlement,32)
+					net.WriteString("")
+					net.SendToServer()
+				end
+				for ii = 1,#data do
+					ent.ScreenOptions[ii+1] = {}
+					ent.ScreenOptions[ii+1].text = data[ii]
+					ent.ScreenOptions[ii+1].func = function()
+						ent.Status = 0
+						net.Start("arcslots_vaultwithdraw")
+						net.WriteEntity(ent)
+						net.WriteBool(true)
+						net.WriteUInt(ent.Entitlement,32)
+						net.WriteString(data[ii])
+						net.SendToServer()
+					end
+				end
+				ent:UpdateList()
+				ent.Status = 2
+			end
+		end)
 	end}
 	ent.ScreenOptions[7] = {text=ARCSlots.Msgs.VaultMsgs.CheckIn,func=function()
 		if !IsValid(ent) then return end
-		ent.Status = 0
+		--ent.Status = 0
 		net.Start("arcslots_vault_signin")
 		net.WriteEntity(ent)
 		net.WriteBool(true)
 		net.SendToServer()
 	end}
-	ent.ScreenOptions[8] = {text=ARCSlots.Msgs.VaultMsgs.Exit,func=function()
-		if !IsValid(ent) then return end
-		ent.Status = 0
-		ent:PushCancel()
-	end}
+	ent:UpdateList()
 	timer.Simple(1.5,function()
 		if !IsValid(ent) then return end
 		ent.Status = 0

@@ -87,7 +87,6 @@ end
 function ENT:OnRemove()
 	if IsValid(self.SpinSound) then
 		self.SpinSound:Stop()
-		self.SpinSound:Stop()
 	end
 end
 function ENT:GiveOutPrize(ply,prize)
@@ -166,24 +165,27 @@ function ENT:Spin(ply,amount)
 		self.Idle = false
 		self:UpdateIcons()
 		local icon1,icon2,icon3,payout,winicon = ARCSlots.SlotPrizePayout()
-		timer.Simple(math.Rand(0.7,1.7),function()
+		if payout != 0 then
+			MsgN(tostring(ply).." won prize "..payout)
+		end
+		timer.Simple(math.Rand(0.6,1.7),function()
 			if !IsValid(self) then return end
 			self.Icon1 = icon1
 			self:EmitSound("arcslots/stop"..math.random(1,2)..".wav",65,math.random(90,110),ARCSlots.Settings["slots_volume"])
 			self:UpdateIcons()
-			local time = math.Rand(0.1,0.9)
+			local time = math.Rand(0.1,0.75)
 			if self.Icon1 == 0 then time = 0.1 end
 			timer.Simple(time,function()
 				if !IsValid(self) then return end
 				self.Icon2 = icon2
 				self:EmitSound("arcslots/stop"..math.random(1,2)..".wav",65,math.random(90,110),ARCSlots.Settings["slots_volume"])
 				self:UpdateIcons()
-				local time = math.Rand(0.1,0.9)
+				local time = math.Rand(0.1,0.75)
 				if self.Icon1 == 0 then time = 0.1 end
 				timer.Simple(time,function()
 					if !IsValid(self) then return end
 					if ((self.Icon1 == self.Icon2) || (self.Icon1 == 8 || self.Icon2 == 8)) && self.Icon1 > 5 && self.Icon2 > 5 then
-						timer.Simple(math.Rand(1,3),function()
+						timer.Simple(math.Rand(0.2,1.5),function()
 						--timer.Simple(1,function()
 							if !IsValid(self) then return end
 							

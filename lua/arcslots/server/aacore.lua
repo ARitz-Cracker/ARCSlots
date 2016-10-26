@@ -49,15 +49,18 @@ function ARCSlots.RawARCBankAddMoney(ply,amount,groupaccount,reason,callback)
 	end)
 end
 
-function ARCSlots.ChangeFunds(amount)
-	ARCSlots.Disk.CasinoFunds = math.Round(ARCSlots.Disk.CasinoFunds - amount)
-	ARCSlots.Disk.VaultFunds = math.floor(ARCSlots.Disk.VaultFunds - amount*0.25)
+function ARCSlots.CasinoSlotProfits(amount)
+	local profits = 1 - 1/ARCSlots.SpecialSettings.Slot.Profit
+	if amount > 0 then
+		ARCSlots.Disk.VaultFunds = math.floor(ARCSlots.Disk.VaultFunds + amount*profits)
+	end
+	ARCSlots.Disk.CasinoFunds = math.Round(ARCSlots.Disk.CasinoFunds + amount)
 end
 
-function ARCSlots.ARCBankAddMoney(ply,amount,groupaccount,reason,callback)
+function ARCSlots.ARCBankAddMoney(ply,amount,groupaccount,reason,callback) -- SLOT MACHINES ONLY
 	ARCSlots.RawARCBankAddMoney(ply,amount,groupaccount,reason,function(worked)
 		if worked then
-			ARCSlots.ChangeFunds(-amount)
+			ARCSlots.CasinoSlotProfits(-amount)
 			net.Start("arcslots_worth")
 			net.WriteDouble(ARCSlots.Disk.CasinoFunds)
 			net.WriteDouble(ARCSlots.Disk.VaultFunds)
@@ -67,9 +70,9 @@ function ARCSlots.ARCBankAddMoney(ply,amount,groupaccount,reason,callback)
 	end)
 end
 
-function ARCSlots.PlayerAddMoney(ply,amount)
+function ARCSlots.PlayerAddMoney(ply,amount) -- SLOT MACHINES ONLY
 	ARCSlots.RawPlayerAddMoney(ply,amount)
-	ARCSlots.ChangeFunds(-amount)
+	ARCSlots.CasinoSlotProfits(-amount)
 	net.Start("arcslots_worth")
 	net.WriteDouble(ARCSlots.Disk.CasinoFunds)
 	net.WriteDouble(ARCSlots.Disk.VaultFunds)
@@ -142,6 +145,8 @@ function ARCSlots.Load()
 		else
 			ARCSlots.Msg("WARNING! THE SYSTEM DIDN'T SHUT DOWN PROPERLY!")
 		end
+		ARCSlots.ClearSlotMachines()
+		ARCSlots.ClearVaults()
 		ARCLib.LoadDefaultLanguages("ARCSlots","https://raw.githubusercontent.com/ARitz-Cracker/aritzcracker-addon-translations/master/default_arcslots_languages.json",function(langChoices)
 			ARCLib.AddonAddSettingMultichoice("ARCSlots","language",langChoices)
 			ARCLib.AddonLoadSettings("ARCSlots")
@@ -163,7 +168,20 @@ function ARCSlots.Load()
 				
 				file.Write(ARCSlots.Dir.."/__data.txt", util.TableToJSON(ARCSlots.Disk) )
 			end )
-			timer.Start( "ARCSLOTS_SAVEDISK" ) 
+			timer.Start( "ARCSLOTS_SAVEDISK" )
+			timer.Create( "ARCSLOTS_MANAGERCHECK", 1, 0, function() 
+				if IsValid(ARCSlots.Manager) then
+					local plyi = ARCSlots.Manager:EntIndex()
+					if !ARCSlots.CanBeManager(ARCSlots.Manager) then
+						ARCSlots.ManagerStartMoney[plyi] = nil
+						ARCSlots.ManagerEarnedMoney[plyi] = nil
+						ARCSlots.ManagerEnd(ARCSlots.Manager)
+					elseif ARCSlots.GetManagerEndTime(ARCSlots.Manager) <= CurTime() then
+						ARCSlots.ManagerEnd(ARCSlots.Manager)
+					end
+				end
+			end )
+			timer.Start( "ARCSLOTS_MANAGERCHECK" ) 
 			ARCSlots.SpawnSlotMachines()
 			ARCSlots.SpawnVault()
 			

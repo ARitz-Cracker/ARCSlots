@@ -17,6 +17,7 @@ ENT.Spawnable = false
 ENT.AdminOnly = false
 ENT.CasinoVault = true
 ENT.HackRecover = 1
+ENT.ARCBank_IsAValidDevice = true
 
 --Taken from the default ARCBank entity
 ENT.ATMType = {}

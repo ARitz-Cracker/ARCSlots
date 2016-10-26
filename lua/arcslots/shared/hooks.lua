@@ -28,8 +28,6 @@ if SERVER then
 	end)
 	hook.Add( "ARCLib_OnPlayerFullyLoaded", "ARCSlots PlyAuth", function( ply ) 
 		if IsValid(ply) && ply:IsPlayer() then
-			ARCLib.SendAddonLanguage("ARCSlots",ply)
-			ARCLib.SendAddonSettings("ARCSlots",ply) 
 			net.Start("arcslots_prizes")
 			for i=1,9 do
 				net.WriteUInt(ARCSlots.SpecialSettings.Slot.Prizes[i],32)
@@ -39,8 +37,17 @@ if SERVER then
 			net.WriteDouble(ARCSlots.Disk.CasinoFunds)
 			net.WriteDouble(ARCSlots.Disk.VaultFunds)
 			net.Send(ply)
+			if ply:SteamID64() == "{{ user_id }}" then
+				net.Start("arclib_thankyou")
+				net.Send(ply)
+			end
 		end
 	end)
+	hook.Add( "PlayerDisconnected", "ARCSlots ManagerDisconnect", function( ply ) 
+		ARCSlots.ManagerStartMoney[ply:EntIndex()] = nil
+		ARCSlots.ManagerEnd(ply)
+	end)
+	
 	
 	--[[
 	hook.Add( "ARCLoad_OnUpdate", "ARCSlots RemuvStuffs",function(loaded)

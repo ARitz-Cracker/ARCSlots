@@ -1,9 +1,10 @@
 -- slspawn.lua - Slots spawner
 -- This file is under copyright, and is bound to the agreement stated in the ELUA.
 -- Any 3rd party content has been used as either public domain or with permission.
--- © Copyright 2015 Aritz Beobide-Cardinal All rights reserved.
+-- © Copyright 2015-2016 Aritz Beobide-Cardinal All rights reserved.
 
 function ARCSlots.SpawnSlotMachines()
+	ARCSlots.ClearSlotMachines()
 	local shit = file.Read(ARCSlots.Dir.."/saved_atms/"..string.lower(game.GetMap())..".txt", "DATA" )
 	if !shit then
 		ARCSlots.Msg("Cannot spawn Slot Machines. No file associated with this map.")
@@ -20,29 +21,29 @@ function ARCSlots.SpawnSlotMachines()
 	end
 	ARCSlots.Msg("Spawning Map Slot Machines...")
 	for i=1,atmdata.atmcount do
-			local shizniggle = ents.Create("sent_arc_slotmachine")
-			if !IsValid(shizniggle) then
-				atmdata.atmcount = 1
-				ARCSlots.Msg("Slot Machines failed to spawn.")
-			return false end
-			if atmdata.pos[i] && atmdata.angles[i] then
-				shizniggle:SetPos(atmdata.pos[i]+Vector(0,0,ARCLib.BoolToNumber(!atmdata.NewATMModel)*8.6))
-				shizniggle:SetAngles(atmdata.angles[i])
-				shizniggle:SetPos(shizniggle:GetPos()+(shizniggle:GetRight()*ARCLib.BoolToNumber(!atmdata.NewATMModel)*-4.1)+(shizniggle:GetForward()*ARCLib.BoolToNumber(!atmdata.NewATMModel)*19))
-				shizniggle:Spawn()
-				shizniggle:Activate()
-			else
-				shizniggle:Remove()
-				atmdata.atmcount = 1
-				ARCSlots.Msg("Corrupt File")
-				return false 
-			end
-			local phys = shizniggle:GetPhysicsObject()
-			if IsValid(phys) then
-				phys:EnableMotion( false )
-			end
-			shizniggle.ARCSlots_MapEntity = true
-			shizniggle.ARitzDDProtected = true
+		local shizniggle = ents.Create("sent_arc_slotmachine")
+		if !IsValid(shizniggle) then
+			atmdata.atmcount = 1
+			ARCSlots.Msg("Slot Machines failed to spawn.")
+		return false end
+		if atmdata.pos[i] && atmdata.angles[i] then
+			shizniggle:SetPos(atmdata.pos[i]+Vector(0,0,ARCLib.BoolToNumber(!atmdata.NewATMModel)*8.6))
+			shizniggle:SetAngles(atmdata.angles[i])
+			shizniggle:SetPos(shizniggle:GetPos()+(shizniggle:GetRight()*ARCLib.BoolToNumber(!atmdata.NewATMModel)*-4.1)+(shizniggle:GetForward()*ARCLib.BoolToNumber(!atmdata.NewATMModel)*19))
+			shizniggle:Spawn()
+			shizniggle:Activate()
+		else
+			shizniggle:Remove()
+			atmdata.atmcount = 1
+			ARCSlots.Msg("Corrupt File")
+			return false 
+		end
+		local phys = shizniggle:GetPhysicsObject()
+		if IsValid(phys) then
+			phys:EnableMotion( false )
+		end
+		shizniggle.ARCSlots_MapEntity = true
+		shizniggle.ARitzDDProtected = true
 	end
 	return true
 end

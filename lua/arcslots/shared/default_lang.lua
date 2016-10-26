@@ -153,8 +153,12 @@ ARCSlots.Msgs.VaultMsgs.CheckIn = "Authenticate as manager"
 ARCSlots.Msgs.VaultMsgs.Exit = "Exit"
 ARCSlots.Msgs.VaultMsgs.WithdrawCash = "Withdraw earnings as cash"
 ARCSlots.Msgs.VaultMsgs.WithdrawBank = "Transfer earnings to bank account"
-
-
+ARCSlots.Msgs.VaultMsgs.NotManager = "You are not a casino manager"
+ARCSlots.Msgs.VaultMsgs.NoCash = "You cannot withdraw that much money"
+ARCSlots.Msgs.VaultMsgs.NotAuthed = "You are not authenticated"
+ARCSlots.Msgs.VaultMsgs.MaxManagers = "There are already the maximum amount of managers"
+ARCSlots.Msgs.VaultMsgs.WhichAccount = "Which account would you like to send your funds to?"
+ARCSlots.Msgs.VaultMsgs.Robbed = "The vault was robbed while you were on duty. You may not authenticate until your previous authentication expires or you regained the casino's profits."
 
 
 ARCSlots.Msgs.Commands["slots_save"] = "Save all Slot machines"
@@ -185,3 +189,5 @@ ARCSlots.SettingsDesc["vault_hack_time_max"] = "The maximum amount of time it ta
 ARCSlots.SettingsDesc["vault_hack_time_min"] = "The minimum amount of time it takes to hack the vault."
 ARCSlots.SettingsDesc["vault_hack_time_stealth_rate"] = "Setting the ATM Hacker to \"stealth mode\" will multiply the hacking time by this amount"
 ARCSlots.SettingsDesc["vault_hack_time_curve"] = "Please see aritzcracker.ca/uploads/aritz/atm_hack_time_curve.png"
+ARCSlots.SettingsDesc["manager_auth_time"] = "The amount of minutes a casino manager will recieve profits after authenticating"
+ARCSlots.SettingsDesc["manager_auth_teams"] = "People in these teams will be considered potential casino managers"

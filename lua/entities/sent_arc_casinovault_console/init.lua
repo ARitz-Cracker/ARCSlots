@@ -92,13 +92,12 @@ function ENT:ATM_USE(activator)
 			activator:StripWeapon( "weapon_arc_atmcard" ) 
 			net.Start("arcslots_vault_signin")
 			net.WriteEntity(self)
-			net.WriteUInt(1337,32)
-			net.WriteDouble(CurTime()+30)
+			net.WriteUInt(ARCSlots.EntitledAmount(activator),32)
+			net.WriteDouble(ARCSlots.GetManagerEndTime(activator))
 			net.Send(activator)
 		end
 	end
-	self:SetNWEntity( "UsePlayer", self.UsePlayer || NULL
-	) 
+	self:SetNWEntity( "UsePlayer", self.UsePlayer || NULL) 
 	return true
 end
 function ENT:OnRemove()
@@ -177,7 +176,8 @@ function ENT:Use( ply, caller )
 		local hit,dir,frac = util.IntersectRayWithOBB(ply:GetShootPos(),ply:GetAimVector()*100, self:LocalToWorld(self.ATMType.MoneyHitBoxPos), self:LocalToWorldAngles(self.ATMType.MoneyHitBoxAng), vector_origin, self.ATMType.MoneyHitBoxSize)  
 		if hit && self.MonehDelay <= CurTime() then
 			self.MonehDelay = CurTime() + 5
-			ARCSlots.PlayerAddMoney(self.UsePlayer,self.WithdrawAmount)
+			ARCSlots.RawPlayerAddMoney(self.UsePlayer,self.WithdrawAmount)
+			ARCSlots.ManagerWithdrawFunds(self.UsePlayer,self.WithdrawAmount)
 			self.errorc = 0
 			if self.ATMType.UseMoneyModel then
 				self.moneyprop:Remove()
@@ -285,9 +285,32 @@ net.Receive("arcslots_vaultwithdraw",function(msglen,ply)
 	if atm.UsePlayer != ply then return end
 	local useARCBank = net.ReadBool()
 	atm.WithdrawAmount = net.ReadUInt(32)
+	--[[
+	if !ARCSlots.IsManager(ply) then
+		ARCLib.NotifyPlayer(ply,ARCSlots.Msgs.VaultMsgs.NotAuthed,NOTIFY_ERROR,6,true)
+		atm:ATM_USE(atm.UsePlayer)
+	return end
+	]]
+	if !ARCSlots.CanBeManager(ply) then
+		ARCLib.NotifyPlayer(ply,ARCSlots.Msgs.VaultMsgs.NotManager,NOTIFY_ERROR,6,true)
+		atm:ATM_USE(atm.UsePlayer)
+	return end
+	if atm.WithdrawAmount <= 0 then
+		atm:ATM_USE(atm.UsePlayer)
+		return
+	end
+	if atm.WithdrawAmount > ARCSlots.EntitledAmount(ply) then
+		ARCLib.NotifyPlayer(ply,ARCSlots.Msgs.VaultMsgs.NoCash,NOTIFY_ERROR,6,true)
+		atm:ATM_USE(atm.UsePlayer)
+	return end
+	
 	if (useARCBank) then
 		local account = net.ReadString()
-		ARCSlots.ARCBankAddMoney(ply,atm.WithdrawAmount,account,"Casino earnings",NULLFUNC)
+		ARCSlots.RawARCBankAddMoney(ply,atm.WithdrawAmount,account,"Casino earnings",function(worked)
+			if worked then
+				ARCSlots.ManagerWithdrawFunds(ply,atm.WithdrawAmount)
+			end
+		end)
 		atm:ATM_USE(atm.UsePlayer)
 	else
 		atm:WithdrawAnimation()
@@ -310,7 +333,13 @@ net.Receive("arcslots_vault_signin",function(msglen,ply)
 	if atm.UsePlayer != ply then return end
 	local signin = net.ReadBool()
 	if signin then
-		--SIGN IN
+		if IsValid(ARCSlots.Manager) && ARCSlots.Manager != ply then
+			ARCLib.NotifyPlayer(ply,ARCSlots.Msgs.VaultMsgs.MaxManagers,NOTIFY_ERROR,6,true)
+		elseif ARCSlots.CanBeManager(ply) then
+			ARCSlots.ManagerBegin(ply)
+		else
+			ARCLib.NotifyPlayer(ply,ARCSlots.Msgs.VaultMsgs.NotManager,NOTIFY_ERROR,6,true)
+		end
 	else
 		atm:ATM_USE(ply)
 	end
