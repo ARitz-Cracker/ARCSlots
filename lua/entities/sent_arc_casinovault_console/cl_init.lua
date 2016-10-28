@@ -319,8 +319,6 @@ function ENT:Draw()
 	self.buttonpos[18] = self:LocalToWorld(self.ATMType.buttons[18])
 	self.buttonpos[19] = self:LocalToWorld(self.ATMType.buttons[19])
 	self.buttonpos[20] = self:LocalToWorld(self.ATMType.buttons[20])
-
-
 	
 	if ply != self:GetNWEntity("UsePlayer") then return end
 	render.SetMaterial(self.spriteMaterial)
@@ -329,6 +327,7 @@ function ENT:Draw()
 	self.CurPos = ply:GetEyeTrace().HitPos
 	for i=0,23 do
 		if self.buttonpos[i] then
+			--[[
 			if LocalPlayer().ARCBank_FullScreen then
 				local butscrpos = self.buttonpos[i]:ToScreen()
 				if Vector(butscrpos.x,butscrpos.y,0):IsEqualTol( Vector(gui.MouseX(),gui.MouseY(),0), surface.ScreenHeight()/20  ) then
@@ -338,13 +337,14 @@ function ENT:Draw()
 					end
 				end
 			else
+			]]
 				if self.buttonpos[i]:IsEqualTol(self.CurPos,1.6) then
 					if self.buttonpos[i]:DistToSqr(self.CurPos) < self.Dist then
 						self.Dist = self.buttonpos[i]:DistToSqr(self.CurPos)
 						self.Highlightbutton = i
 					end
 				end
-			end
+			--end
 		end
 	end
 	if self.Highlightbutton >= 0 && ply:GetShootPos():Distance(self.CurPos) < 70 then
@@ -352,11 +352,11 @@ function ENT:Draw()
 			render.DrawSprite(self.buttonpos[self.Highlightbutton], 6.5, 6.5, Color(255,255,255,255))
 		end
 		local pushedbutton
-		if ply.ARCBank_FullScreen then
-			pushedbutton = input.IsMouseDown(MOUSE_LEFT)
-		else
+		--if ply.ARCBank_FullScreen then
+			--pushedbutton = input.IsMouseDown(MOUSE_LEFT)
+		--else
 			pushedbutton = --[[ply:KeyDown(IN_USE)||]]ply:KeyReleased(IN_USE)||ply:KeyDownLast(IN_USE)
-		end
+		--end
 		if self.UseDelay <= CurTime() && self.Status > 0 then
 			if pushedbutton then
 				--ARCBank.MsgToServer("PLAYER USED ATM - "..tostring(self.Highlightbutton))

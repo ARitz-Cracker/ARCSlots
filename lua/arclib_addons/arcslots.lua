@@ -18,7 +18,7 @@ ARCSlots.Msg("© Copyright 2016 Aritz Beobide-Cardinal (ARitz Cracker) All right
 
 
 ARCSlots.Update = "October 28th 2016"
-ARCSlots.Version = "1.1.1b"
+ARCSlots.Version = "1.1.1c"
 
 ARCSlots.About = [[      
           *** ARitz Cracker Gambling ***
