@@ -17,8 +17,8 @@ ARCSlots.Msg(table.Random({"tbh script enforcer is kinda shit.","I actually won 
 ARCSlots.Msg("© Copyright 2016 Aritz Beobide-Cardinal (ARitz Cracker) All rights reserved.")
 
 
-ARCSlots.Update = "October 25th 2016"
-ARCSlots.Version = "1.1.1"
+ARCSlots.Update = "October 28th 2016"
+ARCSlots.Version = "1.1.1b"
 
 ARCSlots.About = [[      
           *** ARitz Cracker Gambling ***

@@ -383,6 +383,18 @@ function ENT:Draw()
 	end
 end
 
+function ENT:PushEnter()
+
+end
+function ENT:PushClear()
+	self:EmitSoundTable(self.ATMType.PressNoSound,65)
+end
+function ENT:PushNumber(num)
+	self:EmitSoundTable(self.ATMType.PressNoSound,65)
+end
+function ENT:PushDev(num)
+	self:EmitSoundTable(self.ATMType.PressNoSound,65)
+end
 net.Receive("arcslots_vault_signin",function(msglen)
 	local ent = net.ReadEntity()
 	ent.Entitlement = net.ReadUInt(32) 

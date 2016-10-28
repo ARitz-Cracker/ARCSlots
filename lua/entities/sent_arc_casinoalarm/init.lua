@@ -15,26 +15,29 @@ end)
 ]]
 ENT.ScrType = 1
 
-local alarmSounds = {}
 
 local function ResetSounds(doit) --Old function name from when the sounds were clientside don't hurt me D:
-	for k,v in pairs(alarmSounds) do
+	local ents = ents.FindByClass("sent_arc_casinoalarm")
+	for k,v in pairs(ents) do
 		--v:FadeOut(0.1) 
-		v:Stop()
-		if !IsValid(Entity(k)) then
-			alarmSounds[k] = nil
+		if v.AlarmSound then
+			v.AlarmSound:Stop()
 		end
+		
 	end
 	if !doit then return end
 	timer.Simple(0.01,function()
-		for k,v in pairs(alarmSounds) do
-			v:Play()
+		local filter = RecipientFilter()
+		filter:AddAllPlayers()
+		for k,v in pairs(ents) do
+			v.AlarmSound = CreateSound( v, "ambient/alarms/alarm_citizen_loop1.wav", filter ) 
+			v.AlarmSound:Play()
 		end
 	end)
 end
 
 function ARCSlots.SoundVaultAlarm(doit)
-	local ent = ents.FindByClass("sent_arc_casinoalarm")
+	
 	net.Start("arcslots_alarm")
 	ResetSounds(doit)
 	net.WriteBit(doit)
@@ -59,9 +62,6 @@ function ENT:Initialize()
 	self:SetUseType( SIMPLE_USE )
 	self:SetSkin(1)
 	local entin = self:EntIndex()
-	if !alarmSounds[entin] then
-		alarmSounds[entin] = CreateSound( self, "ambient/alarms/alarm_citizen_loop1.wav", entin ) 
-	end
 end
 
 function ENT:SpawnFunction( ply, tr )
@@ -77,8 +77,7 @@ function ENT:Think()
 
 end
 function ENT:OnRemove()
-	local entin = self:EntIndex()
-	if alarmSounds[entin] then
-		alarmSounds[entin] = nil
+	if self.AlarmSound then
+		self.AlarmSound:Stop()
 	end
 end
