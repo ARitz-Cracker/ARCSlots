@@ -128,24 +128,30 @@ net.Receive( "ARCSlots_Update", function(length)
 			machine.WheelPos[i].ficon1 = ARCLib.RandomExclude(0,8,newnums[i])
 			machine.WheelPos[i].ficon2 = ARCLib.RandomExclude(0,8,newnums[i])
 			
-			if newnums[i] == 0 then
-				machine.WheelPos[i].bdcol = Color(255,0,0,255)
-			elseif newnums[i] > 0 then
-				machine.WheelPos[i].bdcol = Color(0,255,0,255)
-			elseif newnums[i] < 0 then
-				machine.WheelPos[i].bgcol = color_white
-				machine.WheelPos[i].bdcol = Color(0,0,255,255)
-				machine.WheelPos[i].spintime = SysTime()
+			if !machine.ExtraCodeForDetail then
+				if newnums[i] == 0 then
+					machine.WheelPos[i].bdcol = Color(255,0,0,255)
+				elseif newnums[i] > 0 then
+					machine.WheelPos[i].bdcol = Color(0,255,0,255)
+				elseif newnums[i] < 0 then
+					machine.WheelPos[i].bgcol = color_white
+					machine.WheelPos[i].bdcol = Color(0,0,255,255)
+					machine.WheelPos[i].spintime = SysTime()
+				end
 			end
 		end
 	end
-	for i=1,3 do
-		if machine.Winnings[i] == 0 then
-			for ii=1,3 do
-				machine.WheelPos[ii].bdcol = Color(255,0,0,255)
+	if !machine.ExtraCodeForDetail then
+		for i=1,3 do
+			if machine.Winnings[i] == 0 then
+				for ii=1,3 do
+					machine.WheelPos[ii].bdcol = Color(255,0,0,255)
+				end
 			end
 		end
 	end
+	
+
 	
 	machine.LastStatus = machine.Status 
 	if status == -1 then
@@ -425,6 +431,14 @@ function ENT:DrawMainScreen()
 					self.ExtraCodeForDetail = false
 					self.ClickTime[3] = SysTime()
 					self:EmitSound("arcslots/stop3.wav",65,math.random(85,101))
+					self.WheelPos[3].bdcol = Color(0,255,0,255)
+					for i=1,3 do
+						if self.Winnings[i] == 0 then
+							for ii=1,3 do
+								self.WheelPos[ii].bdcol = Color(255,0,0,255)
+							end
+						end
+					end
 				end
 			end
 		elseif self.Winnings[i] >= 0 then
@@ -459,8 +473,8 @@ function ENT:DrawMainScreen()
 		render.SetStencilEnable( false )
 	end
 	for i = 0,12 do
-		if self.Status == 0 then
-			if self.Winnings[3] < 0 then
+		if self.Status == 0 or self.ExtraCodeForDetail then
+			if self.Winnings[3] < 0 or self.ExtraCodeForDetail then
 				surface.SetDrawColor( 255, 255, 255, (math.sin(-SysTime()*20+i)/2+0.5)*255 )
 			else
 				local time = -SysTime()*2+i

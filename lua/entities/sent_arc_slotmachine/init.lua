@@ -103,7 +103,7 @@ end
 
 function ENT:Use( ply, caller )
 	if ARCSlots.Settings["legacy_bet_interface"] then
-		if IsValid(ply.SlotMachine) && ply.SlotMachine.UseDelay > CurTime() then
+		if IsValid(ply.SlotMachine) && ply.SlotMachine != self then
 		return end
 		if self.UseDelay > CurTime() then return end
 		if ply:IsPlayer() then
@@ -113,7 +113,7 @@ function ENT:Use( ply, caller )
 end
 function ENT:ATM_USE(activator)
 	if IsValid(activator) && activator:IsPlayer() then
-		if IsValid(activator.SlotMachine) && activator.SlotMachine.UseDelay > CurTime() then
+		if IsValid(activator.SlotMachine) && activator.SlotMachine != self then
 			return false 
 		end
 		if self.UseDelay > CurTime() then 
@@ -127,7 +127,7 @@ end
 function ENT:Spin(ply,amount)
 	if !IsValid(ply) then
 	return end
-	if IsValid(ply.SlotMachine) && ply.SlotMachine.UseDelay > CurTime() then
+	if IsValid(ply.SlotMachine) && ply.SlotMachine != self then
 	return end
 	if self.UseDelay > CurTime() then 
 	return end
@@ -184,7 +184,8 @@ function ENT:Spin(ply,amount)
 				if self.Icon1 == 0 then time = 0.1 end
 				timer.Simple(time,function()
 					if !IsValid(self) then return end
-					if ((self.Icon1 == self.Icon2) || (self.Icon1 == 8 || self.Icon2 == 8)) && self.Icon1 > 5 && self.Icon2 > 5 then
+					self.MockPlayer = math.random() < 0.5
+					if (((self.Icon1 == self.Icon2) || (self.Icon1 == 8 || self.Icon2 == 8)) && self.Icon1 > 5 && self.Icon2 > 5) && self.MockPlayer then
 						timer.Simple(math.Rand(0.2,1.5),function()
 						--timer.Simple(1,function()
 							if !IsValid(self) then return end
@@ -229,16 +230,17 @@ end
 function ENT:DingDing(payout,winicon,amount,ply)
 	self.WinningThing = winicon
 	local idletime = 2
+	
 	if payout < 0 then
 		self.Status = 1
 		self:EmitSound("arcslots/winner.wav",75,100,ARCSlots.Settings["slots_volume"])
 		self.FreeSpins = self.FreeSpins - payout
 		self.ScreenMsg = ARCLib.PlaceholderReplace(ARCSlots.Msgs.SlotMsgs.FreeSpins,{AMOUNT=tostring(-1*payout)}).."("..self.FreeSpins..")"
 	elseif payout == 0 then
-		if ((self.Icon1 == self.Icon2) || (self.Icon1 == 8 || self.Icon2 == 8)) && self.Icon1 > 5 && self.Icon2 > 5 then
+		if ((self.Icon1 == self.Icon2) || (self.Icon1 == 8 || self.Icon2 == 8)) && self.Icon1 > 5 && self.Icon2 > 5 && self.MockPlayer then
 			self:EmitSound("arcslots/soooclose.mp3",75,100,ARCSlots.Settings["slots_volume"])
 			idletime = 4
-			if math.random(1,10) == 1 then
+			if math.random(1,5) == 1 then
 				self.ScreenMsg = ARCSlots.Msgs.SlotMsgs.LooseMock
 			else
 				self.ScreenMsg = ARCSlots.Msgs.SlotMsgs.Loose
@@ -248,6 +250,7 @@ function ENT:DingDing(payout,winicon,amount,ply)
 			self.ScreenMsg = ARCSlots.Msgs.SlotMsgs.Loose
 		end
 		self.Status = -1
+		ply.SlotMachine = nil
 	else
 		if (ARCSlots.CustomSlotPrize(ply,amount,payout)) then
 			self:GiveOutPrize(ply,amount*payout)
@@ -267,8 +270,10 @@ function ENT:DingDing(payout,winicon,amount,ply)
 			self.ScreenMsg = ARCLib.PlaceholderReplace(ARCSlots.Msgs.SlotMsgs.Win,{AMOUNT=ARCSlots.Settings["money_symbol"]..tostring(amount*payout)})
 		end
 		self.Status = 1
+		ply.SlotMachine = nil
 	end
 	self.UseDelay = CurTime() + idletime
+	
 	self:UpdateIcons()
 	
 	timer.Simple(idletime,function()
@@ -280,7 +285,6 @@ function ENT:DingDing(payout,winicon,amount,ply)
 			self:UpdateIcons()
 		end
 	end)
-	ply.SlotMachine = nil
 end
 
 net.Receive( "ARCSlots_Update", function(length,ply)
