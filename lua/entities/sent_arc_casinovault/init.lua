@@ -115,6 +115,11 @@ function ENT:OnRemove()
 			end
 		end
 	end
+	if self.ARCSlots_MapEntity then
+		timer.Simple(1,function()
+			ARCSlots.SpawnVault()
+		end)
+	end
 end
 function ENT:Use( ply, caller )
 	if self.Open && ARCSlots.Disk.VaultFunds > ARCSlots.Settings["vault_steal_rate"] then

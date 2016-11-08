@@ -88,6 +88,11 @@ function ENT:OnRemove()
 	if IsValid(self.SpinSound) then
 		self.SpinSound:Stop()
 	end
+	if self.ARCSlots_MapEntity then
+		timer.Simple(1,function()
+			ARCSlots.SpawnSlotMachines()
+		end)
+	end
 end
 function ENT:GiveOutPrize(ply,prize)
 	if self.UseARCBank then
