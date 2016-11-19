@@ -83,6 +83,7 @@ end
 
 --Cards: 2,3,4,5
 
+--TODO: card/card/spin doesn't ever show
 function ARCSlots.SlotLooseIcon()
 	local icon1 = math.random(0,8)
 	if icon1 == 0 then
@@ -154,7 +155,7 @@ end
 function ARCSlots.Slot3OfKindIcon(icon)
 	if icon == 8 then return 8,8,8 end
 	local tab = {icon,icon,icon}
-	if math.random(1,6) == 1 then
+	if math.random(1,4) == 1 then
 		tab[math.random(1,3)] = 8
 		if math.random(1,2) == 1 then
 			tab[math.random(1,3)] = 8

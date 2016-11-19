@@ -255,7 +255,9 @@ function ENT:DingDing(payout,winicon,amount,ply)
 			self.ScreenMsg = ARCSlots.Msgs.SlotMsgs.Loose
 		end
 		self.Status = -1
-		ply.SlotMachine = nil
+		if self.FreeSpins == 0 then
+			ply.SlotMachine = nil
+		end
 	else
 		if (ARCSlots.CustomSlotPrize(ply,amount,payout)) then
 			self:GiveOutPrize(ply,amount*payout)
@@ -275,7 +277,9 @@ function ENT:DingDing(payout,winicon,amount,ply)
 			self.ScreenMsg = ARCLib.PlaceholderReplace(ARCSlots.Msgs.SlotMsgs.Win,{AMOUNT=ARCSlots.Settings["money_symbol"]..tostring(amount*payout)})
 		end
 		self.Status = 1
-		ply.SlotMachine = nil
+		if self.FreeSpins == 0 then
+			ply.SlotMachine = nil
+		end
 	end
 	self.UseDelay = CurTime() + idletime
 	
