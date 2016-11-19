@@ -2,7 +2,7 @@
 
 -- This file is under copyright, and is bound to the agreement stated in the EULA.
 -- Any 3rd party content has been used as either public domain or with permission.
--- © Copyright 2014-2016 Aritz Beobide-Cardinal All rights reserved.
+-- © Copyright 2015-2016 Aritz Beobide-Cardinal All rights reserved.
 
 function ARCSlots.RawPlayerAddMoney(ply,amount)
 	if ARCBank then

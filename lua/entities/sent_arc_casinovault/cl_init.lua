@@ -1,8 +1,6 @@
--- This shit is under copyright, and is bound to the agreement stated in the ELUA.
+-- This file is under copyright, and is bound to the agreement stated in the EULA.
 -- Any 3rd party content has been used as either public domain or with permission.
--- © Copyright 2014 Aritz Beobide-Cardinal All rights reserved.
-
--- WARNING! SPEGETTI CODE THAT I CAN READ PERFECTLY!
+-- © Copyright 2015-2016 Aritz Beobide-Cardinal All rights reserved.
 
 include('shared.lua')
 net.Receive("arcslots_casino_vault_anim",function(len)

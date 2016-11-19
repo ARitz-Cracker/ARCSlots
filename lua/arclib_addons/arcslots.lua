@@ -1,9 +1,7 @@
--- This shit is under copyright, and is bound to the agreement stated in the ELUA.
+-- This file is under copyright, and is bound to the agreement stated in the ELUA.
 -- Any 3rd party content has been used as either public domain or with permission.
--- © Copyright 2014 Aritz Beobide-Cardinal All rights reserved.
+-- © Copyright 2015-2016 Aritz Beobide-Cardinal All rights reserved.
 
---ENUMS FOR ARC BANKING SYSTEM!
---137164355
 ARCSlots = ARCSlots or {}
 function ARCSlots.Msg(msg)
 	Msg("ARCSlots: "..tostring(msg).."\n")
@@ -17,12 +15,12 @@ ARCSlots.Msg(table.Random({"tbh script enforcer is kinda shit.","I actually won 
 ARCSlots.Msg("© Copyright 2016 Aritz Beobide-Cardinal (ARitz Cracker) All rights reserved.")
 
 
-ARCSlots.Update = "November 7th 2016"
-ARCSlots.Version = "1.1.1d"
+ARCSlots.Update = "November 19th 2016"
+ARCSlots.Version = "1.1.1e"
 
 ARCSlots.About = [[      
           *** ARitz Cracker Gambling ***
-    © Copyright Aritz Beobide-Cardinal 2015
+    © Copyright Aritz Beobide-Cardinal 2015-2016
                 All rights reserved.
 				
 				
@@ -46,6 +44,8 @@ ARCSlots.Msg("Version: "..ARCSlots.Version)
 ARCSlots.Msg("Updated on: "..ARCSlots.Update)
 if SERVER then
 	resource.AddWorkshop( "251070018" )
+	resource.AddFile("resource/fonts/trana___.ttf")
+	resource.AddFile("resource/fonts/tranga__.ttf")
 	util.AddNetworkString( "ARCSlots_Msg" )
 	function ARCSlots.MsgCL(ply,msg)
 		--net.Start( "ARCSlots_Msg" )
