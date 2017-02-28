@@ -168,9 +168,6 @@ function ENT:Spin(ply,amount)
 		self.Idle = false
 		self:UpdateIcons()
 		local icon1,icon2,icon3,payout,winicon = ARCSlots.SlotPrizePayout()
-		if payout != 0 then
-			MsgN(tostring(ply).." won prize "..payout)
-		end
 		timer.Simple(math.Rand(0.6,1.7),function()
 			if !IsValid(self) then return end
 			self.Icon1 = icon1
