@@ -1,6 +1,6 @@
 -- This file is under copyright, and is bound to the agreement stated in the EULA.
 -- Any 3rd party content has been used as either public domain or with permission.
--- © Copyright 2015-2016 Aritz Beobide-Cardinal All rights reserved.
+-- © Copyright 2016-2017 Aritz Beobide-Cardinal All rights reserved.
 
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
@@ -9,7 +9,7 @@ include('shared.lua')
 util.AddNetworkString("arcslots_casino_vault_anim")
 
 function ENT:Initialize()
-	if !ARCLib.IsVersion("1.3.6","ARCBank") then
+	if !ARCLib.IsVersion("1.4.0","ARCBank") then
 		ARCLib.NotifyBroadcast(ARCSlots.Msgs.Notifications.VaultARCBank,NOTIFY_ERROR,5,true)
 		self:Remove()
 		return

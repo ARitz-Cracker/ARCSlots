@@ -1,6 +1,6 @@
 -- This file is under copyright, and is bound to the agreement stated in the EULA.
 -- Any 3rd party content has been used as either public domain or with permission.
--- © Copyright 2015-2016 Aritz Beobide-Cardinal All rights reserved.
+-- © Copyright 2016-2017 Aritz Beobide-Cardinal All rights reserved.
 
 
 include('shared.lua')
@@ -58,6 +58,7 @@ function ENT:Initialize()
 		end
 	end
 	self.spriteMaterial = CreateMaterial(name,"UnlitGeneric",params)
+	
 end
 
 function ENT:Think()
@@ -97,6 +98,7 @@ function ENT:Screen_Text()
 			draw.SimpleText( self.Texts[i], "ARCBankATMConsole",-halfres, -154 + i*12, Color(255,255,255,255), TEXT_ALIGN_LEFT , TEXT_ALIGN_BOTTOM  )
 		end
 	end
+	----file.Append("testvaultlog.txt","4\r\n")
 end
 function ENT:DrawIdle()
 	local logintext = "vault login: "
@@ -279,7 +281,13 @@ function ENT:Draw()
 					else
 						entitlement = ARCSlots.Msgs.VaultMsgs.NotGettingCash.."\n\n"..ARCSlots.Msgs.VaultMsgs.PleaseCheckIn
 					end
-					self.Texts = table.Copy(ARCLib.FitText("** ARitz Cracker Gambling Vault 1.1 **\n"..entitlement.."\n\n"..ARCLib.PlaceholderReplace(ARCSlots.Msgs.VaultMsgs.WithdrawAmount,{AMOUNT=ARCSlots.Settings["money_symbol"]..string.Comma(self.Entitlement)}),"ARCBankATMConsole",self.ATMType.Resolutionx)) --aaah I don't like this
+					--file.Append("testvaultlog.txt","1\r\n")
+					local txt = "** ARitz Cracker Gambling Vault 1.1 **\n"..entitlement.."\n\n"..ARCLib.PlaceholderReplace(ARCSlots.Msgs.VaultMsgs.WithdrawAmount,{AMOUNT=ARCSlots.Settings["money_symbol"]..string.Comma(self.Entitlement)})
+					--file.Append("testvaultlog.txt","2\r\n")
+					local tab = ARCLib.FitText(txt,"ARCBankATMConsole",self.ATMType.Resolutionx)
+					--file.Append("testvaultlog.txt","3\r\n")
+					self.Texts = table.Copy(tab) --aaah I don't like this
+					--file.Append("testvaultlog.txt","4\r\n")
 				end
 				self:Screen_Text()
 				if self.Status > 0 then
@@ -410,42 +418,56 @@ net.Receive("arcslots_vault_signin",function(msglen)
 	end}
 	ent.ScreenOptions[4] = {text=ARCSlots.Msgs.VaultMsgs.WithdrawBank,func=function()
 		ent.Status = 0
-		ARCBank.GroupList(ARCBank.GetPlayerID(LocalPlayer()),ent,function(data,progress,ent)
-			if !IsValid(ent) then return end
-			if isnumber(data) then
-				if data > 0 then
-					notification.AddLegacy( "ARCBank: "..ARCBANK_ERRORSTRINGS[data], NOTIFY_ERROR, 6 ) 
-					ent:PushCancel()
-				end
+
+		ARCBank.GetAccessableAccounts(LocalPlayer(),function(err,data)
+			if err != ARCBANK_ERROR_NONE then
+				notification.AddLegacy( "ARCBank: "..ARCBANK_ERRORSTRINGS[err], NOTIFY_ERROR, 6 ) 
+				ent:PushCancel()
 			else
-				ent.Texts = table.Copy(ARCLib.FitText("** ARitz Cracker Gambling Vault 1.1 **\n"..ARCSlots.Msgs.VaultMsgs.WhichAccount,"ARCBankATMConsole",ent.ATMType.Resolutionx))
-				ent.ScreenOptions = {}
-				ent.ScreenOptions[1] = {}
-				ent.ScreenOptions[1].text = ARCBank.Msgs.ATMMsgs.PersonalAccount
-				ent.ScreenOptions[1].func = function()
-					ent.Status = 0
-					net.Start("arcslots_vaultwithdraw")
-					net.WriteEntity(ent)
-					net.WriteBool(true)
-					net.WriteUInt(ent.Entitlement,32)
-					net.WriteString("")
-					net.SendToServer()
-				end
-				for ii = 1,#data do
-					ent.ScreenOptions[ii+1] = {}
-					ent.ScreenOptions[ii+1].text = data[ii]
-					ent.ScreenOptions[ii+1].func = function()
+				local names = {}
+				ARCLib.ForEachAsync(data,function(k,v,callback)
+					if string.StartWith( v, "_" ) then --TODO: Since the names aren't lost like in 1.4.0-beta1 can't we decode them instead of asking the server for them?
+						callback()
+					else
+						ARCBank.GetAccountName(v,function(err,name)
+							if err == ARCBANK_ERROR_NONE then
+								names[#names + 1] = name
+							else
+								names[#names + 1] = v
+							end
+							callback()
+						end)
+					end
+				end,function()
+					ent.Texts = table.Copy(ARCLib.FitText("** ARitz Cracker Gambling Vault 1.1 **\n"..ARCSlots.Msgs.VaultMsgs.WhichAccount,"ARCBankATMConsole",ent.ATMType.Resolutionx))
+					ent.ScreenOptions = {}
+					ent.ScreenOptions[1] = {}
+					ent.ScreenOptions[1].text = ARCBank.Msgs.ATMMsgs.PersonalAccount
+					ent.ScreenOptions[1].func = function()
 						ent.Status = 0
 						net.Start("arcslots_vaultwithdraw")
 						net.WriteEntity(ent)
 						net.WriteBool(true)
 						net.WriteUInt(ent.Entitlement,32)
-						net.WriteString(data[ii])
+						net.WriteString("")
 						net.SendToServer()
 					end
-				end
-				ent:UpdateList()
-				ent.Status = 2
+					for ii = 1,#names do
+						ent.ScreenOptions[ii+1] = {}
+						ent.ScreenOptions[ii+1].text = names[ii]
+						ent.ScreenOptions[ii+1].func = function()
+							ent.Status = 0
+							net.Start("arcslots_vaultwithdraw")
+							net.WriteEntity(ent)
+							net.WriteBool(true)
+							net.WriteUInt(ent.Entitlement,32)
+							net.WriteString(names[ii])
+							net.SendToServer()
+						end
+					end
+					ent:UpdateList()
+					ent.Status = 2
+				end)
 			end
 		end)
 	end}

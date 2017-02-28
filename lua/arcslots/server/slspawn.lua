@@ -1,7 +1,7 @@
 -- slspawn.lua - Slots spawner
 -- This file is under copyright, and is bound to the agreement stated in the EULA.
 -- Any 3rd party content has been used as either public domain or with permission.
--- © Copyright 2015-2016 Aritz Beobide-Cardinal All rights reserved.
+-- Â© Copyright 2016-2017 Aritz Beobide-Cardinal All rights reserved.
 
 function ARCSlots.SpawnSlotMachines()
 	ARCSlots.ClearSlotMachines()

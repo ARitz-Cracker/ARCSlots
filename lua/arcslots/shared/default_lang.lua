@@ -2,7 +2,7 @@
 
 -- This file is under copyright, and is bound to the agreement stated in the EULA.
 -- Any 3rd party content has been used as either public domain or with permission.
--- © Copyright 2015-2016 Aritz Beobide-Cardinal All rights reserved.
+-- Â© Copyright 2016-2017 Aritz Beobide-Cardinal All rights reserved.
 
 ARCSlots.Msgs = ARCSlots.Msgs or {}
 ARCSlots.Msgs.Time = ARCSlots.Msgs.Time or {}
@@ -116,7 +116,7 @@ ARCSlots.Msgs.Notifications.NoMoney = "You do not have enough cash!"
 ARCSlots.Msgs.Notifications.Pocket = "No matter how hard to try, you can't fit this giant thing in your pants!"
 ARCSlots.Msgs.Notifications.AlarmVault = "You cannot spawn an alarm without a vault"
 ARCSlots.Msgs.Notifications.VaultOne = "There can only be one vault"
-ARCSlots.Msgs.Notifications.VaultARCBank = "The vault requires ARCBank v1.3.6 or later (the paid version)"
+ARCSlots.Msgs.Notifications.VaultARCBank = "The vault requires ARCBank v1.4.0 or later (the paid version)"
 
 ARCSlots.Msgs.SlotMsgs.Yes = "Yes"
 ARCSlots.Msgs.SlotMsgs.No = "No"

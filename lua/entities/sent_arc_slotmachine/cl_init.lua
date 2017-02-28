@@ -1,6 +1,6 @@
 -- This file is under copyright, and is bound to the agreement stated in the EULA.
 -- Any 3rd party content has been used as either public domain or with permission.
--- © Copyright 2015-2016 Aritz Beobide-Cardinal All rights reserved.
+-- © Copyright 2016-2017 Aritz Beobide-Cardinal All rights reserved.
 
 include('shared.lua')
 surface.CreateFont( "ARCSlotMachine", {
@@ -61,6 +61,7 @@ function ENT:Initialize()
 	
 	self.WheelPos = table.FullCopy(self.WheelPos)
 	self.prizecolours = table.FullCopy(self.prizecolours)
+	self.prizesymbols = table.FullCopy(self.prizesymbols)
 	
 	self.SpinnerPos = {model="models/arc/slotmachine_pull_bar.mdl",pos=vector_origin,angle=angle_zero}
 		--Special thanks to swep construction kit

@@ -1,6 +1,6 @@
 -- This file is under copyright, and is bound to the agreement stated in the EULA.
 -- Any 3rd party content has been used as either public domain or with permission.
--- © Copyright 2015-2016 Aritz Beobide-Cardinal All rights reserved.
+-- © Copyright 2016-2017 Aritz Beobide-Cardinal All rights reserved.
 
 AddCSLuaFile("cl_init.lua")
 AddCSLuaFile("shared.lua")
@@ -153,8 +153,8 @@ function ENT:WithdrawAnimation()
 	timer.Simple(atm.ATMType.PauseBeforeWithdrawAnimation,function() 
 		if atm.ATMType.ModelOpen != "" then
 			atm:SetModel( atm.ATMType.ModelOpen ) 
-			atm:SetSkin(atm.ATMType.OpenSkin)
 		end
+		atm:SetSkin(atm.ATMType.OpenSkin)
 		if atm.ATMType.OpenAnimation != "" then
 			atm:ARCLib_SetAnimationTime(atm.ATMType.OpenAnimation,atm.ATMType.OpenAnimationLength)
 		end
@@ -346,6 +346,7 @@ net.Receive("arcslots_vaultwithdraw",function(msglen,ply)
 			end
 			ARCLib.NotifyPlayer(ply,ARCBank.Msgs.UserMsgs.WithdrawATM,NOTIFY_HINT,5,false)
 			atm.PlayerNeedsToDoSomething = true
+			atm.Beep = true
 		end)
 	end
 end)

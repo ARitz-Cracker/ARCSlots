@@ -1,6 +1,6 @@
--- This file is under copyright, and is bound to the agreement stated in the ELUA.
+-- This file is under copyright, and is bound to the agreement stated in the EULA.
 -- Any 3rd party content has been used as either public domain or with permission.
--- © Copyright 2015-2016 Aritz Beobide-Cardinal All rights reserved.
+-- © Copyright 2016-2017 Aritz Beobide-Cardinal All rights reserved.
 
 ARCSlots = ARCSlots or {}
 function ARCSlots.Msg(msg)
@@ -12,11 +12,11 @@ function ARCSlots.Msg(msg)
 end
 ARCSlots.Msg("Running...\n ____ ____ _ ___ ___     ____ ____ ____ ____ _  _ ____ ____    ____ _    ____ ___ ____ \n |__| |__/ |  |    /     |    |__/ |__| |    |_/  |___ |__/    [__  |    |  |  |  [__  \n |  | |  \\ |  |   /__    |___ |  \\ |  | |___ | \\_ |___ |  \\    ___] |___ |__|  |  ___]\n")
 ARCSlots.Msg(table.Random({"tbh script enforcer is kinda shit.","I actually won $$$ legit on default settings once, I felt awesome.","Finally, a god damn update for this...","\"The neglected one\"","LOOSE ALL YOUR MONEY","Oh boy, he's going to cash in on DLC, isn't he?","$$$$$"}))
-ARCSlots.Msg("© Copyright 2016 Aritz Beobide-Cardinal (ARitz Cracker) All rights reserved.")
+ARCSlots.Msg("© Copyright 2016-2017 Aritz Beobide-Cardinal (ARitz Cracker) All rights reserved.")
 
 
-ARCSlots.Update = "November 19th 2016"
-ARCSlots.Version = "1.1.1e"
+ARCSlots.Update = "February 28th 2017"
+ARCSlots.Version = "1.1.1f"
 
 ARCSlots.About = [[      
           *** ARitz Cracker Gambling ***

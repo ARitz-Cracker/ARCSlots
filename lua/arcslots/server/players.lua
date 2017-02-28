@@ -2,7 +2,7 @@
 
 -- This file is under copyright, and is bound to the agreement stated in the EULA.
 -- Any 3rd party content has been used as either public domain or with permission.
--- © Copyright 2015-2016 Aritz Beobide-Cardinal All rights reserved.
+-- Â© Copyright 2016-2017 Aritz Beobide-Cardinal All rights reserved.
 
 function ARCSlots.RawPlayerAddMoney(ply,amount)
 	if ARCBank then
@@ -36,5 +36,21 @@ function ARCSlots.RawPlayerAddMoney(ply,amount)
 		ply:AddMoney(amount)
 	else
 		ply:SendLua("notification.AddLegacy( \"I'm going to pretend that your wallet is unlimited because this is an unsupported gamemode.\", 0, 5 )")
+	end
+end
+function ARCSlots.PlayerCanAfford(ply,amount)
+	if ARCBank then
+		return ARCBank.PlayerCanAfford(ply,amount)
+	end
+	if string.lower(GAMEMODE.Name) == "gmod day-z" then
+		return ply:HasItemAmount("item_money", amount)
+	elseif string.lower(GAMEMODE.Name) == "underdone - rpg" then
+		return ply:HasItem("money", amount)
+	elseif ply.canAfford then -- DarkRP 2.5+
+		return ply:canAfford(amount)
+	elseif ply.CanAfford then -- DarkRP 2.4
+		return ply:CanAfford(amount)
+	else
+		return true
 	end
 end

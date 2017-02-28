@@ -2,7 +2,7 @@
 
 -- This file is under copyright, and is bound to the agreement stated in the EULA.
 -- Any 3rd party content has been used as either public domain or with permission.
--- © Copyright 2015-2016 Aritz Beobide-Cardinal All rights reserved.
+-- Â© Copyright 2016-2017 Aritz Beobide-Cardinal All rights reserved.
 
 ARCSlots.LogFileWritten = false
 ARCSlots.LogFile = ""
@@ -37,9 +37,9 @@ function ARCSlots.SaveDisk()
 	ARCSlots.Disk.ProperShutdown = true
 	file.Write(ARCSlots.Dir.."/__data.txt", util.TableToJSON(ARCSlots.Disk) )
 end
-
 function ARCSlots.RawARCBankAddMoney(ply,amount,groupaccount,reason,callback)
-	ARCBank.AddMoney(ply,amount,groupaccount,reason,function(err)
+
+	ARCBank.AddMoney(ply,groupaccount,amount,ARCBANK_TRANSACTION_TRANSFER,reason,function(err)
 		if err == 0 then
 			callback(true)
 		else
@@ -79,22 +79,6 @@ function ARCSlots.PlayerAddMoney(ply,amount) -- SLOT MACHINES ONLY
 	net.Broadcast()
 end
 	
-function ARCSlots.PlayerCanAfford(ply,amount)
-	if ARCBank then
-		return ARCBank.PlayerCanAfford(ply,amount)
-	end
-	if string.lower(GAMEMODE.Name) == "gmod day-z" then
-		return ply:HasItemAmount("item_money", amount)
-	elseif string.lower(GAMEMODE.Name) == "underdone - rpg" then
-		return ply:HasItem("money", amount)
-	elseif ply.canAfford then -- DarkRP 2.5+
-		return ply:canAfford(amount)
-	elseif ply.CanAfford then -- DarkRP 2.4
-		return ply:CanAfford(amount)
-	else
-		return true
-	end
-end
 function ARCSlots.CustomSlotPrize(ply,bet,prize)
 	return true
 end

@@ -1,8 +1,7 @@
--- GUI for ARitz Cracker Bank (Clientside)
--- This shit is under a Creative Commons Attribution 4.0 International Licence
--- http://creativecommons.org/licenses/by/4.0/
--- You can mess around with it, mod it to your liking, and even redistribute it.
--- However, you must credit me.
+-- This file is under copyright, and is bound to the agreement stated in the EULA.
+-- Any 3rd party content has been used as either public domain or with permission.
+-- © Copyright 2016-2017 Aritz Beobide-Cardinal All rights reserved.
+
 if ARCSlots then
 	local explination = true
 	local ARCSlotsGUI = ARCSlotsGUI or {}
@@ -60,7 +59,7 @@ if ARCSlots then
 			local profitinput = vgui.Create( "DNumberWang",MainPanel)
 			profitinput:SetPos( 100, 340)
 			profitinput:SetSize( 55, 20 )
-			profitinput:SetMinMax( 1.1, 100 )
+			profitinput:SetMinMax( 1, 100 )
 			profitinput:SetDecimals(2)
 			profitinput:SetValue( tab.Profit )
 			
